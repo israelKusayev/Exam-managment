@@ -10,7 +10,7 @@ import { BadInput } from '../exceptions/bad-input';
   providedIn: 'root'
 })
 export class DataService {
-  constructor(private url: string, private http: HttpClient) {}
+  constructor(private url: string, protected http: HttpClient) {}
 
   getAll() {
     return this.http
@@ -20,7 +20,7 @@ export class DataService {
 
   create(resource) {
     return this.http
-      .post(this.url + '/', JSON.stringify(resource))
+      .post(this.url, JSON.stringify(resource))
       .pipe(catchError((error: Response, caught) => this.handleError(error)));
   }
 
@@ -32,7 +32,7 @@ export class DataService {
 
   delete(id) {
     return this.http
-      .delete(this.url + 'pp/' + id)
+      .delete(this.url + '/' + id)
       .pipe(catchError((error: Response, caught) => this.handleError(error)));
   }
 

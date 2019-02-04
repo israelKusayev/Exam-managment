@@ -1,7 +1,9 @@
 import { MatComponentsModule } from './modules/mat-components.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { AppRoutingModule } from './modules/app-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { ManageQuestionsComponent } from './components/admin/manage-questions/manage-questions.component';
@@ -10,6 +12,7 @@ import { ReportsComponent } from './components/admin/reports/reports.component';
 import { AdminLoginComponent } from './components/admin/admin-login/admin-login.component';
 import { UserLoginComponent } from './components/user/user-login/user-login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { AppErrorHandler } from './helpers/app-error-handler';
 
 @NgModule({
   declarations: [
@@ -21,8 +24,14 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     UserLoginComponent,
     NavbarComponent
   ],
-  imports: [BrowserModule, AppRoutingModule, MatComponentsModule],
-  providers: [],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    MatComponentsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
+  ],
+  providers: [{ provide: ErrorHandler, useClass: AppErrorHandler }],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
