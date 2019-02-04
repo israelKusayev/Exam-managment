@@ -1,6 +1,11 @@
+<h1>New test</h1>
 <form #f="ngForm" (ngSubmit)="submit(f)">
   <div class="create-test-container">
     <div class="test-details-container">
+      <h2 class="test-details-header">General test details</h2>
+      <hr />
+      <div class="">Field of study: <b>dev</b></div>
+
       <mat-form-field>
         <mat-select required #language ngModel name="Language" placeholder="Language">
           <mat-option value="option">English</mat-option>
@@ -10,21 +15,8 @@
       </mat-form-field>
 
       <mat-form-field>
-        <input
-          required
-          ngModel
-          #testName="ngModel"
-          minlength="3"
-          maxlength="10"
-          name="testName"
-          matInput
-          placeholder="Test name"
-        />
+        <input required ngModel #testName="ngModel" name="testName" matInput placeholder="Test name" />
         <mat-error *ngIf="testName.errors?.required">Test name is required.</mat-error>
-
-        <!-- <mat-error *ngIf="testName.errors?.minlength">
-        First name should be minimum {{ testName.errors.minlength.requiredLength }} characters.
-      </mat-error> -->
       </mat-form-field>
       <mat-form-field class="small-input">
         <input
@@ -98,8 +90,75 @@
         </mat-select>
         <mat-error *ngIf="certificate.errors?.required">Certificate templates is required.</mat-error>
       </mat-form-field>
-      <button mat-raised-button color="accent" [disabled]="!f.valid">Accent</button>
     </div>
-    <div class="test-details-container">gfdgd</div>
+    <div class="test-details-container">
+      <h2>Email delivery upon test completion</h2>
+      <div class="">Current status: <b class="text-danger">Off</b></div>
+      <p>
+        <b> Emails won't be sent upon test completion </b>
+        <br />
+
+        to torn on email delivery, fill out the mandatory fields in this section
+      </p>
+
+      <mat-form-field>
+        <input ngModel #from="ngModel" name="from" matInput placeholder="From" />
+      </mat-form-field>
+      <mat-form-field>
+        <input ngModel #cc="ngModel" name="cc" matInput placeholder="CC" />
+      </mat-form-field>
+      <mat-form-field>
+        <input ngModel #bcc="ngModel" name="bcc" matInput placeholder="BCC" />
+      </mat-form-field>
+      <div class="horizontal-line">Passing the test</div>
+      <mat-form-field>
+        <input
+          ngModel
+          #passingSubject="ngModel"
+          name="passingSubject"
+          matInput
+          placeholder="Message subject"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <textarea
+          rows="5"
+          ngModel
+          #passingBody="ngModel"
+          name="passingBody"
+          matInput
+          placeholder="Message body"
+        ></textarea>
+      </mat-form-field>
+      <div class="predifindTemplateTitle">Predifind Templates - click to copy to clipboard</div>
+      <div class="flex-wrap">
+        <b class="predifindTemplate" *ngFor="let item of predifindTemplates"> {{ item }} </b>
+      </div>
+      <div class="horizontal-line">Failing the test</div>
+      <mat-form-field>
+        <input
+          ngModel
+          #failingSubject="ngModel"
+          name="failingSubject"
+          matInput
+          placeholder="Message subject"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <textarea
+          rows="5"
+          ngModel
+          #failingBody="ngModel"
+          name="failingBody"
+          matInput
+          placeholder="Message body"
+        ></textarea>
+      </mat-form-field>
+      <div class="predifindTemplateTitle">Predifind Templates - click to copy to clipboard</div>
+      <div class="flex-wrap">
+        <b class="predifindTemplate" *ngFor="let item of predifindTemplates"> {{ item }} </b>
+      </div>
+    </div>
   </div>
+  <button class="next-btn" mat-raised-button color="accent" [disabled]="!f.valid">Next</button>
 </form>

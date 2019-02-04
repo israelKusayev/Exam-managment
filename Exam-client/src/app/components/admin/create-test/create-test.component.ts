@@ -6,6 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create-test.component.scss']
 })
 export class CreateTestComponent implements OnInit {
+  predifindTemplates: string[] = [
+    '@TestName@',
+    '@FirstName@',
+    '@LastName@',
+    '@Date@',
+    '@OrgEmail@',
+    '@Grade@',
+    '@OrgName@',
+    '@CertificateUrl@'
+  ];
   constructor() {}
 
   ngOnInit() {}
