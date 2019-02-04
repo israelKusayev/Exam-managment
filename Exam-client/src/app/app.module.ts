@@ -4,6 +4,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { AppRoutingModule } from './modules/app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { ManageQuestionsComponent } from './components/admin/manage-questions/manage-questions.component';
@@ -13,6 +14,7 @@ import { AdminLoginComponent } from './components/admin/admin-login/admin-login.
 import { UserLoginComponent } from './components/user/user-login/user-login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AppErrorHandler } from './helpers/app-error-handler';
+import { CreateTestComponent } from './components/admin/create-test/create-test.component';
 
 @NgModule({
   declarations: [
@@ -22,13 +24,15 @@ import { AppErrorHandler } from './helpers/app-error-handler';
     ReportsComponent,
     AdminLoginComponent,
     UserLoginComponent,
-    NavbarComponent
+    NavbarComponent,
+    CreateTestComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     MatComponentsModule,
     BrowserAnimationsModule,
+    FormsModule,
     ToastrModule.forRoot()
   ],
   providers: [{ provide: ErrorHandler, useClass: AppErrorHandler }],

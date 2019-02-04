@@ -1,0 +1,105 @@
+<form #f="ngForm" (ngSubmit)="submit(f)">
+  <div class="create-test-container">
+    <div class="test-details-container">
+      <mat-form-field>
+        <mat-select required #language ngModel name="Language" placeholder="Language">
+          <mat-option value="option">English</mat-option>
+          <mat-option value="option">hebrew</mat-option>
+        </mat-select>
+        <mat-error *ngIf="language.errors?.required">Language is required.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          required
+          ngModel
+          #testName="ngModel"
+          minlength="3"
+          maxlength="10"
+          name="testName"
+          matInput
+          placeholder="Test name"
+        />
+        <mat-error *ngIf="testName.errors?.required">Test name is required.</mat-error>
+
+        <!-- <mat-error *ngIf="testName.errors?.minlength">
+        First name should be minimum {{ testName.errors.minlength.requiredLength }} characters.
+      </mat-error> -->
+      </mat-form-field>
+      <mat-form-field class="small-input">
+        <input
+          required
+          ngModel
+          #grade="ngModel"
+          name="grade"
+          type="number"
+          min="0"
+          max="100"
+          pattern="([0-9]|[1-8][0-9]|9[0-9]|100)"
+          matInput
+          placeholder="Passing grade"
+          (keyup)="submit(grade)"
+        />
+        <mat-error *ngIf="grade.errors?.required">Passing grade is required.</mat-error>
+        <mat-error *ngIf="grade.errors?.pattern">passing grade must be between 0 to 100</mat-error>
+      </mat-form-field>
+
+      <mat-checkbox>Show correct answers after submission</mat-checkbox>
+
+      <mat-form-field>
+        <textarea
+          required
+          ngModel
+          #header="ngModel"
+          name="header"
+          cdkTextareaAutosize
+          matInput
+          placeholder="Header"
+        ></textarea>
+        <mat-error *ngIf="header.errors?.required">Header is required.</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <textarea
+          required
+          ngModel
+          #success="ngModel"
+          name="success"
+          cdkTextareaAutosize
+          matInput
+          placeholder="Message to show on success"
+        ></textarea>
+        <mat-error *ngIf="success.errors?.required">Success message is required.</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <textarea
+          required
+          ngModel
+          #failure="ngModel"
+          name="failure"
+          cdkTextareaAutosize
+          matInput
+          placeholder="Message to show on failure"
+        ></textarea>
+        <mat-error *ngIf="failure.errors?.required">Failure message is required.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select
+          #certificate="ngModel"
+          required
+          ngModel
+          name="certificate"
+          placeholder="Certificate templates"
+        >
+          <mat-option value="option">English</mat-option>
+          <mat-option value="option">hebrew</mat-option>
+          <mat-option value="option">hebrew</mat-option>
+          <mat-option value="option">hebrew</mat-option>
+        </mat-select>
+        <mat-error *ngIf="certificate.errors?.required">Certificate templates is required.</mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="accent" [disabled]="!f.valid">Accent</button>
+    </div>
+    <div class="test-details-container">gfdgd</div>
+  </div>
+</form>

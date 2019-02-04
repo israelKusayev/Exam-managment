@@ -1,0 +1,22 @@
+.create-test-container {
+  display: flex;
+}
+.create-test-container form {
+  width: 100%;
+}
+.test-details-container {
+  width: 48%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 2px #ccc;
+  padding: 25px;
+  box-sizing: border-box;
+  border: 2px solid #eee;
+}
+.small-input {
+  width: 25%;
+}
+button {
+  max-width: 10vw;
+}
