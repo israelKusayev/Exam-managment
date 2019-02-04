@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  res.send('movies');
+  res.send('tests');
 });
 
 module.exports = router;
