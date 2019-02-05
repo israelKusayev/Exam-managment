@@ -1,3 +1,5 @@
+import { CreateTest } from './../../../models/create-test';
+import { LanguageService } from './../../../services/language.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create-test.component.scss']
 })
 export class CreateTestComponent implements OnInit {
+  languages: any[];
+
   predifindTemplates: string[] = [
     '@TestName@',
     '@FirstName@',
@@ -16,11 +20,17 @@ export class CreateTestComponent implements OnInit {
     '@OrgName@',
     '@CertificateUrl@'
   ];
-  constructor() {}
 
-  ngOnInit() {}
+  model = new CreateTest();
+  constructor(private languageService: LanguageService) {}
+
+  ngOnInit() {
+    this.languageService.getAll().subscribe(languages => {
+      this.languages = languages;
+    });
+  }
 
   submit(data: any) {
-    console.log(data);
+    console.log(this.model);
   }
 }

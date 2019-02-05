@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { MatComponentsModule } from './modules/mat-components.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
@@ -15,6 +16,7 @@ import { UserLoginComponent } from './components/user/user-login/user-login.comp
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AppErrorHandler } from './helpers/app-error-handler';
 import { CreateTestComponent } from './components/admin/create-test/create-test.component';
+import { LanguageService } from './services/language.service';
 
 @NgModule({
   declarations: [
@@ -32,10 +34,14 @@ import { CreateTestComponent } from './components/admin/create-test/create-test.
     AppRoutingModule,
     MatComponentsModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     FormsModule,
     ToastrModule.forRoot()
   ],
-  providers: [{ provide: ErrorHandler, useClass: AppErrorHandler }],
+  providers: [
+    { provide: ErrorHandler, useClass: AppErrorHandler },
+    LanguageService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

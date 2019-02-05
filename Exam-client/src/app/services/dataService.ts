@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -12,27 +12,43 @@ import { BadInput } from '../exceptions/bad-input';
 export class DataService {
   constructor(private url: string, protected http: HttpClient) {}
 
-  getAll() {
+  getHeaders(jwt: boolean): HttpHeaders {
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    if (jwt) {
+      // headers.append('authentication', this.jwtService.getJwt());
+    }
+    return headers;
+  }
+  getAll(jwt = true) {
     return this.http
-      .get<any[]>(this.url)
+      .get<any[]>(this.url, {
+        headers: this.getHeaders(jwt)
+      })
       .pipe(catchError((error: Response, caught) => this.handleError(error)));
   }
 
-  create(resource) {
+  create(resource, jwt = true) {
     return this.http
-      .post(this.url, JSON.stringify(resource))
+      .post(this.url, JSON.stringify(resource), {
+        headers: this.getHeaders(jwt)
+      })
       .pipe(catchError((error: Response, caught) => this.handleError(error)));
   }
 
-  update(resource) {
+  update(resource, jwt = true) {
     return this.http
-      .patch(this.url + '/' + resource.id, JSON.stringify(resource))
+      .patch(this.url + '/' + resource.id, JSON.stringify(resource), {
+        headers: this.getHeaders(jwt)
+      })
       .pipe(catchError((error: Response, caught) => this.handleError(error)));
   }
 
-  delete(id) {
+  delete(id, jwt = true) {
     return this.http
-      .delete(this.url + '/' + id)
+      .delete(this.url + '/' + id, {
+        headers: this.getHeaders(jwt)
+      })
       .pipe(catchError((error: Response, caught) => this.handleError(error)));
   }
 
