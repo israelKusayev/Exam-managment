@@ -1,9 +1,12 @@
+import { TestsService } from './services/tests.service';
+import { HttpClientModule } from '@angular/common/http';
 import { MatComponentsModule } from './modules/mat-components.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { AppRoutingModule } from './modules/app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { ManageQuestionsComponent } from './components/admin/manage-questions/manage-questions.component';
@@ -13,6 +16,8 @@ import { AdminLoginComponent } from './components/admin/admin-login/admin-login.
 import { UserLoginComponent } from './components/user/user-login/user-login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AppErrorHandler } from './helpers/app-error-handler';
+import { CreateTestComponent } from './components/admin/create-test/create-test.component';
+import { LanguageService } from './services/language.service';
 
 @NgModule({
   declarations: [
@@ -22,16 +27,23 @@ import { AppErrorHandler } from './helpers/app-error-handler';
     ReportsComponent,
     AdminLoginComponent,
     UserLoginComponent,
-    NavbarComponent
+    NavbarComponent,
+    CreateTestComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     MatComponentsModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    FormsModule,
     ToastrModule.forRoot()
   ],
-  providers: [{ provide: ErrorHandler, useClass: AppErrorHandler }],
+  providers: [
+    { provide: ErrorHandler, useClass: AppErrorHandler },
+    LanguageService,
+    TestsService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

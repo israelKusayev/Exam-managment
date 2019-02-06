@@ -1,0 +1,38 @@
+.create-test-container {
+  display: flex;
+}
+.create-test-container form {
+  width: 100%;
+}
+.test-details-container {
+  width: 48%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 2px #ccc;
+  padding: 0 25px 25px;
+  box-sizing: border-box;
+  border: 2px solid #eee;
+}
+
+.small-input {
+  width: 25%;
+}
+.horizontal-line {
+  background-color: lightgray;
+  padding: 5px;
+  text-align: center;
+  margin: 25px 0;
+}
+.next-btn {
+  float: right;
+  margin: 1%;
+}
+.predifindTemplate {
+  padding-right: 1%;
+  cursor: pointer;
+}
+.predifindTemplateTitle {
+  font-weight: 800;
+  margin-bottom: 2%;
+}

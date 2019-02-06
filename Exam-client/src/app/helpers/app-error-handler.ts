@@ -1,5 +1,7 @@
+import { BadInput } from './../exceptions/bad-input';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorHandler, Inject, Injector, Injectable } from '@angular/core';
+import { NotFoundError } from '../exceptions/not-found-error';
 
 @Injectable()
 export class AppErrorHandler extends ErrorHandler {
@@ -14,9 +16,12 @@ export class AppErrorHandler extends ErrorHandler {
 
   handleError(error: any): void {
     console.log(error);
-    this.toastrService.error('An unexpected error occurred.', 'Error', {
-      onActivateTick: true
-    });
+    if (error instanceof BadInput || error instanceof NotFoundError) {
+    } else {
+      this.toastrService.error('An unexpected error occurred.', 'Error', {
+        onActivateTick: true
+      });
+    }
     super.handleError(error);
   }
 }
