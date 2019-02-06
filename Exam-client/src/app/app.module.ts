@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 
+
 import { AppComponent } from './app.component';
 import { ManageQuestionsComponent } from './components/admin/manage-questions/manage-questions.component';
 import { ManageTestsComponent } from './components/admin/manage-tests/manage-tests.component';
@@ -15,9 +16,13 @@ import { ReportsComponent } from './components/admin/reports/reports.component';
 import { AdminLoginComponent } from './components/admin/admin-login/admin-login.component';
 import { UserLoginComponent } from './components/user/user-login/user-login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { AppErrorHandler } from './helpers/app-error-handler';
 import { CreateTestComponent } from './components/admin/create-test/create-test.component';
+
+import { AppErrorHandler } from './helpers/app-error-handler';
+
+import { AuthenticationService } from './services/authentication.service';
 import { LanguageService } from './services/language.service';
+
 
 @NgModule({
   declarations: [
@@ -35,14 +40,15 @@ import { LanguageService } from './services/language.service';
     AppRoutingModule,
     MatComponentsModule,
     BrowserAnimationsModule,
-    HttpClientModule,
+    ToastrModule.forRoot(),
     FormsModule,
-    ToastrModule.forRoot()
+    HttpClientModule
   ],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },
     LanguageService,
-    TestsService
+    TestsService,
+    AuthenticationService
   ],
   bootstrap: [AppComponent]
 })
