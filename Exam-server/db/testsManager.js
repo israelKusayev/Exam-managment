@@ -2,8 +2,6 @@ const baseRepository = require('./managerBase');
 const sql = require('mssql');
 
 function createTestInputs(test) {
-  console.log(test);
-
   return [
     {
       inputName: 'language',

@@ -22,6 +22,7 @@ import { AppErrorHandler } from './helpers/app-error-handler';
 
 import { AuthenticationService } from './services/authentication.service';
 import { LanguageService } from './services/language.service';
+import { QuestionTableComponent } from './components/admin/create-test/question-table/question-table.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { LanguageService } from './services/language.service';
     AdminLoginComponent,
     UserLoginComponent,
     NavbarComponent,
-    CreateTestComponent
+    CreateTestComponent,
+    QuestionTableComponent
   ],
   imports: [
     BrowserModule,
