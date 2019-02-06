@@ -2,10 +2,7 @@ const sql = require('mssql');
 const config = require('../config/sqlConfig');
 
 const dbPool = new sql.ConnectionPool(config, err => {
-  if (err) {
-    //logger.log('error', "Can't create DB pool " + err + ' stack:' + err.stack);
-    console.log(err);
-  }
+  if (err) console.log("Can't create DB pool", err);
 });
 
 function executeInDB(name, options, callback) {
@@ -19,7 +16,7 @@ function executeInDB(name, options, callback) {
 
   req.execute(name, (err, data) => {
     if (err) {
-      console.log('error', "Execution error calling 'getuserbyname'");
+      console.log('error', err);
       callback({ error: 'Execution error calling ' + name });
     } else {
       console.log(data.recordset);

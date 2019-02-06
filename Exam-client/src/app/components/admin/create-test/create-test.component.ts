@@ -4,6 +4,7 @@ import { CreateTest } from './../../../models/create-test';
 import { LanguageService } from './../../../services/language.service';
 import { Component, OnInit } from '@angular/core';
 import { TestsService } from 'src/app/services/tests.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-create-test',
@@ -37,16 +38,16 @@ export class CreateTestComponent implements OnInit {
     });
   }
 
-  submit() {
-    this.testsSerivce.create(this.model).subscribe(
-      data => {
-        console.log(data);
-      },
-      err => {
-        if (err instanceof BadInput) {
-          this.toast.error(err.error);
+  submit(form: NgForm): void {
+    if (form.valid) {
+      this.testsSerivce.create(this.model).subscribe(
+        data => {},
+        err => {
+          if (err instanceof BadInput) {
+            this.toast.error(err.error);
+          }
         }
-      }
-    );
+      );
+    }
   }
 }

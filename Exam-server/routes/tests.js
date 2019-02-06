@@ -14,15 +14,12 @@ router.post('/', async (req, res) => {
     res.status(400).send({ message: error.details[0].message });
     return;
   }
-  console.log(req.body);
   testsManager.createTest(req.body, data => {
     if (data.error) {
       res.status(500).end();
     }
-    res.status(200).send(data);
+    res.status(200).end();
   });
-
-  res.status(200).send({ tt: 'tests' });
 });
 
 module.exports = router;
