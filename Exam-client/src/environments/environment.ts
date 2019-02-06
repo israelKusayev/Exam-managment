@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  baseApi: 'http://localhost:3000'
+  baseApi: 'http://localhost:3000',
+  authUrl: 'http://localhost:3000/api/auth',
+  currentUserStorageKey: 'currentUser',
+  tokenStorageKey: 'token'
 };
 
 /*
