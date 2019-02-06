@@ -4,7 +4,10 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
   languagesRepository.getLanguages(data => {
-    res.send(data);
+    if (data.error) {
+      res.status(500).end();
+    }
+    res.status(200).send(data);
   });
 });
 

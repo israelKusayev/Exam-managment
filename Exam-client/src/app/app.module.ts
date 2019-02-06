@@ -1,3 +1,4 @@
+import { TestsService } from './services/tests.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatComponentsModule } from './modules/mat-components.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -40,7 +41,8 @@ import { LanguageService } from './services/language.service';
   ],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },
-    LanguageService
+    LanguageService,
+    TestsService
   ],
   bootstrap: [AppComponent]
 })

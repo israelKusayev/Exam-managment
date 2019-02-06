@@ -9,7 +9,7 @@ const dbPool = new sql.ConnectionPool(config, err => {
 });
 
 function executeInDB(name, options, callback) {
-  var req = dbPool.request();
+  const req = dbPool.request();
 
   for (let i = 0; i < options.length; i++) {
     const option = options[i];
@@ -20,11 +20,12 @@ function executeInDB(name, options, callback) {
   req.execute(name, (err, data) => {
     if (err) {
       console.log('error', "Execution error calling 'getuserbyname'");
-      callback({ error: 'errrorr' });
+      callback({ error: 'Execution error calling ' + name });
     } else {
       console.log(data.recordset);
       callback(data.recordset);
     }
   });
 }
+
 exports.executeInDB = executeInDB;

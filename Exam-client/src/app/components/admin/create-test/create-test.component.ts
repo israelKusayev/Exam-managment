@@ -1,6 +1,9 @@
+import { ToastrService } from 'ngx-toastr';
+import { BadInput } from './../../../exceptions/bad-input';
 import { CreateTest } from './../../../models/create-test';
 import { LanguageService } from './../../../services/language.service';
 import { Component, OnInit } from '@angular/core';
+import { TestsService } from 'src/app/services/tests.service';
 
 @Component({
   selector: 'app-create-test',
@@ -22,7 +25,11 @@ export class CreateTestComponent implements OnInit {
   ];
 
   model = new CreateTest();
-  constructor(private languageService: LanguageService) {}
+  constructor(
+    private languageService: LanguageService,
+    private testsSerivce: TestsService,
+    private toast: ToastrService
+  ) {}
 
   ngOnInit() {
     this.languageService.getAll().subscribe(languages => {
@@ -30,7 +37,16 @@ export class CreateTestComponent implements OnInit {
     });
   }
 
-  submit(data: any) {
-    console.log(this.model);
+  submit() {
+    this.testsSerivce.create(this.model).subscribe(
+      data => {
+        console.log(data);
+      },
+      err => {
+        if (err instanceof BadInput) {
+          this.toast.error(err.error);
+        }
+      }
+    );
   }
 }

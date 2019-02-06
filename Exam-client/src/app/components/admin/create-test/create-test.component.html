@@ -1,5 +1,5 @@
 <h1>New Test</h1>
-<form #f="ngForm" (ngSubmit)="submit(f)">
+<form #f="ngForm" (ngSubmit)="submit()">
   <div class="create-test-container">
     <div class="test-details-container">
       <h2 class="test-details-header">General Test Details</h2>
@@ -150,7 +150,7 @@
           matInput
           placeholder="From"
           (keyup)="
-            !from.errors?.pattern
+            !from.errors?.pattern && from.value
               ? (model.sendCompletionMessage = true)
               : (model.sendCompletionMessage = false)
           "

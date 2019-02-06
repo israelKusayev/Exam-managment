@@ -1,7 +1,7 @@
 export class CreateTest {
-  language: 0;
+  language: number;
   testName = '';
-  passingGrade = 0;
+  passingGrade: number;
   showAnswres = false;
   header = '';
   successMessage = '';

@@ -7,9 +7,9 @@ router.delete('/:id', (req, res) => {
   db.deleteQustion(id, success => {
     if (success) {
       res.status(200).send('question deleted successsfully');
-    } else {
-      res.status(400).send({ message: '' });
+      return;
     }
+    res.status(400).end();
   });
 });
 
