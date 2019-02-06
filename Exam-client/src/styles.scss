@@ -15,3 +15,30 @@ $custom-typography: mat-typography-config(
 
 @include angular-material-typography($custom-typography);
 @include mat-core($custom-typography);
+
+.container {
+  width: 95%;
+  margin: 0 auto;
+}
+
+mat-form-field .mat-form-field {
+  &-underline {
+    position: static;
+  }
+  &-subscript-wrapper {
+    position: static;
+  }
+}
+
+.text-danger {
+  color: red;
+}
+
+.text-success {
+  color: green;
+}
+
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}

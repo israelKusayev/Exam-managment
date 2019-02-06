@@ -1,0 +1,259 @@
+<h1>New Test</h1>
+<form #f="ngForm" (ngSubmit)="submit()">
+  <div class="create-test-container">
+    <div class="test-details-container">
+      <h2 class="test-details-header">General Test Details</h2>
+      <hr />
+      <div>Field of study: <b>dev</b></div>
+
+      <mat-form-field>
+        <mat-select
+          required
+          #language
+          [(ngModel)]="model.language"
+          name="Language"
+          placeholder="Language"
+        >
+          <mat-option *ngFor="let language of languages" [value]="language.Id">
+            {{ language.Name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="language?.errors?.required"
+          >Language is required.</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          required
+          [(ngModel)]="model.testName"
+          #testName="ngModel"
+          name="testName"
+          matInput
+          placeholder="Test name"
+        />
+        <mat-error *ngIf="testName?.errors?.required"
+          >Test name is required.</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field class="small-input">
+        <input
+          required
+          [(ngModel)]="model.passingGrade"
+          #grade="ngModel"
+          name="grade"
+          type="number"
+          min="0"
+          max="100"
+          pattern="([0-9]|[1-8][0-9]|9[0-9]|100)"
+          matInput
+          placeholder="Passing grade"
+          (keyup)="submit(grade)"
+        />
+        <mat-error *ngIf="grade?.errors?.required"
+          >Passing grade is required.</mat-error
+        >
+        <mat-error *ngIf="grade?.errors?.pattern"
+          >passing grade must be between 0 to 100</mat-error
+        >
+      </mat-form-field>
+
+      <mat-checkbox [(ngModel)]="model.showAnswres" name="showAnswres"
+        >Show correct answers after submission</mat-checkbox
+      >
+
+      <mat-form-field>
+        <textarea
+          required
+          [(ngModel)]="model.header"
+          #header="ngModel"
+          name="header"
+          cdkTextareaAutosize
+          matInput
+          placeholder="Header"
+        ></textarea>
+        <mat-error *ngIf="header?.errors?.required"
+          >Header is required.</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <textarea
+          required
+          [(ngModel)]="model.successMessage"
+          #success="ngModel"
+          name="success"
+          cdkTextareaAutosize
+          matInput
+          placeholder="Message to show on success"
+        ></textarea>
+        <mat-error *ngIf="success?.errors?.required"
+          >Success message is required.</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <textarea
+          required
+          [(ngModel)]="model.failureMessage"
+          #failure="ngModel"
+          name="failure"
+          cdkTextareaAutosize
+          matInput
+          placeholder="Message to show on failure"
+        ></textarea>
+        <mat-error *ngIf="failure?.errors?.required"
+          >Failure message is required.</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select
+          #certificate="ngModel"
+          required
+          [(ngModel)]="model.certificate"
+          name="certificate"
+          placeholder="Certificate templates"
+        >
+          <mat-option value="option">English</mat-option>
+          <mat-option value="option">hebrew</mat-option>
+          <mat-option value="option">hebrew</mat-option>
+          <mat-option value="option">hebrew</mat-option>
+        </mat-select>
+        <mat-error *ngIf="certificate?.errors?.required"
+          >Certificate templates is required.</mat-error
+        >
+      </mat-form-field>
+    </div>
+    <div class="test-details-container">
+      <h2>Email Delivery Upon Test Completion</h2>
+      <div>
+        Current status:
+        <b
+          class="text-danger"
+          [class.text-success]="model.sendCompletionMessage"
+        >
+          {{ model.sendCompletionMessage ? 'On' : 'Off' }}
+        </b>
+      </div>
+      <p>
+        <b> Emails won't be sent upon test completion </b>
+        <br />
+
+        to torn on email delivery, fill out the mandatory fields in this section
+      </p>
+
+      <mat-form-field>
+        <input
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+          [(ngModel)]="model.formEmail"
+          #from="ngModel"
+          name="from"
+          matInput
+          placeholder="From"
+          (keyup)="
+            !from.errors?.pattern && from.value
+              ? (model.sendCompletionMessage = true)
+              : (model.sendCompletionMessage = false)
+          "
+        />
+        <mat-error *ngIf="from?.errors?.pattern"
+          >This is not a valid Email.</mat-error
+        >
+      </mat-form-field>
+      <div class="horizontal-line">Passing the test</div>
+      <mat-form-field>
+        <input
+          [required]="model.sendCompletionMessage"
+          [(ngModel)]="model.passingMessageSubject"
+          #passingSubject="ngModel"
+          name="passingSubject"
+          matInput
+          placeholder="Message subject"
+        />
+        <mat-error *ngIf="passingSubject?.errors?.required"
+          >Message subject is required.</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <textarea
+          [required]="model.sendCompletionMessage"
+          rows="5"
+          [(ngModel)]="model.passingMessageBody"
+          #passingContent="ngModel"
+          name="passingContent"
+          matInput
+          placeholder="Message body"
+        ></textarea>
+        <mat-error *ngIf="passingContent?.errors?.required"
+          >Message body is required.</mat-error
+        >
+      </mat-form-field>
+      <div class="predifindTemplateTitle">
+        Predifind Templates - click to copy to clipboard
+      </div>
+      <div class="flex-wrap">
+        <b
+          (click)="
+            model.passingMessageBody =
+              model.passingMessageBody + ' ' + item + ' '
+          "
+          class="predifindTemplate"
+          *ngFor="let item of predifindTemplates"
+        >
+          {{ item }}
+        </b>
+      </div>
+      <div class="horizontal-line">Failing the test</div>
+      <mat-form-field>
+        <input
+          [required]="model.sendCompletionMessage"
+          [(ngModel)]="model.failingMessageSubject"
+          #failingSubject="ngModel"
+          name="failingSubject"
+          matInput
+          placeholder="Message subject"
+        />
+        <mat-error *ngIf="failingSubject?.errors?.required"
+          >Message subject is required.</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <textarea
+          [required]="model.sendCompletionMessage"
+          rows="5"
+          [(ngModel)]="model.failingMessageBody"
+          name="failingContent"
+          id="t"
+          #failingContent="ngModel"
+          matInput
+          placeholder="Message body"
+        ></textarea>
+        <mat-error *ngIf="failingContent?.errors?.required"
+          >Message body is required.</mat-error
+        >
+      </mat-form-field>
+      <div class="predifindTemplateTitle">
+        Predifind Templates - click to copy to clipboard
+      </div>
+      <div class="flex-wrap">
+        <b
+          class="predifindTemplate"
+          (click)="
+            model.failingMessageBody =
+              model.failingMessageBody + ' ' + item + ' '
+          "
+          *ngFor="let item of predifindTemplates"
+        >
+          {{ item }}
+        </b>
+      </div>
+    </div>
+  </div>
+  <button
+    class="next-btn"
+    mat-raised-button
+    color="accent"
+    [disabled]="!f.valid"
+  >
+    Next
+  </button>
+</form>

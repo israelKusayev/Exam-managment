@@ -1,3 +1,5 @@
+import { TestsService } from './services/tests.service';
+import { HttpClientModule } from '@angular/common/http';
 import { MatComponentsModule } from './modules/mat-components.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
@@ -5,7 +7,7 @@ import { AppRoutingModule } from './modules/app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+
 
 import { AppComponent } from './app.component';
 import { ManageQuestionsComponent } from './components/admin/manage-questions/manage-questions.component';
@@ -14,8 +16,13 @@ import { ReportsComponent } from './components/admin/reports/reports.component';
 import { AdminLoginComponent } from './components/admin/admin-login/admin-login.component';
 import { UserLoginComponent } from './components/user/user-login/user-login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { CreateTestComponent } from './components/admin/create-test/create-test.component';
+
 import { AppErrorHandler } from './helpers/app-error-handler';
+
 import { AuthenticationService } from './services/authentication.service';
+import { LanguageService } from './services/language.service';
+
 
 @NgModule({
   declarations: [
@@ -25,7 +32,8 @@ import { AuthenticationService } from './services/authentication.service';
     ReportsComponent,
     AdminLoginComponent,
     UserLoginComponent,
-    NavbarComponent
+    NavbarComponent,
+    CreateTestComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +44,10 @@ import { AuthenticationService } from './services/authentication.service';
     FormsModule,
     HttpClientModule
   ],
-  providers: [{ provide: ErrorHandler, useClass: AppErrorHandler },
+  providers: [
+    { provide: ErrorHandler, useClass: AppErrorHandler },
+    LanguageService,
+    TestsService,
     AuthenticationService
   ],
   bootstrap: [AppComponent]
