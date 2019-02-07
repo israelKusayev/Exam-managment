@@ -11,7 +11,7 @@ function executeInDB(name, options, callback) {
   for (let i = 0; i < options.length; i++) {
     const option = options[i];
 
-    req.input(option.inputName, option.type, option.value);
+    req.input(option.inputName, option.value);
   }
 
   req.execute(name, (err, data) => {
@@ -25,4 +25,16 @@ function executeInDB(name, options, callback) {
   });
 }
 
-exports.executeInDB = executeInDB;
+function createListId(arr) {
+  const listId = new sql.Table();
+  listId.columns.add('Id', sql.Int);
+  for (let i = 0; i < arr.length; i++) {
+    listId.rows.add(arr[i]);
+  }
+  return listId;
+}
+
+module.exports = {
+  executeInDB: executeInDB,
+  createListId: createListId
+};

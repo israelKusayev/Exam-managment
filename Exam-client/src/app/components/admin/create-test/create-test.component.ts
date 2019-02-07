@@ -13,6 +13,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./create-test.component.scss']
 })
 export class CreateTestComponent implements OnInit {
+  selectedQuestions: number[];
   questions: any[];
   languages: any[];
   model = new CreateTest();
@@ -43,16 +44,26 @@ export class CreateTestComponent implements OnInit {
     });
   }
 
+  onQuestionSelect(selectedQuestions: any[]) {
+    this.selectedQuestions = selectedQuestions;
+  }
+
   submit(form: NgForm): void {
     if (form.valid) {
-      this.testsSerivce.create(this.model).subscribe(
-        data => {},
-        err => {
-          if (err instanceof BadInput) {
-            this.toast.error(err.error);
+      if (!this.selectedQuestions) {
+        this.toast.warning('You must select at least one question');
+        return;
+      }
+      this.testsSerivce
+        .create({ details: this.model, questions: this.selectedQuestions })
+        .subscribe(
+          data => {},
+          err => {
+            if (err instanceof BadInput) {
+              this.toast.error(err.error);
+            }
           }
-        }
-      );
+        );
     }
   }
 }

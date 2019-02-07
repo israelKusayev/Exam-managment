@@ -4,7 +4,9 @@ import {
   ViewChild,
   Input,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
+  Output,
+  EventEmitter
 } from '@angular/core';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -16,7 +18,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 })
 export class QuestionTableComponent implements OnInit, OnChanges {
   @Input() questions: Questions[];
-
+  @Output() select = new EventEmitter();
   displayedColumns: string[] = ['select', 'title', 'show'];
   dataSource = new MatTableDataSource<Questions>();
   selection = new SelectionModel<Questions>(true, []);
@@ -24,7 +26,6 @@ export class QuestionTableComponent implements OnInit, OnChanges {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
     if (!changes.questions.firstChange) {
       this.dataSource.data = changes.questions.currentValue as Questions[];
     }
@@ -51,10 +52,24 @@ export class QuestionTableComponent implements OnInit, OnChanges {
     this.isAllSelected()
       ? this.selection.clear()
       : this.dataSource.filteredData.forEach(row => this.selection.select(row));
+    this.select.emit(
+      this.selection.selected.map(q => {
+        return q.Id;
+      })
+    );
   }
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  onSelect(row) {
+    this.selection.toggle(row);
+    this.select.emit(
+      this.selection.selected.map(q => {
+        return q.Id;
+      })
+    );
   }
 }
 

@@ -24,7 +24,7 @@
       <td class="select-question" mat-cell *matCellDef="let row">
         <mat-checkbox
           (click)="$event.stopPropagation()"
-          (change)="$event ? selection.toggle(row) : null"
+          (change)="onSelect(row)"
           [checked]="selection.isSelected(row)"
         >
         </mat-checkbox>
@@ -67,3 +67,7 @@
     showFirstLastButtons
   ></mat-paginator>
 </div>
+
+<h4 style="text-align: center">
+  The test will include {{ selection.selected.length }} questions in total
+</h4>

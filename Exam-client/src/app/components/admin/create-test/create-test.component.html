@@ -1,5 +1,5 @@
 <h1 style="margin-left: 1%">New Test</h1>
-<form #f="ngForm" (ngSubmit)="submit()">
+<form #f="ngForm" (ngSubmit)="submit(f)">
   <div class="create-test-container">
     <div class="test-details-container">
       <h2 class="test-details-header">General Test Details</h2>
@@ -260,7 +260,10 @@
     </div>
     <br />
 
-    <app-question-table [questions]="questions"></app-question-table>
+    <app-question-table
+      (select)="onQuestionSelect($event)"
+      [questions]="questions"
+    ></app-question-table>
   </div>
   <button
     class="next-btn"
@@ -268,6 +271,6 @@
     color="accent"
     [disabled]="!f.valid"
   >
-    Next
+    Save
   </button>
 </form>

@@ -35,7 +35,7 @@ const schema = {
     .optional()
 };
 function validateCreateTest(test) {
-  return joi.validate(test, schema);
+  return joi.validate(test, schema, { allowUnknown: true });
 }
 
 module.exports = {
