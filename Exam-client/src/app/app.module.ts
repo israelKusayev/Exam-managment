@@ -8,7 +8,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 
-
 import { AppComponent } from './app.component';
 import { ManageQuestionsComponent } from './components/admin/manage-questions/manage-questions.component';
 import { ManageTestsComponent } from './components/admin/manage-tests/manage-tests.component';
@@ -17,13 +16,14 @@ import { AdminLoginComponent } from './components/admin/admin-login/admin-login.
 import { UserLoginComponent } from './components/user/user-login/user-login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CreateTestComponent } from './components/admin/create-test/create-test.component';
+import { QuestionTableComponent } from './components/admin/create-test/question-table/question-table.component';
 
 import { AppErrorHandler } from './helpers/app-error-handler';
 
 import { AuthenticationService } from './services/authentication.service';
 import { LanguageService } from './services/language.service';
-import { QuestionTableComponent } from './components/admin/create-test/question-table/question-table.component';
-
+import { TagsPipe } from './helpers/tags.pipe';
+import { QuestionsService } from './services/questions.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,8 @@ import { QuestionTableComponent } from './components/admin/create-test/question-
     UserLoginComponent,
     NavbarComponent,
     CreateTestComponent,
-    QuestionTableComponent
+    QuestionTableComponent,
+    TagsPipe
   ],
   imports: [
     BrowserModule,
@@ -50,7 +51,8 @@ import { QuestionTableComponent } from './components/admin/create-test/question-
     { provide: ErrorHandler, useClass: AppErrorHandler },
     LanguageService,
     TestsService,
-    AuthenticationService
+    AuthenticationService,
+    QuestionsService
   ],
   bootstrap: [AppComponent]
 })

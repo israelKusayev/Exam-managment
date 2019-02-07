@@ -7,6 +7,7 @@ export const environment = {
   baseApi: 'http://localhost:3000',
   authUrl: 'http://localhost:3000/api/auth',
   testsUrl: 'http://localhost:3000/api/tests',
+  questionsUrl: 'http://localhost:3000/api/questions',
   languageUrl: 'http://localhost:3000/api/language',
   currentUserStorageKey: 'currentUser',
   tokenStorageKey: 'token'

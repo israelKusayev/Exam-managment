@@ -1,3 +1,11 @@
+@mixin containers {
+  box-shadow: 0 2px 2px #ccc;
+  padding: 0 25px 25px;
+  box-sizing: border-box;
+  border: 2px solid #eee;
+  background-color: whitesmoke;
+}
+
 .create-test-container {
   display: flex;
 }
@@ -9,10 +17,7 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 2px 2px #ccc;
-  padding: 0 25px 25px;
-  box-sizing: border-box;
-  border: 2px solid #eee;
+  @include containers();
 }
 
 .small-input {
@@ -39,6 +44,8 @@
 
 .table-container {
   display: flex;
-  width: 96%;
-  margin: 0 auto;
+  flex-direction: column;
+  width: 98%;
+  margin: 50px auto;
+  @include containers();
 }

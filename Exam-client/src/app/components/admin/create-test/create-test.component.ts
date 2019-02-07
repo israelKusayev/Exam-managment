@@ -1,3 +1,4 @@
+import { QuestionsService } from './../../../services/questions.service';
 import { ToastrService } from 'ngx-toastr';
 import { BadInput } from './../../../exceptions/bad-input';
 import { CreateTest } from './../../../models/create-test';
@@ -12,8 +13,9 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./create-test.component.scss']
 })
 export class CreateTestComponent implements OnInit {
+  questions: any[];
   languages: any[];
-
+  model = new CreateTest();
   predifindTemplates: string[] = [
     '@TestName@',
     '@FirstName@',
@@ -25,16 +27,19 @@ export class CreateTestComponent implements OnInit {
     '@CertificateUrl@'
   ];
 
-  model = new CreateTest();
   constructor(
     private languageService: LanguageService,
     private testsSerivce: TestsService,
+    private questionService: QuestionsService,
     private toast: ToastrService
   ) {}
 
   ngOnInit() {
     this.languageService.getAll().subscribe(languages => {
       this.languages = languages;
+    });
+    this.questionService.getAll().subscribe(questions => {
+      this.questions = questions;
     });
   }
 

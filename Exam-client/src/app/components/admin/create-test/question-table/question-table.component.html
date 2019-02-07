@@ -1,3 +1,69 @@
-<p>
-  question-table works!
-</p>
+<div style="display: flex; align-items: center">
+  <b>Filter by tag or title </b>
+  <mat-form-field style="margin: 0 10px;" floatLabel="never">
+    <input
+      matInput
+      (keyup)="applyFilter($event.target.value)"
+      placeholder="Filter"
+    />
+  </mat-form-field>
+  <span *ngIf="dataSource.filter.length > 0">filter is ON </span>
+</div>
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-checkbox
+          (change)="$event ? masterToggle() : null"
+          [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()"
+        >
+        </mat-checkbox>
+      </th>
+      <td class="select-question" mat-cell *matCellDef="let row">
+        <mat-checkbox
+          (click)="$event.stopPropagation()"
+          (change)="$event ? selection.toggle(row) : null"
+          [checked]="selection.isSelected(row)"
+        >
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef>
+        <span class="selected-number">
+          currently showing {{ this.dataSource.filteredData.length }} questions
+          <span class="text-tell"
+            >({{ selection.selected.length }} selected)</span
+          >
+        </span>
+      </th>
+      <td style="width:90%;" mat-cell *matCellDef="let element">
+        <span class="question-header">{{ element.Title }} </span><br />
+        <span class="text-tell"> {{ element.Tags | tags }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="show">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          (click)="$event.preventDefault()"
+          mat-stroked-button
+          color="accent"
+        >
+          Show
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+  ></mat-paginator>
+</div>

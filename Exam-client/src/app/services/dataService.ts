@@ -14,7 +14,9 @@ import { BadInput } from '../exceptions/bad-input';
   providedIn: 'root'
 })
 export class DataService {
-  constructor(private url: string, protected http: HttpClient) {}
+  constructor(private url: string, protected http: HttpClient) {
+    console.log(url);
+  }
 
   getHeaders(jwt: boolean): HttpHeaders {
     let headers: HttpHeaders = new HttpHeaders();

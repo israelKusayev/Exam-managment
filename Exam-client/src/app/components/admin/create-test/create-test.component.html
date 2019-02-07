@@ -1,4 +1,4 @@
-<h1>New Test</h1>
+<h1 style="margin-left: 1%">New Test</h1>
 <form #f="ngForm" (ngSubmit)="submit()">
   <div class="create-test-container">
     <div class="test-details-container">
@@ -71,6 +71,7 @@
           cdkTextareaAutosize
           matInput
           placeholder="Header"
+          maxlength="200"
         ></textarea>
         <mat-error *ngIf="header?.errors?.required"
           >Header is required.</mat-error
@@ -248,16 +249,25 @@
       </div>
     </div>
   </div>
-  <!-- <button
+  <div class="table-container">
+    <h2 class="">
+      Select the questions that you want to include in the test
+    </h2>
+    <br />
+    <div>
+      You can use the tag filter to narrow down the list to a specific subject -
+      Dont worry, filtering won't affect your previous selection
+    </div>
+    <br />
+
+    <app-question-table [questions]="questions"></app-question-table>
+  </div>
+  <button
     class="next-btn"
     mat-raised-button
     color="accent"
     [disabled]="!f.valid"
   >
     Next
-  </button> -->
-  <div class="table-container">
-    <div></div>
-    <app-question-table></app-question-table>
-  </div>
+  </button>
 </form>
