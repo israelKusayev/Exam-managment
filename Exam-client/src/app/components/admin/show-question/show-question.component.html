@@ -1,5 +1,34 @@
-<h2 mat-dialog-title>Question</h2>
-<mat-dialog-content>Are you sure?</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close>Close</button>
-</mat-dialog-actions>
+<button class="close-btn" mat-dialog-close mat-icon-button color="warn">
+  <mat-icon aria-label="close show question dialog">close</mat-icon>
+</button>
+<div class="dialog-container">
+  <h2>
+    {{ data.question.title }}
+  </h2>
+
+  <h4>{{ data.question.textBelow }}</h4>
+
+  <div *ngIf="!data.question.isMultiple; else multipleSelect">
+    <mat-radio-group [class.vertical]="!data.isHorizontal" class="display-flex">
+      <mat-radio-button
+        class="answer"
+        *ngFor="let answer of data.answers"
+        [checked]="answer.isCorrect"
+        [value]="answer"
+      >
+        {{ answer.content }}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <ng-template #multipleSelect>
+    <div class="display-flex" [class.vertical]="!data.isHorizontal">
+      <mat-checkbox
+        [checked]="answer.isCorrect"
+        class="answer"
+        *ngFor="let answer of data.answers"
+      >
+        {{ answer.content }}
+      </mat-checkbox>
+    </div>
+  </ng-template>
+</div>

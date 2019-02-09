@@ -91,8 +91,24 @@ export class QuestionTableComponent implements OnInit {
     $event.preventDefault();
     this.dialog.open(ShowQuestionComponent, {
       data: {
-        id: id
-      }
+        question: {
+          title: 'What is the DOM',
+          textBelow: 'jffsdjf fjkfsdf kdjfds ',
+          isMultiple: false
+        },
+        answers: [
+          { content: 'gffdgfgfgfgdfgfgfdgsdfd gdgfg', isCorrect: false },
+          { content: 'yes its true', isCorrect: true },
+          {
+            content:
+              'https://stackoverflow.com/questions/332422/get-the-name-of-an-objects-type gdgfg',
+            isCorrect: false
+          },
+          { content: 'abc def ghi gdgfg', isCorrect: false }
+        ],
+        isHorizontal: false
+      },
+      autoFocus: false
     });
   }
 }
