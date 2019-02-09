@@ -2,36 +2,36 @@ import {
   Component,
   OnInit,
   ViewChild,
-  Input,
-  OnChanges,
-  SimpleChanges,
   Output,
   EventEmitter
 } from '@angular/core';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
+import { QuestionsService } from 'src/app/services/questions.service';
+import { ShowQuestionComponent } from '../../show-question/show-question.component';
 
 @Component({
   selector: 'app-question-table',
   templateUrl: './question-table.component.html',
   styleUrls: ['./question-table.component.scss']
 })
-export class QuestionTableComponent implements OnInit, OnChanges {
-  @Input() questions: Questions[];
+export class QuestionTableComponent implements OnInit {
   @Output() select = new EventEmitter();
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   displayedColumns: string[] = ['select', 'title', 'show'];
   dataSource = new MatTableDataSource<Questions>();
   selection = new SelectionModel<Questions>(true, []);
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.questions.firstChange) {
-      this.dataSource.data = changes.questions.currentValue as Questions[];
-    }
-  }
+  constructor(
+    private questionsService: QuestionsService,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit() {
+    this.questionsService.getAll().subscribe(questions => {
+      this.dataSource.data = questions;
+    });
     this.dataSource.paginator = this.paginator;
 
     // exclude 'id' in filter
@@ -85,6 +85,15 @@ export class QuestionTableComponent implements OnInit, OnChanges {
         return q.Id;
       })
     );
+  }
+
+  showQuestion($event, id: number) {
+    $event.preventDefault();
+    this.dialog.open(ShowQuestionComponent, {
+      data: {
+        id: id
+      }
+    });
   }
 }
 

@@ -51,7 +51,17 @@
         </span>
       </th>
       <td style="width:90%;" mat-cell *matCellDef="let element">
-        <span class="question-header">{{ element.Title }} </span><br />
+        <span
+          [matTooltip]="element.Title"
+          matTooltipPosition="right"
+          class="question-header"
+        >
+          {{
+            element.Title.length > 100
+              ? (element.Title | slice: 0:100) + '...'
+              : element.Title
+          }} </span
+        ><br />
         <span class="text-tell"> {{ element.Tags | tags }}</span>
       </td>
     </ng-container>
@@ -60,7 +70,7 @@
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element">
         <button
-          (click)="$event.preventDefault()"
+          (click)="showQuestion($event, element.Id)"
           mat-stroked-button
           color="accent"
         >

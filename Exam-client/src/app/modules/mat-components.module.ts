@@ -15,7 +15,9 @@ import {
   MatTabsModule,
   MatTableModule,
   MatCardModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatTooltipModule,
+  MatDialogModule
 } from '@angular/material';
 
 @NgModule({
@@ -34,7 +36,9 @@ import {
     MatTabsModule,
     MatTableModule,
     MatCardModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatTooltipModule,
+    MatDialogModule
   ]
 })
 export class MatComponentsModule {}

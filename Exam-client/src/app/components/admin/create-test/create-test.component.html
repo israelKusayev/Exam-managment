@@ -31,6 +31,7 @@
           name="testName"
           matInput
           placeholder="Test name"
+          maxlength="200"
         />
         <mat-error *ngIf="testName?.errors?.required"
           >Test name is required.</mat-error
@@ -71,7 +72,6 @@
           matInput
           placeholder="Header"
           maxlength="200"
-          
         ></textarea>
         <mat-error *ngIf="header?.errors?.required"
           >Header is required.</mat-error
@@ -262,7 +262,6 @@
 
     <app-question-table
       (select)="onQuestionSelect($event)"
-      [questions]="questions"
     ></app-question-table>
   </div>
   <button

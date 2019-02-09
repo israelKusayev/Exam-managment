@@ -24,7 +24,8 @@ import { AuthenticationService } from './services/authentication.service';
 import { LanguageService } from './services/language.service';
 import { TagsPipe } from './helpers/tags.pipe';
 import { QuestionsService } from './services/questions.service';
-import { AddTestComponent } from './components/add-test/add-test.component';
+import { AddTestComponent } from './components/admin/add-test/add-test.component';
+import { ShowQuestionComponent } from './components/admin/show-question/show-question.component';
 
 @NgModule({
   declarations: [
@@ -38,8 +39,10 @@ import { AddTestComponent } from './components/add-test/add-test.component';
     CreateTestComponent,
     QuestionTableComponent,
     TagsPipe,
-    AddTestComponent
+    AddTestComponent,
+    ShowQuestionComponent
   ],
+  entryComponents: [ShowQuestionComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
