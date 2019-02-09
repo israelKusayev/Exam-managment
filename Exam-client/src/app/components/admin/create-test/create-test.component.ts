@@ -57,7 +57,9 @@ export class CreateTestComponent implements OnInit {
       this.testsSerivce
         .create({ details: this.model, questions: this.selectedQuestions })
         .subscribe(
-          data => {},
+          data => {
+            this.toast.success('test saved successfully 👌');
+          },
           err => {
             if (err instanceof BadInput) {
               this.toast.error(err.error);

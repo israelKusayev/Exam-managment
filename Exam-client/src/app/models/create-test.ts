@@ -3,7 +3,7 @@ export class CreateTest {
   testName = '';
   passingGrade: number;
   showAnswres = false;
-  header = '';
+  header = 'abc';
   successMessage = '';
   failureMessage = '';
   certificate = '';
@@ -13,4 +13,6 @@ export class CreateTest {
   failingMessageSubject = '';
   failingMessageBody = '';
   sendCompletionMessage = false;
+  subjectId = 2;
+  creatorEmail = 'moshe@gmail.com';
 }

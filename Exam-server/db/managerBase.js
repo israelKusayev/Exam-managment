@@ -5,13 +5,14 @@ const dbPool = new sql.ConnectionPool(config, err => {
   if (err) console.log("Can't create DB pool", err);
 });
 
-function executeInDB(name, options, callback) {
+function executeInDB(name, inputs, callback) {
   const req = dbPool.request();
 
-  for (let i = 0; i < options.length; i++) {
-    const option = options[i];
+  for (let i = 0; i < inputs.length; i++) {
+    const element = inputs[i];
+    const inputName = Object.keys(element)[0];
 
-    req.input(option.inputName, option.value);
+    req.input(inputName, element[inputName]);
   }
 
   req.execute(name, (err, data) => {

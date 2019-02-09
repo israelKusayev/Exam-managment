@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
     return;
   }
   testsManager.createTest(req.body, data => {
-    if (data.error) {
+    if (data && data.error) {
       res.status(500).end();
     }
     res.status(200).end();

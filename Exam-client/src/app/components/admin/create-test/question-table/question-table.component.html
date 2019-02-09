@@ -2,10 +2,20 @@
   <b>Filter by tag or title </b>
   <mat-form-field style="margin: 0 10px;" floatLabel="never">
     <input
+      autocomplete="off"
       matInput
       (keyup)="applyFilter($event.target.value)"
       placeholder="Filter"
     />
+    <button
+      *ngIf="dataSource.filter.length > 0"
+      mat-button
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
   </mat-form-field>
   <span *ngIf="dataSource.filter.length > 0">filter is ON </span>
 </div>

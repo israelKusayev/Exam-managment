@@ -1,83 +1,40 @@
 const baseRepository = require('./managerBase');
-const sql = require('mssql');
 
 function createTestInputs(test) {
-  return [
-    {
-      inputName: 'language',
-      value: test.language
-    },
-    {
-      inputName: 'testName',
-      value: test.testName
-    },
-    {
-      inputName: 'passingGrade',
-      value: test.passingGrade
-    },
-    {
-      inputName: 'showAnswres',
-      value: test.showAnswres
-    },
-    {
-      inputName: 'header',
-      value: test.header
-    },
-    {
-      inputName: 'successMessage',
-      value: test.successMessage
-    },
-    {
-      inputName: 'failureMessage',
-      value: test.failureMessage
-    },
-    {
-      inputName: 'certificate',
-      value: test.certificate
-    },
-    {
-      inputName: 'sendCompletionMessage',
-      value: test.sendCompletionMessage
-    },
-    {
-      inputName: 'formEmail',
-      value: test.formEmail
-    },
+  // let arr = [];
+  // let i = 0;
+  // for (const key in test) {
+  //   arr[i++] = { inputName: key, value: test[key] };
+  // }
+  // return arr;
 
-    {
-      inputName: 'SubjectId',
-      value: 2
-    },
-    {
-      inputName: 'CreatorEmail',
-      value: 'moshe@gmail.com'
-    }
+  return [
+    { language: test.language },
+    { testName: test.testName },
+    { passingGrade: test.passingGrade },
+    { showAnswres: test.showAnswres },
+    { header: test.header },
+    { successMessage: test.successMessage },
+    { failureMessage: test.failureMessage },
+    { certificate: test.certificate },
+    { sendCompletionMessage: test.sendCompletionMessage },
+    { formEmail: test.formEmail },
+    { subjectId: test.subjectId },
+    { creatorEmail: test.creatorEmail }
   ];
 }
 
 function passingEmailTemplateInputs(test) {
   return [
-    {
-      inputName: 'Subject',
-      value: test.passingMessageSubject
-    },
-    {
-      inputName: 'Body',
-      value: test.passingMessageBody
-    }
+    { Subject: test.passingMessageSubject },
+    { Body: test.passingMessageBody }
   ];
 }
 
 function failingEmailTemplateInputs(test) {
   return [
-    {
-      inputName: 'Subject',
-      value: test.failingMessageSubject
-    },
-    {
-      inputName: 'Body',
-      value: test.failingMessageBody
-    }
+    { Subject: test.failingMessageSubject },
+    { Body: test.failingMessageBody }
   ];
 }
 
@@ -85,7 +42,6 @@ function createTest(data, callback) {
   console.log(data);
 
   const { details: test, questions } = data;
-
   if (test.sendCompletionMessage) {
     baseRepository.executeInDB(
       'sp_CreateEmailTemplate',
@@ -103,14 +59,8 @@ function createTest(data, callback) {
               'sp_CreateTest',
               [
                 ...createTestInputs(test),
-                {
-                  inputName: 'successEmailTemplateId',
-                  value: successEmailTemplateId
-                },
-                {
-                  inputName: 'failureEmailTemplateId',
-                  value: failureEmailTemplateId
-                }
+                { successEmailTemplateId: successEmailTemplateId },
+                { failureEmailTemplateId: failureEmailTemplateId }
               ],
               callback
             );
@@ -127,14 +77,8 @@ function createTest(data, callback) {
         baseRepository.executeInDB(
           'sp_AddQuestionsToTest',
           [
-            {
-              inputName: 'testId',
-              value: testId
-            },
-            {
-              inputName: 'questionsId',
-              value: baseRepository.createListId(questions)
-            }
+            { testId: testId },
+            { questionsId: baseRepository.createListId(questions) }
           ],
           callback
         );

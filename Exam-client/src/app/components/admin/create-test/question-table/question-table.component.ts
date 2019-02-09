@@ -36,7 +36,22 @@ export class QuestionTableComponent implements OnInit, OnChanges {
 
     // exclude 'id' in filter
     this.dataSource.filterPredicate = (data, filter) => {
-      return data.Tags.includes(filter) || data.Title.includes(filter);
+      const filterTags = filter.split(',');
+      const tags = data.Tags.split(',');
+      console.log(tags);
+      console.log(filterTags);
+
+      tags.forEach(t => {
+        filterTags.forEach(a => {
+          console.log([a, t]);
+
+          if (t.includes(a)) {
+            console.log('true');
+            return true;
+          }
+        });
+      });
+      return data.Title.includes(filter);
     };
   }
 

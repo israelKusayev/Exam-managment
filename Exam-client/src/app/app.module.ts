@@ -24,6 +24,7 @@ import { AuthenticationService } from './services/authentication.service';
 import { LanguageService } from './services/language.service';
 import { TagsPipe } from './helpers/tags.pipe';
 import { QuestionsService } from './services/questions.service';
+import { AddTestComponent } from './components/add-test/add-test.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { QuestionsService } from './services/questions.service';
     NavbarComponent,
     CreateTestComponent,
     QuestionTableComponent,
-    TagsPipe
+    TagsPipe,
+    AddTestComponent
   ],
   imports: [
     BrowserModule,

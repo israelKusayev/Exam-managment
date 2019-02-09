@@ -48,7 +48,6 @@
           pattern="([0-9]|[1-8][0-9]|9[0-9]|100)"
           matInput
           placeholder="Passing grade"
-          (keyup)="submit(grade)"
         />
         <mat-error *ngIf="grade?.errors?.required"
           >Passing grade is required.</mat-error
@@ -72,6 +71,7 @@
           matInput
           placeholder="Header"
           maxlength="200"
+          
         ></textarea>
         <mat-error *ngIf="header?.errors?.required"
           >Header is required.</mat-error
