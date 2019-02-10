@@ -10,6 +10,7 @@ export const environment = {
   questionsUrl: 'http://localhost:3000/api/questions',
   answersUrl: 'http://localhost:3000/api/answers',
   languageUrl: 'http://localhost:3000/api/language',
+  certificateUrl: 'http://localhost:3000/api/certificates',
   currentUserStorageKey: 'currentUser',
   tokenStorageKey: 'token'
 };

@@ -1,3 +1,4 @@
+import { CertificatesService } from './services/certificates.service';
 import { AnswerService } from './services/answer.service';
 import { TestsService } from './services/tests.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -65,7 +66,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     TestsService,
     AuthenticationService,
     QuestionsService,
-    AnswerService
+    AnswerService,
+    CertificatesService
   ],
   bootstrap: [AppComponent]
 })

@@ -39,21 +39,16 @@ export class QuestionTableComponent implements OnInit {
     // exclude 'id' in filter
     this.dataSource.filterPredicate = (data, filter) => {
       const filterTags = filter.split(',');
-      const tags = data.Tags.split(',');
-      console.log(tags);
-      console.log(filterTags);
 
-      tags.forEach(t => {
-        filterTags.forEach(a => {
-          console.log([a, t]);
-
-          if (t.includes(a)) {
-            console.log('true');
-            return true;
-          }
-        });
-      });
-      return data.Title.includes(filter);
+      for (let i = 0; i < filterTags.length; i++) {
+        if (!data.Tags.toLowerCase().includes(filterTags[i].toLowerCase())) {
+          continue;
+        }
+        if (i === filterTags.length - 1) {
+          return true;
+        }
+      }
+      return data.Title.toLowerCase().includes(filter.toLowerCase());
     };
   }
 

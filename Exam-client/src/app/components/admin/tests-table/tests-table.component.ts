@@ -12,7 +12,7 @@ export class TestsTableComponent implements OnInit {
     'id',
     'link',
     'name',
-    'questionCount',
+    'questionsCount',
     'lastUpdate',
     'status'
   ];
@@ -55,7 +55,7 @@ export class TestsTableComponent implements OnInit {
 export interface Test {
   id: number;
   name: string;
-  questionCount: number;
+  questionsCount: number;
   lastUpdate: string;
 }
 
@@ -63,31 +63,31 @@ const ELEMENT_DATA: Test[] = [
   {
     id: 1,
     name: 'Hydrogen',
-    questionCount: 1,
+    questionsCount: 1,
     lastUpdate: moment().format('DD/MM/YYYY')
   },
   {
     id: 2,
     name: 'Helium abc def israel kusayev',
-    questionCount: 4,
+    questionsCount: 4,
     lastUpdate: 'He'
   },
   {
     id: 3,
     name: 'Lithium abc def israel kusayev',
-    questionCount: 6,
+    questionsCount: 6,
     lastUpdate: 'Li'
   },
   {
     id: 4,
     name: 'Beryllium abc def israel',
-    questionCount: 9,
+    questionsCount: 9,
     lastUpdate: 'Be'
   },
-  { id: 5, name: 'Boron', questionCount: 10, lastUpdate: 'B' },
-  { id: 6, name: 'Carbon', questionCount: 12, lastUpdate: 'C' },
-  { id: 7, name: 'Nitrogen', questionCount: 14, lastUpdate: 'N' },
-  { id: 8, name: 'Oxygen', questionCount: 15, lastUpdate: 'O' },
-  { id: 9, name: 'Fluorine', questionCount: 18, lastUpdate: 'F' },
-  { id: 10, name: 'Neon', questionCount: 20, lastUpdate: 'Ne' }
+  { id: 5, name: 'Boron', questionsCount: 10, lastUpdate: 'B' },
+  { id: 6, name: 'Carbon', questionsCount: 12, lastUpdate: 'C' },
+  { id: 7, name: 'Nitrogen', questionsCount: 14, lastUpdate: 'N' },
+  { id: 8, name: 'Oxygen', questionsCount: 15, lastUpdate: 'O' },
+  { id: 9, name: 'Fluorine', questionsCount: 18, lastUpdate: 'F' },
+  { id: 10, name: 'Neon', questionsCount: 20, lastUpdate: 'Ne' }
 ];

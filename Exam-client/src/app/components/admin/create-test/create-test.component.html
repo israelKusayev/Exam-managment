@@ -114,10 +114,9 @@
           name="certificate"
           placeholder="Certificate templates"
         >
-          <mat-option value="option">English</mat-option>
-          <mat-option value="option">hebrew</mat-option>
-          <mat-option value="option">hebrew</mat-option>
-          <mat-option value="option">hebrew</mat-option>
+          <mat-option *ngFor="let c of certificates" [value]="c">
+            {{ c }}
+          </mat-option>
         </mat-select>
         <mat-error *ngIf="certificate?.errors?.required"
           >Certificate templates is required.</mat-error
