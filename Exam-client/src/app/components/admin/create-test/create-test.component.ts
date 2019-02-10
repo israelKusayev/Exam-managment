@@ -3,6 +3,7 @@ import { CreateTest } from './../../../models/create-test';
 import { LanguageService } from './../../../services/language.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-create-test',
@@ -28,7 +29,8 @@ export class CreateTestComponent implements OnInit {
 
   constructor(
     private languageService: LanguageService,
-    private toast: ToastrService
+    private toast: ToastrService,
+    public location: Location
   ) {}
 
   ngOnInit() {

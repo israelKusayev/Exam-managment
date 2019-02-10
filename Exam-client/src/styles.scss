@@ -46,3 +46,10 @@ mat-form-field .mat-form-field {
   display: flex;
   flex-wrap: wrap;
 }
+
+.mat-row:nth-child(odd) {
+  background-color: whitesmoke;
+}
+.mat-header-cell {
+  color: black;
+}

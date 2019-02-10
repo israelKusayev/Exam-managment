@@ -1,0 +1,79 @@
+<div class="filter-container">
+  <b>Filter names by keywords:</b>
+  <mat-form-field floatLabel="never" class="filter">
+    <input
+      matInput
+      (keyup)="applyFilter($event.target.value)"
+      placeholder="Enter a list of keywords separated by commas"
+    />
+  </mat-form-field>
+  <b class="test-count">Showing {{ dataSource.data.length }} tests</b>
+</div>
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+    <td style="width:5%;" mat-cell *matCellDef="let element">
+      {{ element.id }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="link">
+    <th mat-header-cell *matHeaderCellDef>Link</th>
+    <td style="width:8%;" mat-cell *matCellDef="let element">
+      <button
+        ngxClipboard
+        cbContent="http://localhost:4200/test/{{ element.id }}"
+        mat-stroked-button
+        color="primary"
+      >
+        Copy
+      </button>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Test Name</th>
+    <td
+      [matTooltip]="element.name"
+      matTooltipPosition="above"
+      style="width:40%;"
+      style="text-align: left"
+      mat-cell
+      *matCellDef="let element"
+    >
+      {{ element.name }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="questionCount">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>num of questions</th>
+    <td style="width:10%" mat-cell *matCellDef="let element">
+      {{ element.questionCount }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="lastUpdate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Update</th>
+    <td style="width:10%" mat-cell *matCellDef="let element">
+      {{ element.lastUpdate }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td style="width:20%" mat-cell *matCellDef="let element">
+      <button mat-stroked-button color="primary" (click)="edit(element.id)">
+        edit
+      </button>
+      <span style="margin-left: 50px" class="text-success">Active</span>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+
+<mat-paginator
+  [pageSizeOptions]="[5, 10, 20]"
+  showFirstLastButtons
+></mat-paginator>

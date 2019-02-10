@@ -1,3 +1,4 @@
+import { AnswerService } from './services/answer.service';
 import { TestsService } from './services/tests.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatComponentsModule } from './modules/mat-components.module';
@@ -7,6 +8,7 @@ import { AppRoutingModule } from './modules/app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
+import { ClipboardModule } from 'ngx-clipboard';
 
 import { AppComponent } from './app.component';
 import { ManageQuestionsComponent } from './components/admin/manage-questions/manage-questions.component';
@@ -26,6 +28,8 @@ import { TagsPipe } from './helpers/tags.pipe';
 import { QuestionsService } from './services/questions.service';
 import { AddTestComponent } from './components/admin/add-test/add-test.component';
 import { ShowQuestionComponent } from './components/admin/show-question/show-question.component';
+import { TestsTableComponent } from './components/admin/tests-table/tests-table.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +44,9 @@ import { ShowQuestionComponent } from './components/admin/show-question/show-que
     QuestionTableComponent,
     TagsPipe,
     AddTestComponent,
-    ShowQuestionComponent
+    ShowQuestionComponent,
+    TestsTableComponent,
+    NotFoundComponent
   ],
   entryComponents: [ShowQuestionComponent],
   imports: [
@@ -50,14 +56,16 @@ import { ShowQuestionComponent } from './components/admin/show-question/show-que
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ClipboardModule
   ],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },
     LanguageService,
     TestsService,
     AuthenticationService,
-    QuestionsService
+    QuestionsService,
+    AnswerService
   ],
   bootstrap: [AppComponent]
 })

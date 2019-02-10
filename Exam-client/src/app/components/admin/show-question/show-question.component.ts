@@ -3,12 +3,12 @@ import { MAT_DIALOG_DATA } from '@angular/material';
 
 export interface ShowQuestionData {
   question: {
-    title: string;
-    textBelow: string;
-    isMultiple: boolean;
+    Title: string;
+    TextBelow: string;
+    MultipleChoice: boolean;
+    HorizontalDisplay: boolean;
   };
-  answers: { content: number; isCorrect: boolean }[];
-  isHorizontal: boolean;
+  answers: { Title: number; IsCorrect: boolean }[];
 }
 
 @Component({

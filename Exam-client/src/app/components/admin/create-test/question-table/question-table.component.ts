@@ -1,3 +1,4 @@
+import { AnswerService } from './../../../../services/answer.service';
 import {
   Component,
   OnInit,
@@ -25,6 +26,7 @@ export class QuestionTableComponent implements OnInit {
 
   constructor(
     private questionsService: QuestionsService,
+    private answerService: AnswerService,
     public dialog: MatDialog
   ) {}
 
@@ -87,28 +89,15 @@ export class QuestionTableComponent implements OnInit {
     );
   }
 
-  showQuestion($event, id: number) {
-    $event.preventDefault();
-    this.dialog.open(ShowQuestionComponent, {
-      data: {
-        question: {
-          title: 'What is the DOM',
-          textBelow: 'jffsdjf fjkfsdf kdjfds ',
-          isMultiple: false
+  showQuestion(id: number) {
+    this.answerService.getOne(id.toString()).subscribe(answers => {
+      this.dialog.open(ShowQuestionComponent, {
+        data: {
+          question: this.dataSource.data.find(q => q.Id === id),
+          answers: answers
         },
-        answers: [
-          { content: 'gffdgfgfgfgdfgfgfdgsdfd gdgfg', isCorrect: false },
-          { content: 'yes its true', isCorrect: true },
-          {
-            content:
-              'https://stackoverflow.com/questions/332422/get-the-name-of-an-objects-type gdgfg',
-            isCorrect: false
-          },
-          { content: 'abc def ghi gdgfg', isCorrect: false }
-        ],
-        isHorizontal: false
-      },
-      autoFocus: false
+        autoFocus: false
+      });
     });
   }
 }
@@ -117,4 +106,7 @@ export interface Questions {
   Id: number;
   Title: string;
   Tags: string;
+  TextBelow: string;
+  HorizontalDisplay: boolean;
+  MultipleChoice: boolean;
 }
