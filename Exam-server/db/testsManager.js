@@ -132,4 +132,11 @@ function createTest(data, callback) {
   }
 }
 
-exports.createTest = createTest;
+function getTest(id, callback) {
+  baseRepository.executeInDB('sp_GetTest', [{ id: id }], callback);
+}
+
+module.exports = {
+  createTest: createTest,
+  getTest: getTest
+};

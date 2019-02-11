@@ -7,6 +7,24 @@ router.get('/', (req, res) => {
   res.send('tests');
 });
 
+router.get('/:id', (req, res) => {
+  if (!Number.isInteger(parseInt(req.params.id))) {
+    res.status(400).send('invalid id');
+    return;
+  }
+  testsManager.getTest(req.params.id, data => {
+    if (data) {
+      if (data.error) {
+        res.status(500).end();
+        return;
+      }
+      res.status(200).send(data);
+    } else {
+      res.status(400).send('test not found');
+    }
+  });
+});
+
 router.post('/', async (req, res) => {
   try {
     await validator.validateCreateTest(req.body.details);

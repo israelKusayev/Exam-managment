@@ -31,6 +31,7 @@ import { AddTestComponent } from './components/admin/add-test/add-test.component
 import { ShowQuestionComponent } from './components/admin/show-question/show-question.component';
 import { TestsTableComponent } from './components/admin/tests-table/tests-table.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { EditTestComponent } from './components/admin/edit-test/edit-test.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     AddTestComponent,
     ShowQuestionComponent,
     TestsTableComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    EditTestComponent
   ],
   entryComponents: [ShowQuestionComponent],
   imports: [

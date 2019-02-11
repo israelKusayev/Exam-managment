@@ -44,7 +44,7 @@ export class TestsTableComponent implements OnInit {
 
   edit(id: number) {
     console.log(id);
-    this.router.navigate(['manage-tests/edit/', id]);
+    this.router.navigate(['manage-tests/edit/', 27]);
   }
 
   applyFilter(filterValue: string) {
