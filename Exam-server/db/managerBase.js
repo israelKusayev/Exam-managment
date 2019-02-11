@@ -37,91 +37,76 @@ function createListId(arr) {
   return listId;
 }
 
-// function name(transactiond) {
-//   const transaction = new sql.Transaction(dbPool);
-//   transaction.begin(err => {
-//     let req = new sql.Request(transaction);
-//     req.input('xxxxx', sql.Int, 'yyyyy');
-//     req.execute('storedProcName', (err, result) => {
-//       if (err) {
-//         transaction.rollback();
-//       } else {
-//         req.execute('storedProcName2', (err, result) => {
-//           if (!err) {
-//             transaction.commit();
-//           }
-//         });
-//       }
-//     });
-//   });
-// }
+/*
 
-// sp =  [{name="someSpName", inputs:[{inputName:"someValue"}]}]
+sp =  [
+ {
+   name: "someSpName",
+   inputs: [{inputName:"someValue"}],
+   returnValue:
+     {
+      valueName:"someName",
+      spNumber:index of sp in arr  type = number,
+      returnValueName:name of what return from current sp  type = string
+     }
+ }
+]
 
-// function executeMultipleSp(sp) {
-//   const transaction = new sql.Transaction(dbPool);
-//   recursion(transaction, sp);
-// }
+*/
 
-// function recursion(transaction, sp, currentSp) {
-//   let req = new sql.Request(transaction);
+function executeMultipleSp(sp, callback) {
+  const transaction = new sql.Transaction(dbPool);
+  transaction.begin(err => {
+    if (err) console.log(err);
 
-//   for (let i = 0; i < sp[currentSp].inputs.length; i++) {
-//     const element = sp[currentSp].inputs[i];
-//     const inputName = Object.keys(element)[0];
+    executeInTransaction(transaction, sp, 0, callback);
+  });
+}
 
-//     req.input(inputName, element[inputName]);
-//   }
+function executeInTransaction(transaction, sp, index, callback) {
+  let req = new sql.Request(transaction);
 
-//   req.execute(sp[currentSp].name, (err, result) => {
-//     if (err) {
-//       transaction.rollback();
-//       return;
-//     } else {
-//       recursion(transaction);
-//     }
-//   });
+  const currentSp = sp[index];
 
-//   if (sp.length - 1 === currentSp) {
-//     transaction.commit();
-//   }
-// }
+  for (let i = 0; i < currentSp.inputs.length; i++) {
+    const element = currentSp.inputs[i];
+    const inputName = Object.keys(element)[0];
 
-// sp =  [{name:"someSpName", inputs:[{inputName:"someValue"}
-// , returnValue:{}
-//
-//]}]
+    req.input(inputName, element[inputName]);
+  }
 
-// function executeMultipleSp(sp) {
-//   const transaction = new sql.Transaction(dbPool);
-//   recursion(transaction, sp);
-// }
+  // checking if the pervious SP's return value for this sp.
+  for (let i = 0; i < index; i++) {
+    const returnValue = sp[i].returnValue;
 
-// function recursion(transaction, sp, currentSp) {
-//   let req = new sql.Request(transaction);
+    if (returnValue && returnValue.spNumber === index) {
+      req.input(returnValue.valueName, returnValue.value);
+    }
+  }
 
-//   for (let i = 0; i < sp[currentSp].inputs.length; i++) {
-//     const element = sp[currentSp].inputs[i];
-//     const inputName = Object.keys(element)[0];
+  req.execute(currentSp.name, (err, result) => {
+    if (err) {
+      transaction.rollback();
+      console.log(err);
 
-//     req.input(inputName, element[inputName]);
-//   }
+      return;
+    }
+    const returnValue = currentSp.returnValue;
+    if (returnValue) {
+      returnValue['value'] = result.recordset[0][returnValue.returnValueName];
+    }
 
-//   req.execute(sp[currentSp].name, (err, result) => {
-//     if (err) {
-//       transaction.rollback();
-//       return;
-//     } else {
-//       recursion(transaction);
-//     }
-//   });
+    if (sp.length - 1 === index) {
+      transaction.commit();
+      console.log('commit');
 
-//   if (sp.length - 1 === currentSp) {
-//     transaction.commit();
-//   }
-// }
+      callback(result.recordset);
+    } else executeInTransaction(transaction, sp, index + 1, callback);
+  });
+}
 
 module.exports = {
   executeInDB: executeInDB,
-  createListId: createListId
+  createListId: createListId,
+  executeMultipleSp: executeMultipleSp
 };
