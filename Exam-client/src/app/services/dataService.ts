@@ -9,6 +9,8 @@ import { catchError, map } from 'rxjs/operators';
 import { NotFoundError } from '../exceptions/not-found-error';
 import { AppError } from '../exceptions/app-error';
 import { BadInput } from '../exceptions/bad-input';
+import { environment } from 'src/environments/environment';
+import { UnauthorizedError } from '../exceptions/unauthroized-error';
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +22,11 @@ export class DataService {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json');
     if (jwt) {
-      // headers.append('authentication', this.jwtService.getJwt());
+       headers.append(environment.auth_headerKey, localStorage.getItem(environment.tokenStorageKey));
     }
     return headers;
   }
+
   getAll(jwt = true) {
     return this.http
       .get<any[]>(this.url, {
@@ -72,13 +75,14 @@ export class DataService {
       );
   }
 
-  private handleError(error: HttpErrorResponse) {
+  protected handleError(error: HttpErrorResponse) {
     if (error.status === 404) {
       return throwError(new NotFoundError('', error));
-    }
-    if (error.status === 400) {
+    } else if (error.status === 400) {
       return throwError(new BadInput(error.error.message, error));
+    } else if (error.status === 401) {
+      return throwError(new UnauthorizedError('', error));
     }
-    return throwError(new AppError('connection to server faild', error));
+    return throwError(new AppError('connection to server failed', error));
   }
 }

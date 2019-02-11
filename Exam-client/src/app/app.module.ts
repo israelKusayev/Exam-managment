@@ -14,6 +14,9 @@ import { ManageQuestionsComponent } from './components/admin/manage-questions/ma
 import { ManageTestsComponent } from './components/admin/manage-tests/manage-tests.component';
 import { ReportsComponent } from './components/admin/reports/reports.component';
 import { AdminLoginComponent } from './components/admin/admin-login/admin-login.component';
+import { AdminRegisterComponent } from './components/admin/admin-register/admin-register.component';
+import { AdminResetPasswordComponent } from './components/admin/admin-reset-password/admin-reset-password.component';
+
 import { UserLoginComponent } from './components/user/user-login/user-login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CreateTestComponent } from './components/admin/create-test/create-test.component';
@@ -22,6 +25,7 @@ import { AppErrorHandler } from './helpers/app-error-handler';
 
 import { AuthenticationService } from './services/authentication.service';
 import { LanguageService } from './services/language.service';
+
 
 
 @NgModule({
@@ -33,7 +37,9 @@ import { LanguageService } from './services/language.service';
     AdminLoginComponent,
     UserLoginComponent,
     NavbarComponent,
-    CreateTestComponent
+    CreateTestComponent,
+    AdminRegisterComponent,
+    AdminResetPasswordComponent
   ],
   imports: [
     BrowserModule,

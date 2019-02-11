@@ -9,7 +9,9 @@ export const environment = {
   testsUrl: 'http://localhost:3000/api/tests',
   languageUrl: 'http://localhost:3000/api/language',
   currentUserStorageKey: 'currentUser',
-  tokenStorageKey: 'token'
+  tokenStorageKey: 'token',
+
+  auth_headerKey: 'x-auth-token'
 };
 
 /*

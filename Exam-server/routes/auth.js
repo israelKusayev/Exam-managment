@@ -2,41 +2,245 @@
 
 const express = require('express');
 var jwt = require('jsonwebtoken');
-const User = require('../models/user');
 const config=require('../config/config');
-const authorize = require('../middlewares/authorize');
-
-//const RSA_PRIVATE_KEY = fs.readFileSync('./demos/private.key');
-const RSA_PRIVATE_KEY = config.jwt_secret;
+const bcrypt=require('bcryptjs');
+const authManager=require('../db/authManager');
+const mailer=require('../helpers/mailer');
 
 const router = express.Router();
 // { email, password }
 router.post('/admin-login', (req, res) => {
   const email = req.body.email;
   const password=req.body.password;
-  console.log(req.body);
-  if (email=="a@b.com" && password=='123')
+  if (email && password)
   {
-    //console.log(req);
-    let user={
-    email:email,
-    id:1234,
-    isActive:false,
-    isAdmin:true,
-    phone:'0501234567'
-    }
-    
-      const token = jwt.sign({sd:'asdfgh'}, RSA_PRIVATE_KEY, {
-        //algorithm: 'RS256',
-        expiresIn: 15*60,
-        subject: user.id.toString()
+    authManager.getAdminByEmail(email,(data) => {
+      if (!data || data.error) {
+        res.status(500).end();
+      }
+      else{
+        if ( data && data[0] && bcrypt.compareSync(password,data[0].PasswordHash)){
+          const dbUser=data[0];
+          const user = {
+            email: dbUser.Email,
+            name: dbUser.Name,
+            firstName: null,
+            lastName: null,
+            isActive: dbUser.IsActive,
+            isAdmin: true,
+            phone: null
+          }
+          if (!user.isActive){
+            mailer.sendAdminUserActivationLink(user.email,req);
+          }
+          const token = jwt.sign({}, config.jwt_secret, {
+            //algorithm: 'RS256',
+            expiresIn: config.adminTokenExpiresIn,
+            subject: user.email.toString()
+          });
+          res.status(200).send({ token,user});
+        }else{
+          res.status(400).send({ message: 'Incorrect email or password' });
+        }
+        
+      }
     });
-    console.log(token);
-    res.status(200).send({ token,user});
   }
-  else{//bad request
-    res.status(400).send({ message: 'Invalid credintials' });
+  else
+    res.status(400).send({ message: 'Email or password is not provided' });
+  
+});
+
+router.get('/activate-admin-account',(req,res)=>{
+  console.log('activate-admin-account');
+  const activationSecret = config.adminUserActivationSecret;
+  const rawToken = req.query.token;
+
+  const activationHTML=function(title,message){
+      return '<!doctype html><html><head><title>'+
+      title+
+      '</title></head><body><div style="width:500px;"><h1>Exams System</h1><hr/><h4>'+
+      message+
+      '</h4></div></body></html>';
+  };
+
+  try{
+    const decodedToken = jwt.verify(rawToken,config.adminUserActivationSecret);
+    // const expirationDate = helper.getTokenExpirationDate(data.token);
+    //const isExpired = jwtHelper.isTokenExpired(data.token);
+      const email=decodedToken.sub;
+      authManager.activateAdminByEmail(email,(data)=>{
+          if (data && data[0].Success){
+            if (data[0].RowsCount!=0){
+            res.status(200).send(activationHTML('Exams system - Activation Success',
+            'Your admin account has been activated successfully!'));
+            }
+            else{
+              res.status(200).send(activationHTML('Exams system - Activation Success',
+            'Your admin account has already been activated.'));
+            }
+          }
+          else{
+            res.status(400).send(activationHTML('Exams system - Activation Error',
+            'An error occured, please try again later or log in through the system again.'));
+          }
+      });
+    
+  }
+  catch (error){
+    if (error instanceof jwt.TokenExpiredError){
+      res.status(400).send(activationHTML('Exams system - Activation Error',
+      'Link is expired, please sign in through the system again for a new link.'));
+    }else{
+      res.status(400).send(activationHTML('Exams system - Activation Error',
+      'An error occured, please try again later or log in through the system again.'));
+    }
+  }
+    
+
+});
+
+router.post('/admin-register',(req,res)=>{
+  const email = req.body.email;
+  const password=req.body.password;
+  const name=req.body.name;
+  
+  if (!(email && password))
+    res.status(400).send('One of the required fields is missing');
+  else {
+    authManager.getAdminByEmail(email,(data) =>{
+      if (!data||data.Error) 
+        res.status(500).end();
+      else if (data && data[0]){
+        res.status(400).send({ message: 'Email already exists'});
+      }
+      else{
+        const passwordHash=bcrypt.hashSync(password,config.passwordhashSalt);
+        authManager.adminRegister(email,passwordHash,name,(data)=>{
+          if (data && data.error) {
+            res.status(500).end();
+          }
+          
+          mailer.sendAdminUserActivationLink(email,req);
+          res.status(200).send();
+        });
+      }
+    });
   }
 });
+
+router.post('/admin-getemail-by-resetpassword-token',(req,res)=>{
+  const rawToken = req.body.token;
+  
+  if (!rawToken)
+    res.status(400).send('No token provided');
+  else {
+    try{
+      const decodedToken = jwt.verify(rawToken,config.adminUserResetPasswordSecret);
+      res.status(200).send({email: decodedToken.sub});
+    }
+    catch (error){
+        res.status(401).send('Invalid token');
+    }
+  }
+});
+
+router.post('/admin-send-resetpassword-link',(req,res)=>{
+  console.log("admin-send-resetpassword-link called");
+  const email=req.body.email;
+  
+  if (!email)
+    res.status(400).send('No email provided');
+  else {
+      //for security reasons, dont send links to emails that do not exit in the database,
+      //and send a success message anyway
+      
+      authManager.getAdminByEmail(email,(data)=>{
+        console.log(data);
+        if (data && data[0])
+          mailer.sendResetPasswordLink(email);
+        res.status(200).send();
+      });
+    }
+});
+
+router.post('/admin-reset-password',(req,res)=>{
+  const rawToken = req.body.token;
+  const password=req.body.password;
+  console.log({password});
+  if (!(rawToken && password))
+    res.status(400).send('No token or no password provided');
+  else {
+    try{
+      const decodedToken = jwt.verify(rawToken,config.adminUserResetPasswordSecret);
+      const email = decodedToken.sub;
+      const passwordHash=bcrypt.hashSync(password,config.passwordhashSalt);
+      authManager.getAdminByEmail(email,(data) =>{
+        if (!data||data.Error) 
+          res.status(500).end();
+        else if (data && data[0]){
+          authManager.adminResetPassword(email,passwordHash,(data)=>{
+            console.log({password});
+            console.log(data);
+            if (data && data.error) {
+              
+              res.status(500).end();
+            }else{
+              res.status(200).send();
+            }
+          });
+        }
+        else{
+           //Do not tell client that the email does not exist
+           res.status(200).send();
+        }
+      });
+    }
+    catch (error){
+        res.status(401).send('Invalid token');
+    }
+  }
+});
+
+router.post('/admin-refresh-token',(req,res)=>{
+  const oldRawToken = req.body.token;
+  if (!oldRawToken)
+    res.status(400).send('No token provided');
+  else {
+    try{
+      const oldDecodedToken = jwt.verify(oldRawToken,config.adminUserResetPasswordSecret);
+      const email = oldDecodedToken.sub;
+
+      const newToken = jwt.sign({}, config.jwt_secret, {
+        //algorithm: 'RS256',
+        expiresIn: config.adminTokenExpiresIn,
+        subject: email.toString()
+      });
+      res.status(200).send({newToken});
+    }
+    catch (error){
+        res.status(401).send('Invalid token');
+    }
+  }
+});
+
+
+router.post('/admin-is-token-valid',(req,res)=>{
+  console.log(req.body);
+  const rawToken = req.body.token;
+  if (!rawToken)
+    res.status(200).send(false);
+  else {
+    try{
+      const decodedToken = jwt.verify(rawToken,config.jwt_secret);
+      res.status(200).send(true);
+    }
+    catch (error){
+        res.status(200).send(false);
+    }
+  }
+});
+
+
 
 module.exports = router;
