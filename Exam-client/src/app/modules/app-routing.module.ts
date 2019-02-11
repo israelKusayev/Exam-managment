@@ -7,9 +7,14 @@ import { ManageQuestionsComponent } from '../components/admin/manage-questions/m
 import { ManageTestsComponent } from '../components/admin/manage-tests/manage-tests.component';
 import { ReportsComponent } from '../components/admin/reports/reports.component';
 import { CreateTestComponent } from '../components/admin/create-test/create-test.component';
+import { UserLoginComponent } from '../components/user/user-login/user-login.component';
+import { UserSignupComponent } from '../components/user/user-signup/user-signup.component';
+
 import { AdminAuthGuardService as AdminAuthGuard } from '../services/auth-guard.service';
 
 const routes: Routes = [
+  { path: 'user-signup', component: UserSignupComponent },
+  { path: 'user-login', component: UserLoginComponent },
   { path: 'login', component: AdminLoginComponent },
   { path: 'admin-register', component: AdminRegisterComponent },
   { path: 'admin-reset-password/:token', component: AdminResetPasswordComponent },

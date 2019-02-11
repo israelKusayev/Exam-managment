@@ -25,6 +25,7 @@ import { AppErrorHandler } from './helpers/app-error-handler';
 
 import { AuthenticationService } from './services/authentication.service';
 import { LanguageService } from './services/language.service';
+import { UserSignupComponent } from './components/user/user-signup/user-signup.component';
 
 
 
@@ -39,7 +40,8 @@ import { LanguageService } from './services/language.service';
     NavbarComponent,
     CreateTestComponent,
     AdminRegisterComponent,
-    AdminResetPasswordComponent
+    AdminResetPasswordComponent,
+    UserSignupComponent
   ],
   imports: [
     BrowserModule,

@@ -8,7 +8,76 @@ const authManager=require('../db/authManager');
 const mailer=require('../helpers/mailer');
 
 const router = express.Router();
-// { email, password }
+
+
+router.post('/student-login', (req, res) => {
+  const email = req.body.email;
+  if (email)
+  {
+    authManager.getStudentByEmail(email,(data) => {
+      console.log(email);
+      console.log(data);
+      if (!data || data.error) {
+        res.status(500).end();
+      }
+      else if (data && data[0]){
+          const dbUser=data[0];
+          const user = {
+            email: dbUser.Email,
+            name: null,
+            firstName:  dbUser.FirstName,
+            lastName:  dbUser.LastName,
+            isActive: true,
+            isAdmin: false,
+            phone:  dbUser.Phone
+          }
+          console.log(user);
+          res.status(200).send({user});
+        }else{
+          res.status(400).send({ message: 'Incorrect email' });
+        }
+        
+      });
+  }
+  else
+    res.status(400).send({ message: 'Email or password is not provided' });
+  
+});
+
+router.post('/student-signup', (req, res) => {
+  const user = req.body.user;
+  if (user)
+  {
+    authManager.studentExists(user.email,(data)=>{
+      if (data && data[0].Result==0){
+        authManager.studentSignup(user.email,user.firstName,user.lastName,user.phone,(data) => {
+          if (data && data[0].Success){
+              const ret = {
+                email: user.Email,
+                name: null,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                isActive: true,
+                isAdmin: false,
+                phone: user.phone
+              }
+              res.status(200).send({user: ret});
+          }
+          else{
+            res.status(500).end();
+          }
+        });
+      }else{
+        res.status(400).send({message: 'User already exists'});
+      }
+    });
+    
+  }
+  else
+    res.status(400).send({ message: 'No input provided' });
+  
+});
+
 router.post('/admin-login', (req, res) => {
   const email = req.body.email;
   const password=req.body.password;
@@ -52,8 +121,6 @@ router.post('/admin-login', (req, res) => {
 });
 
 router.get('/activate-admin-account',(req,res)=>{
-  console.log('activate-admin-account');
-  const activationSecret = config.adminUserActivationSecret;
   const rawToken = req.query.token;
 
   const activationHTML=function(title,message){
@@ -106,7 +173,7 @@ router.post('/admin-register',(req,res)=>{
   const name=req.body.name;
   
   if (!(email && password))
-    res.status(400).send('One of the required fields is missing');
+    res.status(400).send({message: 'One of the required fields is missing'});
   else {
     authManager.getAdminByEmail(email,(data) =>{
       if (!data||data.Error) 
@@ -133,7 +200,7 @@ router.post('/admin-getemail-by-resetpassword-token',(req,res)=>{
   const rawToken = req.body.token;
   
   if (!rawToken)
-    res.status(400).send('No token provided');
+    res.status(400).send({message: 'No token provided'});
   else {
     try{
       const decodedToken = jwt.verify(rawToken,config.adminUserResetPasswordSecret);
@@ -146,17 +213,15 @@ router.post('/admin-getemail-by-resetpassword-token',(req,res)=>{
 });
 
 router.post('/admin-send-resetpassword-link',(req,res)=>{
-  console.log("admin-send-resetpassword-link called");
   const email=req.body.email;
   
   if (!email)
-    res.status(400).send('No email provided');
+    res.status(400).send({message: 'No email provided'});
   else {
       //for security reasons, dont send links to emails that do not exit in the database,
       //and send a success message anyway
       
       authManager.getAdminByEmail(email,(data)=>{
-        console.log(data);
         if (data && data[0])
           mailer.sendResetPasswordLink(email);
         res.status(200).send();
@@ -167,9 +232,8 @@ router.post('/admin-send-resetpassword-link',(req,res)=>{
 router.post('/admin-reset-password',(req,res)=>{
   const rawToken = req.body.token;
   const password=req.body.password;
-  console.log({password});
   if (!(rawToken && password))
-    res.status(400).send('No token or no password provided');
+    res.status(400).send({message: 'No token or no password provided'});
   else {
     try{
       const decodedToken = jwt.verify(rawToken,config.adminUserResetPasswordSecret);
@@ -180,8 +244,6 @@ router.post('/admin-reset-password',(req,res)=>{
           res.status(500).end();
         else if (data && data[0]){
           authManager.adminResetPassword(email,passwordHash,(data)=>{
-            console.log({password});
-            console.log(data);
             if (data && data.error) {
               
               res.status(500).end();
@@ -205,7 +267,7 @@ router.post('/admin-reset-password',(req,res)=>{
 router.post('/admin-refresh-token',(req,res)=>{
   const oldRawToken = req.body.token;
   if (!oldRawToken)
-    res.status(400).send('No token provided');
+    res.status(400).send({message: 'No token provided'});
   else {
     try{
       const oldDecodedToken = jwt.verify(oldRawToken,config.adminUserResetPasswordSecret);
@@ -226,7 +288,6 @@ router.post('/admin-refresh-token',(req,res)=>{
 
 
 router.post('/admin-is-token-valid',(req,res)=>{
-  console.log(req.body);
   const rawToken = req.body.token;
   if (!rawToken)
     res.status(200).send(false);

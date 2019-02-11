@@ -1,17 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 import { User } from 'src/app/models/User';
 import { BadInput } from 'src/app/exceptions/bad-input';
-import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-user-login',
-  templateUrl: './user-login.component.html',
-  styleUrls: ['./user-login.component.scss']
+  selector: 'app-user-signup',
+  templateUrl: './user-signup.component.html',
+  styleUrls: ['./user-signup.component.scss']
 })
-export class UserLoginComponent implements OnInit {
+export class UserSignupComponent implements OnInit {
+
   email: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
   showSpinner = false;
   success: boolean;
   errorMessage: string;
@@ -26,7 +30,7 @@ export class UserLoginComponent implements OnInit {
   }
 
 
-login(): void {
+signUp(): void {
   this.showSpinner = false;
   this.errorMessage = null;
   this.success = false;
@@ -34,7 +38,14 @@ login(): void {
 
   this.showSpinner = true;
 
-  this.authService.studentLogin(this.email).subscribe((data) => {
+  const user = new User();
+  user.email = this.email;
+  user.firstName = this.firstName;
+  user.lastName = this.lastName;
+  user.phone = this.phone ;
+
+
+  this.authService.studentSignUp(user).subscribe((data) => {
     this.showSpinner = false;
     this.success = true;
     }, err => {
@@ -48,4 +59,3 @@ login(): void {
     });
   }
 }
-

@@ -16,3 +16,17 @@ exports.adminRegister=function(email,passwordHash,name, callback) {
 exports.adminResetPassword=function(email,passwordHash, callback) {
   baseRepository.executeInDB('sp_ManagerResetPassword', [{Email:email},{PasswordHash:passwordHash}], callback);
 }
+
+
+exports.studentSignup=function(email,firstName,lastName,phone, callback) {
+  baseRepository.executeInDB('sp_StudentSignup', [{Email:email},{FirstName:firstName},
+    {LastName:lastName},{Phone:phone}], callback);
+}
+
+exports.studentExists=function(email, callback) {
+  baseRepository.executeInDB('sp_StudentExists', [{Email:email}], callback);
+}
+
+exports.getStudentByEmail=function(email, callback) {
+  baseRepository.executeInDB('sp_getStudentByEmail', [{Email:email}], callback);
+}

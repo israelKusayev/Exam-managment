@@ -11,6 +11,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   providedIn: 'root'
 })
 export class AuthenticationService extends DataService {
+
   adminResetPassword(token: string, password: string): any {
     return this.http.post<any>(`${environment.authUrl}/admin-reset-password`,
     {token, password}, {headers: this.getHeaders(false)});
@@ -33,19 +34,36 @@ export class AuthenticationService extends DataService {
    }
 
 
-   studentSignUp(student: User) {
+  studentLogin(email: string): any {
+    return this.http.post<any>(`${environment.authUrl}/student-login`,
+    {email}, {headers: this.getHeaders(false)}).pipe(
+      catchError((error: HttpErrorResponse, caught) => {console.log('error: '); console.log(error); return this.handleError(error); }
+      )
+    ).pipe(map(data => {
+      console.log('student:');
+      console.log(data.user);
+      localStorage.setItem(environment.currentUserStorageKey, data.user);
+    }));
+  }
 
-    return this.http.post<User>(`${environment.authUrl}/student-signup`, JSON.stringify(student),
-    {headers: this.getHeaders(false)})
-    .pipe(map(user => {
+   studentSignUp(student: User): Observable<any> {
+
+    return this.http.post<any>(`${environment.authUrl}/student-signup`, {user: student},
+    {headers: this.getHeaders(false)}).pipe(
+      catchError((error: HttpErrorResponse, caught) => {console.log('error: '); console.log(error); return this.handleError(error); }
+      )
+    )
+    .pipe(map(data => {
 
         // login successful if there's a jwt token in the response
-        if (user) {
-            user.isAdmin = false;
+        if (data.user) {
+            data.user.isAdmin = false;
+            data.user.isActive = true;
+            console.log(data.user);
             // store user details in local storage to keep user logged in between page refreshes
-            localStorage.setItem(environment.currentUserStorageKey, JSON.stringify(user));
+            localStorage.setItem(environment.currentUserStorageKey, JSON.stringify(data.user));
         }
-        return user;
+        return data.user;
     }));
    }
 /*
