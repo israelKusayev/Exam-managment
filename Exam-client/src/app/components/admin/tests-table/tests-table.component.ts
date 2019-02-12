@@ -16,7 +16,7 @@ export class TestsTableComponent implements OnInit {
     'lastUpdate',
     'status'
   ];
-  // displayedColumns: string[] = ['id', 'name', 'QuestionCount', 'LastUpdate','buttons'];
+
   dataSource = new MatTableDataSource<Test>(ELEMENT_DATA);
 
   @ViewChild(MatSort) sort: MatSort;

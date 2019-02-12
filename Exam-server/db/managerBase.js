@@ -54,15 +54,28 @@ sp =  [
 
 */
 
+/**
+ *
+ * @param {[{name:string,inputs:{inputName:string}[],returnValue:{valueName:string,spNumber:number,returnValueName:string}}]} sp
+ * @param {Function} callback
+ */
 function executeMultipleSp(sp, callback) {
   const transaction = new sql.Transaction(dbPool);
   transaction.begin(err => {
+    // transaction start
     if (err) console.log(err);
 
     executeInTransaction(transaction, sp, 0, callback);
   });
 }
 
+/**
+ *
+ * @param {sql.Transaction} transaction Transaction instance
+ * @param {[{name:string,inputs:{inputName:string}[],returnValue:{valueName:string,spNumber:number,returnValueName:string}}]} sp
+ * @param {number} index Current sp
+ * @param {Function} callback
+ */
 function executeInTransaction(transaction, sp, index, callback) {
   let req = new sql.Request(transaction);
 
@@ -80,12 +93,13 @@ function executeInTransaction(transaction, sp, index, callback) {
     const returnValue = sp[i].returnValue;
 
     if (returnValue && returnValue.spNumber === index) {
-      req.input(returnValue.valueName, returnValue.value);
+      req.input(returnValue.valueName, returnValue['value']);
     }
   }
 
   req.execute(currentSp.name, (err, result) => {
     if (err) {
+      // cancel this transaction
       transaction.rollback();
       console.log(err);
 
@@ -97,6 +111,7 @@ function executeInTransaction(transaction, sp, index, callback) {
     }
 
     if (sp.length - 1 === index) {
+      // transaction success
       transaction.commit();
       console.log('commit');
 
