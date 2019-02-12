@@ -1,16 +1,18 @@
 export class CreateTest {
   language: number;
-  testName = '';
   passingGrade: number;
-  showAnswres = false;
-  header = '';
-  successMessage = '';
-  failureMessage = '';
-  certificate = '';
-  formEmail = '';
-  passingMessageSubject = '';
-  passingMessageBody = '';
-  failingMessageSubject = '';
-  failingMessageBody = '';
+  formEmail: string;
+  testName: string;
   sendCompletionMessage = false;
+  showAnswres = false;
+  header: string;
+  successMessage: string;
+  failureMessage: string;
+  certificate: string;
+  passingMessageSubject: string;
+  passingMessageBody: string;
+  failingMessageSubject: string;
+  failingMessageBody: string;
+  subjectId = 2;
+  creatorEmail = 'moshe@gmail.com';
 }

@@ -18,13 +18,25 @@ import { UnauthorizedError } from '../exceptions/unauthroized-error';
 export class DataService {
   constructor(private url: string, protected http: HttpClient) {}
 
-  getHeaders(jwt: boolean): HttpHeaders {
+  private getHeaders(jwt: boolean): HttpHeaders {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json');
     if (jwt) {
        headers.append(environment.auth_headerKey, localStorage.getItem(environment.tokenStorageKey));
     }
     return headers;
+  }
+
+  getOne(urlParameterName: string, jwt = true) {
+    return this.http
+      .get<any[]>(this.url + '/' + urlParameterName, {
+        headers: this.getHeaders(jwt)
+      })
+      .pipe(
+        catchError((error: HttpErrorResponse, caught) =>
+          this.handleError(error)
+        )
+      );
   }
 
   getAll(jwt = true) {

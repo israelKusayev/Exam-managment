@@ -11,15 +11,31 @@ const schema = {
   certificate: joi.string().required(),
   sendCompletionMessage: joi.boolean().required(),
 
-  formEmail: joi.string(),
+  formEmail: joi
+    .string()
+    .allow('')
+    .optional(),
 
-  passingMessageSubject: joi.string(),
-  passingMessageBody: joi.string(),
-  failingMessageSubject: joi.string(),
-  failingMessageBody: joi.string()
+  passingMessageSubject: joi
+    .string()
+    .allow('')
+    .optional(),
+
+  passingMessageBody: joi
+    .string()
+    .allow('')
+    .optional(),
+  failingMessageSubject: joi
+    .string()
+    .allow('')
+    .optional(),
+  failingMessageBody: joi
+    .string()
+    .allow('')
+    .optional()
 };
 function validateCreateTest(test) {
-  return joi.validate(test, schema);
+  return joi.validate(test, schema, { allowUnknown: true });
 }
 
 module.exports = {

@@ -1,9 +1,10 @@
 import { ToastrService } from 'ngx-toastr';
-import { BadInput } from './../../../exceptions/bad-input';
 import { CreateTest } from './../../../models/create-test';
 import { LanguageService } from './../../../services/language.service';
-import { Component, OnInit } from '@angular/core';
-import { TestsService } from 'src/app/services/tests.service';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Location } from '@angular/common';
+import { CertificatesService } from 'src/app/services/certificates.service';
 
 @Component({
   selector: 'app-create-test',
@@ -11,8 +12,12 @@ import { TestsService } from 'src/app/services/tests.service';
   styleUrls: ['./create-test.component.scss']
 })
 export class CreateTestComponent implements OnInit {
-  languages: any[];
+  @Input() model: CreateTest;
+  @Output() onSave = new EventEmitter();
 
+  selectedQuestions: number[];
+  languages: any[];
+  certificates: string[];
   predifindTemplates: string[] = [
     '@TestName@',
     '@FirstName@',
@@ -24,29 +29,37 @@ export class CreateTestComponent implements OnInit {
     '@CertificateUrl@'
   ];
 
-  model = new CreateTest();
   constructor(
     private languageService: LanguageService,
-    private testsSerivce: TestsService,
-    private toast: ToastrService
+    private certificatesService: CertificatesService,
+    private toast: ToastrService,
+    public location: Location
   ) {}
 
   ngOnInit() {
     this.languageService.getAll().subscribe(languages => {
       this.languages = languages;
     });
+
+    this.certificatesService.getAll().subscribe(certificates => {
+      this.certificates = certificates;
+    });
   }
 
-  submit() {
-    this.testsSerivce.create(this.model).subscribe(
-      data => {
-        console.log(data);
-      },
-      err => {
-        if (err instanceof BadInput) {
-          this.toast.error(err.error);
-        }
+  onQuestionSelect(selectedQuestions: any[]) {
+    this.selectedQuestions = selectedQuestions;
+  }
+
+  submit(form: NgForm): void {
+    if (form.valid) {
+      if (!this.selectedQuestions) {
+        this.toast.warning('You must select at least one question');
+        return;
       }
-    );
+      this.onSave.emit({
+        details: this.model,
+        questions: this.selectedQuestions
+      });
+    }
   }
 }

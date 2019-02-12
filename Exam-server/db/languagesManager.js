@@ -1,3 +1,4 @@
+// @ts-check
 const baseRepository = require('./managerBase');
 const sql = require('mssql');
 

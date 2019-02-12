@@ -1,3 +1,5 @@
+import { EditTestComponent } from './../components/admin/edit-test/edit-test.component';
+import { AddTestComponent } from './../components/admin/add-test/add-test.component';
 import { AdminLoginComponent } from '../components/admin/admin-login/admin-login.component';
 import { AdminRegisterComponent } from '../components/admin/admin-register/admin-register.component';
 import { AdminResetPasswordComponent } from '../components/admin/admin-reset-password/admin-reset-password.component';
@@ -11,6 +13,7 @@ import { UserLoginComponent } from '../components/user/user-login/user-login.com
 import { UserSignupComponent } from '../components/user/user-signup/user-signup.component';
 
 import { AdminAuthGuardService as AdminAuthGuard } from '../services/auth-guard.service';
+import { NotFoundComponent } from '../components/not-found/not-found.component';
 
 const routes: Routes = [
   { path: 'user-signup', component: UserSignupComponent },
@@ -22,7 +25,12 @@ const routes: Routes = [
   { path: 'manage-tests/create', component: CreateTestComponent, canActivate: [AdminAuthGuard] },
   { path: 'manage-tests', component: ManageTestsComponent, canActivate: [AdminAuthGuard] },
   { path: 'reports', component: ReportsComponent, canActivate: [AdminAuthGuard] },
-
+  { path: 'manage-questions', component: ManageQuestionsComponent },
+  { path: 'manage-tests/edit/:id', component: EditTestComponent },
+  { path: 'manage-tests/add', component: AddTestComponent },
+  { path: 'manage-tests', component: ManageTestsComponent },
+  { path: 'reports', component: ReportsComponent },
+  { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({
