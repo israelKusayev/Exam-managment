@@ -4,7 +4,9 @@
     <div class="test-details-container">
       <h2 class="test-details-header">General Test Details</h2>
       <hr />
-      <div>Field of study: <b>dev</b></div>
+      <div>
+        Field of study: <b>{{ subjectService.currentSubject.name }}</b>
+      </div>
 
       <mat-form-field>
         <mat-select

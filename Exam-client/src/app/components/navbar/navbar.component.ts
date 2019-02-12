@@ -1,3 +1,4 @@
+import { SubjectService } from './../../services/subject.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
@@ -7,14 +8,14 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  constructor(
+    public authenticationService: AuthenticationService,
+    public subjectService: SubjectService
+  ) {}
 
-  constructor(private authenticationService: AuthenticationService) { }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   logout(): void {
     this.authenticationService.logout();
   }
-
 }

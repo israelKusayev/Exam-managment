@@ -14,22 +14,63 @@ import { UserSignupComponent } from '../components/user/user-signup/user-signup.
 
 import { AdminAuthGuardService as AdminAuthGuard } from '../services/auth-guard.service';
 import { NotFoundComponent } from '../components/not-found/not-found.component';
+import { OrganizationComponent } from '../components/admin/organization/organization.component';
 
 const routes: Routes = [
   { path: 'user-signup', component: UserSignupComponent },
   { path: 'user-login', component: UserLoginComponent },
   { path: 'login', component: AdminLoginComponent },
   { path: 'admin-register', component: AdminRegisterComponent },
-  { path: 'admin-reset-password/:token', component: AdminResetPasswordComponent },
-  { path: 'manage-questions', component: ManageQuestionsComponent, canActivate: [AdminAuthGuard] },
-  { path: 'manage-tests/create', component: CreateTestComponent, canActivate: [AdminAuthGuard] },
-  { path: 'manage-tests', component: ManageTestsComponent, canActivate: [AdminAuthGuard] },
-  { path: 'reports', component: ReportsComponent, canActivate: [AdminAuthGuard] },
-  { path: 'manage-questions', component: ManageQuestionsComponent },
-  { path: 'manage-tests/edit/:id', component: EditTestComponent },
-  { path: 'manage-tests/add', component: AddTestComponent },
-  { path: 'manage-tests', component: ManageTestsComponent },
-  { path: 'reports', component: ReportsComponent },
+  {
+    path: 'admin-reset-password/:token',
+    component: AdminResetPasswordComponent
+  },
+  {
+    path: 'manage-questions',
+    component: ManageQuestionsComponent,
+    canActivate: [AdminAuthGuard]
+  },
+  {
+    path: 'manage-tests/create',
+    component: CreateTestComponent,
+    canActivate: [AdminAuthGuard]
+  },
+  {
+    path: 'manage-tests',
+    component: ManageTestsComponent,
+    canActivate: [AdminAuthGuard]
+  },
+  {
+    path: 'reports',
+    component: ReportsComponent,
+    canActivate: [AdminAuthGuard]
+  },
+  {
+    path: 'manage-questions',
+    component: ManageQuestionsComponent,
+    canActivate: [AdminAuthGuard]
+  },
+  {
+    path: 'manage-tests/edit/:id',
+    component: EditTestComponent,
+    canActivate: [AdminAuthGuard]
+  },
+  {
+    path: 'manage-tests/add',
+    component: AddTestComponent,
+    canActivate: [AdminAuthGuard]
+  },
+  {
+    path: 'manage-tests',
+    component: ManageTestsComponent,
+    canActivate: [AdminAuthGuard]
+  },
+  {
+    path: 'reports',
+    component: ReportsComponent,
+    canActivate: [AdminAuthGuard]
+  },
+  { path: '', pathMatch: 'prefix', component: OrganizationComponent },
   { path: '**', component: NotFoundComponent }
 ];
 

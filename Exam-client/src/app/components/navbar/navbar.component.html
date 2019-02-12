@@ -1,6 +1,10 @@
-<nav mat-tab-nav-bar backgroundColor="primary">
+<nav
+  *ngIf="authenticationService.loggedInUser() && subjectService.currentSubject"
+  mat-tab-nav-bar
+  backgroundColor="primary"
+>
   <a mat-tab-link routerLink="manage-questions">Manage Questions </a>
   <a mat-tab-link routerLink="manage-tests">Manage Tests </a>
   <a mat-tab-link routerLink="reports">Reports </a>
-  <a mat-tab-link href='javascript:void(0)' (click)='logout();'> logout </a>
+  <a mat-tab-link (click)="logout()"> logout </a>
 </nav>

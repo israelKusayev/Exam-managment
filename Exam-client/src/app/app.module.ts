@@ -1,3 +1,4 @@
+import { OrganizationService } from './services/organization.service';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
@@ -14,6 +15,7 @@ import { TestsService } from './services/tests.service';
 import { AuthenticationService } from './services/authentication.service';
 import { LanguageService } from './services/language.service';
 import { QuestionsService } from './services/questions.service';
+import { SubjectService } from './services/subject.service';
 
 import { AppComponent } from './app.component';
 import { ManageQuestionsComponent } from './components/admin/manage-questions/manage-questions.component';
@@ -35,6 +37,7 @@ import { EditTestComponent } from './components/admin/edit-test/edit-test.compon
 
 import { AppErrorHandler } from './helpers/app-error-handler';
 import { TagsPipe } from './helpers/tags.pipe';
+import { OrganizationComponent } from './components/admin/organization/organization.component';
 
 @NgModule({
   declarations: [
@@ -48,14 +51,15 @@ import { TagsPipe } from './helpers/tags.pipe';
     CreateTestComponent,
     AdminRegisterComponent,
     AdminResetPasswordComponent,
-    UserSignupComponent
+    UserSignupComponent,
     QuestionTableComponent,
     TagsPipe,
     AddTestComponent,
     ShowQuestionComponent,
     TestsTableComponent,
     NotFoundComponent,
-    EditTestComponent
+    EditTestComponent,
+    OrganizationComponent
   ],
   entryComponents: [ShowQuestionComponent],
   imports: [
@@ -75,7 +79,9 @@ import { TagsPipe } from './helpers/tags.pipe';
     AuthenticationService,
     QuestionsService,
     AnswerService,
-    CertificatesService
+    CertificatesService,
+    OrganizationService,
+    SubjectService
   ],
   bootstrap: [AppComponent]
 })

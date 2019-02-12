@@ -1,0 +1,20 @@
+<div class="accordion">
+  <mat-accordion class="accordion">
+    <mat-expansion-panel
+      (opened)="handleOrganizationSelect(organization.organizationId)"
+      *ngFor="let organization of organizations"
+    >
+      <mat-expansion-panel-header>
+        {{ organization.name }}
+      </mat-expansion-panel-header>
+
+      <button
+        mat-button
+        (click)="handleSubjectSelect(subject)"
+        *ngFor="let subject of Subjects"
+      >
+        {{ subject.name }}
+      </button>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

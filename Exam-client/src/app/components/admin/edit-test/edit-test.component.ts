@@ -2,6 +2,8 @@ import { CreateTest } from './../../../models/create-test';
 import { Component, OnInit } from '@angular/core';
 import { TestsService } from 'src/app/services/tests.service';
 import { ActivatedRoute } from '@angular/router';
+import { SubjectService } from 'src/app/services/subject.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-edit-test',
@@ -9,11 +11,16 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./edit-test.component.scss']
 })
 export class EditTestComponent implements OnInit {
-  test = new CreateTest();
   constructor(
     private testsService: TestsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private subjectService: SubjectService,
+    private authService: AuthenticationService
   ) {}
+  test = new CreateTest(
+    this.subjectService.currentSubject.id,
+    this.authService.loggedInUser().email
+  );
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');

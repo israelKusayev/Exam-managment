@@ -1,6 +1,9 @@
 <div class="container">
   <div class="header">
-    <h1>Available Test for <span color="accent">Development</span></h1>
+    <h1>
+      Available Test for
+      <span color="accent">{{ subjectService.currentSubject.name }}</span>
+    </h1>
     <button routerLink="add" mat-raised-button color="accent">
       Create a Test
     </button>
