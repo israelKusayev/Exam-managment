@@ -1,6 +1,8 @@
+import { SubjectService } from './../../../services/subject.service';
+import { TestsService } from 'src/app/services/tests.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort, MatTableDataSource, MatPaginator } from '@angular/material';
-import * as moment from 'moment';
+
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-tests-table',
@@ -17,14 +19,24 @@ export class TestsTableComponent implements OnInit {
     'status'
   ];
 
-  dataSource = new MatTableDataSource<Test>(ELEMENT_DATA);
+  dataSource = new MatTableDataSource<Test>([]);
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private testsService: TestsService,
+    private subjectService: SubjectService
+  ) {}
 
   ngOnInit() {
+    this.testsService
+      .getAll(true, `?subjectId=${this.subjectService.subjectId}`)
+      .subscribe(data => {
+        this.dataSource.data = data;
+      });
+
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.dataSource.filterPredicate = (data, filter) => {
@@ -44,7 +56,7 @@ export class TestsTableComponent implements OnInit {
 
   edit(id: number) {
     console.log(id);
-    this.router.navigate(['manage-tests/edit/', 27]);
+    this.router.navigate(['manage-tests/edit/', id]);
   }
 
   applyFilter(filterValue: string) {
@@ -58,36 +70,3 @@ export interface Test {
   questionsCount: number;
   lastUpdate: string;
 }
-
-const ELEMENT_DATA: Test[] = [
-  {
-    id: 1,
-    name: 'Hydrogen',
-    questionsCount: 1,
-    lastUpdate: moment().format('DD/MM/YYYY')
-  },
-  {
-    id: 2,
-    name: 'Helium abc def israel kusayev',
-    questionsCount: 4,
-    lastUpdate: 'He'
-  },
-  {
-    id: 3,
-    name: 'Lithium abc def israel kusayev',
-    questionsCount: 6,
-    lastUpdate: 'Li'
-  },
-  {
-    id: 4,
-    name: 'Beryllium abc def israel',
-    questionsCount: 9,
-    lastUpdate: 'Be'
-  },
-  { id: 5, name: 'Boron', questionsCount: 10, lastUpdate: 'B' },
-  { id: 6, name: 'Carbon', questionsCount: 12, lastUpdate: 'C' },
-  { id: 7, name: 'Nitrogen', questionsCount: 14, lastUpdate: 'N' },
-  { id: 8, name: 'Oxygen', questionsCount: 15, lastUpdate: 'O' },
-  { id: 9, name: 'Fluorine', questionsCount: 18, lastUpdate: 'F' },
-  { id: 10, name: 'Neon', questionsCount: 20, lastUpdate: 'Ne' }
-];

@@ -1,6 +1,5 @@
 const baseRepository = require('./managerBase');
 
-
 function createTestInputs(test) {
   return [
     { language: test.language },
@@ -16,7 +15,6 @@ function createTestInputs(test) {
     { subjectId: test.subjectId },
     { creatorEmail: test.creatorEmail }
   ];
-
 }
 
 function passingEmailTemplateInputs(test) {
@@ -138,7 +136,16 @@ function getTest(id, callback) {
   baseRepository.executeInDB('sp_GetTest', [{ id: id }], callback);
 }
 
+function getTests(subjectId, callback) {
+  baseRepository.executeInDB(
+    'sp_GetTests',
+    [{ subjectId: subjectId }],
+    callback
+  );
+}
+
 module.exports = {
   createTest: createTest,
-  getTest: getTest
+  getTest: getTest,
+  getTests: getTests
 };

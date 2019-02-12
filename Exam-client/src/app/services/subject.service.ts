@@ -11,5 +11,31 @@ export class SubjectService extends DataService {
   constructor(httpClient: HttpClient) {
     super(environment.subjectUrl, httpClient);
   }
-  currentSubject: SubjectData;
+  private _subjectKey = 'currentSubject';
+
+  get subjectId(): number {
+    const subject = localStorage.getItem(this._subjectKey);
+
+    if (!subject) {
+      return null;
+    }
+    return +JSON.parse(subject).id;
+  }
+
+  get subjectName(): string {
+    const subject = localStorage.getItem(this._subjectKey);
+
+    if (!subject) {
+      return null;
+    }
+    return JSON.parse(subject).name;
+  }
+
+  set currentSubject(value: SubjectData) {
+    if (value === null) {
+      localStorage.removeItem(this._subjectKey);
+    } else {
+      localStorage.setItem(this._subjectKey, JSON.stringify(value));
+    }
+  }
 }

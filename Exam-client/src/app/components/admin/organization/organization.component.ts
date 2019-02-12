@@ -20,6 +20,7 @@ export class OrganizationComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.subjectService.currentSubject = null;
     const user = this.authService.loggedInUser();
 
     this.organizationService.getOne(user.email).subscribe(data => {

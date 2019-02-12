@@ -21,7 +21,7 @@ export class AddTestComponent implements OnInit {
     private authService: AuthenticationService
   ) {}
   test = new CreateTest(
-    this.subjectService.currentSubject.id,
+    this.subjectService.subjectId,
     this.authService.loggedInUser().email
   );
 

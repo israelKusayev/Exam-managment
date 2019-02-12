@@ -4,12 +4,21 @@ const testsManager = require('../db/testsManager');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  res.send('tests');
+  if (!req.query.subjectId) {
+    res.status(400).send({ message: 'subject id was not supplied' });
+  }
+  testsManager.getTests(req.query.subjectId, data => {
+    if (data.error) {
+      res.status(500).end();
+      return;
+    }
+    res.status(200).send(data);
+  });
 });
 
 router.get('/:id', (req, res) => {
   if (!Number.isInteger(parseInt(req.params.id))) {
-    res.status(400).send('invalid id');
+    res.status(400).send({ message: 'invalid id' });
     return;
   }
   testsManager.getTest(req.params.id, data => {

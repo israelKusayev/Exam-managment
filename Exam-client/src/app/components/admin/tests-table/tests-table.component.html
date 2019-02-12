@@ -58,7 +58,7 @@
   <ng-container matColumnDef="lastUpdate">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Update</th>
     <td style="width:10%" mat-cell *matCellDef="let element">
-      {{ element.lastUpdate }}
+      {{ element.lastUpdate | dateFormat }}
     </td>
   </ng-container>
 

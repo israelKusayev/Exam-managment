@@ -34,10 +34,11 @@ import { ShowQuestionComponent } from './components/admin/show-question/show-que
 import { TestsTableComponent } from './components/admin/tests-table/tests-table.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { EditTestComponent } from './components/admin/edit-test/edit-test.component';
+import { OrganizationComponent } from './components/admin/organization/organization.component';
 
 import { AppErrorHandler } from './helpers/app-error-handler';
 import { TagsPipe } from './helpers/tags.pipe';
-import { OrganizationComponent } from './components/admin/organization/organization.component';
+import { DateFormatPipe } from './helpers/date-format.pipe';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { OrganizationComponent } from './components/admin/organization/organizat
     TestsTableComponent,
     NotFoundComponent,
     EditTestComponent,
-    OrganizationComponent
+    OrganizationComponent,
+    DateFormatPipe
   ],
   entryComponents: [ShowQuestionComponent],
   imports: [

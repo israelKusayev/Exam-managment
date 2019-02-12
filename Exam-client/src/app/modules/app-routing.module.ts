@@ -70,7 +70,12 @@ const routes: Routes = [
     component: ReportsComponent,
     canActivate: [AdminAuthGuard]
   },
-  { path: '', pathMatch: 'prefix', component: OrganizationComponent },
+  {
+    path: '',
+    pathMatch: 'prefix',
+    component: OrganizationComponent,
+    canActivate: [AdminAuthGuard]
+  },
   { path: '**', component: NotFoundComponent }
 ];
 

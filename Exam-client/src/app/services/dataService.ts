@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { NotFoundError } from '../exceptions/not-found-error';
 import { AppError } from '../exceptions/app-error';
 import { BadInput } from '../exceptions/bad-input';
@@ -26,7 +26,6 @@ export class DataService {
         environment.auth_headerKey,
         localStorage.getItem(environment.tokenStorageKey)
       );
-      console.log(headers);
     }
     return headers;
   }
@@ -43,9 +42,9 @@ export class DataService {
       );
   }
 
-  getAll(jwt = true) {
+  getAll(jwt = true, queryParams = '') {
     return this.http
-      .get<any[]>(this.url, {
+      .get<any[]>(this.url + queryParams, {
         headers: this.getHeaders(jwt)
       })
       .pipe(
