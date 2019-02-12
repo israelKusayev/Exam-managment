@@ -7,7 +7,10 @@ export const environment = {
   baseApi: 'http://localhost:3000',
   authUrl: 'http://localhost:3000/api/auth',
   testsUrl: 'http://localhost:3000/api/tests',
+  questionsUrl: 'http://localhost:3000/api/questions',
+  answersUrl: 'http://localhost:3000/api/answers',
   languageUrl: 'http://localhost:3000/api/language',
+  certificateUrl: 'http://localhost:3000/api/certificates',
   currentUserStorageKey: 'currentUser',
   tokenStorageKey: 'token'
 };

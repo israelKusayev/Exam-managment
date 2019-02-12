@@ -38,7 +38,22 @@ mat-form-field .mat-form-field {
   color: green;
 }
 
+.text-tell {
+  color: dodgerblue;
+}
+
 .flex-wrap {
   display: flex;
   flex-wrap: wrap;
+}
+
+.mat-row:nth-child(odd) {
+  background-color: whitesmoke;
+}
+.mat-header-cell {
+  color: black;
+}
+
+body {
+  font-size: 1.1em;
 }

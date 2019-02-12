@@ -7,22 +7,37 @@ router.get('/', (req, res) => {
   res.send('tests');
 });
 
+router.get('/:id', (req, res) => {
+  if (!Number.isInteger(parseInt(req.params.id))) {
+    res.status(400).send('invalid id');
+    return;
+  }
+  testsManager.getTest(req.params.id, data => {
+    if (data) {
+      if (data.error) {
+        res.status(500).end();
+        return;
+      }
+      res.status(200).send(data);
+    } else {
+      res.status(400).send('test not found');
+    }
+  });
+});
+
 router.post('/', async (req, res) => {
   try {
-    await validator.validateCreateTest(req.body);
+    await validator.validateCreateTest(req.body.details);
   } catch (error) {
     res.status(400).send({ message: error.details[0].message });
     return;
   }
-  console.log(req.body);
   testsManager.createTest(req.body, data => {
-    if (data.error) {
+    if (data && data.error) {
       res.status(500).end();
     }
-    res.status(200).send(data);
+    res.status(200).end();
   });
-
-  res.status(200).send({ tt: 'tests' });
 });
 
 module.exports = router;

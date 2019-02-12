@@ -1,5 +1,5 @@
-<h1>New Test</h1>
-<form #f="ngForm" (ngSubmit)="submit()">
+<h1 style="margin-left: 1%">New Test</h1>
+<form #f="ngForm" (ngSubmit)="submit(f)">
   <div class="create-test-container">
     <div class="test-details-container">
       <h2 class="test-details-header">General Test Details</h2>
@@ -31,6 +31,7 @@
           name="testName"
           matInput
           placeholder="Test name"
+          maxlength="200"
         />
         <mat-error *ngIf="testName?.errors?.required"
           >Test name is required.</mat-error
@@ -48,7 +49,6 @@
           pattern="([0-9]|[1-8][0-9]|9[0-9]|100)"
           matInput
           placeholder="Passing grade"
-          (keyup)="submit(grade)"
         />
         <mat-error *ngIf="grade?.errors?.required"
           >Passing grade is required.</mat-error
@@ -71,6 +71,7 @@
           cdkTextareaAutosize
           matInput
           placeholder="Header"
+          maxlength="200"
         ></textarea>
         <mat-error *ngIf="header?.errors?.required"
           >Header is required.</mat-error
@@ -113,10 +114,9 @@
           name="certificate"
           placeholder="Certificate templates"
         >
-          <mat-option value="option">English</mat-option>
-          <mat-option value="option">hebrew</mat-option>
-          <mat-option value="option">hebrew</mat-option>
-          <mat-option value="option">hebrew</mat-option>
+          <mat-option *ngFor="let c of certificates" [value]="c">
+            {{ c }}
+          </mat-option>
         </mat-select>
         <mat-error *ngIf="certificate?.errors?.required"
           >Certificate templates is required.</mat-error
@@ -248,12 +248,36 @@
       </div>
     </div>
   </div>
+  <div class="table-container">
+    <h2 class="">
+      Select the questions that you want to include in the test
+    </h2>
+    <br />
+    <div>
+      You can use the tag filter to narrow down the list to a specific subject -
+      Dont worry, filtering won't affect your previous selection
+    </div>
+    <br />
+
+    <app-question-table
+      (select)="onQuestionSelect($event)"
+    ></app-question-table>
+  </div>
   <button
     class="next-btn"
     mat-raised-button
     color="accent"
     [disabled]="!f.valid"
   >
-    Next
+    Save
+  </button>
+
+  <button
+    class="back-btn"
+    mat-raised-button
+    color="accent"
+    (click)="location.back()"
+  >
+    Back
   </button>
 </form>

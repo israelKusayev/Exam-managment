@@ -1,3 +1,11 @@
+@mixin containers {
+  box-shadow: 0 4px 4px #ccc;
+  padding: 0 25px 25px;
+  box-sizing: border-box;
+  border: 2px solid #eee;
+  background-color: whitesmoke;
+}
+
 .create-test-container {
   display: flex;
 }
@@ -9,10 +17,7 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 2px 2px #ccc;
-  padding: 0 25px 25px;
-  box-sizing: border-box;
-  border: 2px solid #eee;
+  @include containers();
 }
 
 .small-input {
@@ -28,6 +33,10 @@
   float: right;
   margin: 1%;
 }
+.back-btn {
+  float: left;
+  margin: 1%;
+}
 .predifindTemplate {
   padding-right: 1%;
   cursor: pointer;
@@ -35,4 +44,12 @@
 .predifindTemplateTitle {
   font-weight: 800;
   margin-bottom: 2%;
+}
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  width: 98%;
+  margin: 50px auto;
+  @include containers();
 }

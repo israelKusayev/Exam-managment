@@ -1,0 +1,47 @@
+table {
+  width: 100%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+th {
+  text-align: center;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.filter-container b {
+  font-size: 1.1em;
+}
+
+.filter {
+  width: 500px;
+  margin: 0 20px;
+}
+
+.test-count {
+  margin-left: auto;
+}
+
+.mat-header-row {
+}
+
+.mat-header-cell {
+  // font-size: 14px;
+  // min-height: 48px;
+  // text-align: center;
+  // border-right: 1px solid rgba(65, 64, 64, 0.507);
+}
+
+.mat-cell {
+  // font-size: 14px;
+  // min-height: 48px;
+  // text-align: center;
+  // border-right: 1px solid rgba(65, 64, 64, 0.507);
+}
