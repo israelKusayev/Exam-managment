@@ -5,7 +5,7 @@ const dbPool = new sql.ConnectionPool(config, err => {
   if (err) console.log("Can't create DB pool", err);
 });
 
-// execute stored procedure
+//executes a stored procedure
 function executeInDB(name, inputs, callback) {
   const req = dbPool.request();
 

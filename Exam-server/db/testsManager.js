@@ -1,5 +1,6 @@
 const baseRepository = require('./managerBase');
 
+
 function createTestInputs(test) {
   return [
     { language: test.language },
@@ -15,6 +16,7 @@ function createTestInputs(test) {
     { subjectId: test.subjectId },
     { creatorEmail: test.creatorEmail }
   ];
+
 }
 
 function passingEmailTemplateInputs(test) {
