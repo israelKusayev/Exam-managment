@@ -22,7 +22,8 @@ function executeInDB(name, inputs, callback) {
       callback({ error: 'Execution error calling ' + name });
     } else {
       console.log(data.recordset);
-      callback(data.recordset);
+      if (data.recordsets.length > 1) callback(data.recordsets);
+      else callback(data.recordset);
     }
   });
 }

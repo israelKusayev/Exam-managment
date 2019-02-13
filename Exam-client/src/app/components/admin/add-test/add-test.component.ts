@@ -14,7 +14,7 @@ import { SubjectService } from 'src/app/services/subject.service';
 })
 export class AddTestComponent implements OnInit {
   constructor(
-    private testsSerivce: TestsService,
+    private testsService: TestsService,
     private toast: ToastrService,
     private router: Router,
     private subjectService: SubjectService,
@@ -26,9 +26,9 @@ export class AddTestComponent implements OnInit {
   );
 
   ngOnInit() {}
-  addTest(test: CreateTest) {
-    this.testsSerivce.create(test).subscribe(
-      data => {
+  addTest(test: any) {
+    this.testsService.create(test).subscribe(
+      () => {
         this.toast.success('test saved successfully 👌');
         this.router.navigate(['/manage-tests']);
       },

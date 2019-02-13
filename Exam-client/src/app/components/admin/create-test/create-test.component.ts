@@ -14,6 +14,7 @@ import { SubjectService } from 'src/app/services/subject.service';
 })
 export class CreateTestComponent implements OnInit {
   @Input() model: CreateTest;
+  @Input() selected: number[];
   @Output() onSave = new EventEmitter();
 
   selectedQuestions: number[];

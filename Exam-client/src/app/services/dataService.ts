@@ -66,9 +66,9 @@ export class DataService {
       );
   }
 
-  update(resource, jwt = true) {
+  update(id: string, resource: any, jwt = true) {
     return this.http
-      .patch(this.url + '/' + resource.id, JSON.stringify(resource), {
+      .put(this.url + '/' + id, JSON.stringify(resource), {
         headers: this.getHeaders(jwt)
       })
       .pipe(

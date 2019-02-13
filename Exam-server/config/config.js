@@ -3,7 +3,7 @@ const config = {
 
   jwt_secret: '3547y6vn33984ytcn98y38cg32984h2gm948ghy2398gym987',
   auth_headerKey: 'x-auth-token',
-  adminTokenExpiresIn: 15 * 60,
+  adminTokenExpiresIn: 2 * 60 * 60,
 
   adminUserActivationSecret: '4u3iuytitoy34oty3ony3n4outy34onutyn34outynotuyoq',
   adminUserActivationExpiresIn: 3 * 60 * 60,
@@ -11,7 +11,7 @@ const config = {
   adminResetPasswordClientActionName: 'admin-reset-password',
   adminUserResetPasswordSecret:
     'efiu4hreiudfvhhoviuerdhfboivajcncjeoriusdfoiu3bgr',
-  adminUserResetPasswordExpiresIn: 100 * 60,
+  adminUserResetPasswordExpiresIn: 10 * 60,
 
   mailerUser: 'noreply.examssystem@gmail.com',
   mailerPassowrd: 'norepexamssys!',

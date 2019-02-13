@@ -41,7 +41,6 @@ export class TestsTableComponent implements OnInit {
     this.dataSource.sort = this.sort;
     this.dataSource.filterPredicate = (data, filter) => {
       const words = filter.split(',');
-      debugger;
       for (let i = 0; i < words.length; i++) {
         if (!data.name.toLowerCase().includes(words[i].toLowerCase())) {
           return false;
@@ -69,4 +68,5 @@ export interface Test {
   name: string;
   questionsCount: number;
   lastUpdate: string;
+  isActive: boolean;
 }
