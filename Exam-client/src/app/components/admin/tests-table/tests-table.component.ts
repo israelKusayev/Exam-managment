@@ -1,6 +1,7 @@
+import { ToastrService } from 'ngx-toastr';
 import { SubjectService } from './../../../services/subject.service';
 import { TestsService } from 'src/app/services/tests.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatSort, MatTableDataSource, MatPaginator } from '@angular/material';
 
 import { Router } from '@angular/router';
@@ -20,14 +21,19 @@ export class TestsTableComponent implements OnInit {
   ];
 
   dataSource = new MatTableDataSource<Test>([]);
-
-  @ViewChild(MatSort) sort: MatSort;
+  sort;
+  @ViewChild(MatSort) set content(content: ElementRef) {
+    this.sort = content;
+    if (this.sort) {this.dataSource.sort = this.sort;    }
+  }
+  // @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private router: Router,
     private testsService: TestsService,
-    private subjectService: SubjectService
+    private subjectService: SubjectService,
+    private toast: ToastrService
   ) {}
 
   ngOnInit() {
@@ -38,6 +44,7 @@ export class TestsTableComponent implements OnInit {
       });
 
     this.dataSource.paginator = this.paginator;
+
     this.dataSource.sort = this.sort;
     this.dataSource.filterPredicate = (data, filter) => {
       const words = filter.split(',');
@@ -56,6 +63,13 @@ export class TestsTableComponent implements OnInit {
   edit(id: number) {
     console.log(id);
     this.router.navigate(['manage-tests/edit/', id]);
+  }
+
+  delete(id: number) {
+    this.testsService.delete(id.toString()).subscribe(data => {
+      this.dataSource.data = this.dataSource.data.filter(d => d.id === id);
+      this.toast.info('test deleted successfully');
+    });
   }
 
   applyFilter(filterValue: string) {

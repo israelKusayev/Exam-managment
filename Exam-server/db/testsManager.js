@@ -11,125 +11,46 @@ function createTestInputs(test) {
     { failureMessage: test.failureMessage },
     { certificate: test.certificate },
     { sendCompletionMessage: test.sendCompletionMessage },
-    { formEmail: test.formEmail },
     { subjectId: test.subjectId },
     { creatorEmail: test.creatorEmail }
   ];
 }
 
-function passingEmailTemplateInputs(test) {
+function completionMessagesInputs(test) {
   return [
-    { Subject: test.passingMessageSubject },
-    { Body: test.passingMessageBody }
-  ];
-}
-
-function failingEmailTemplateInputs(test) {
-  return [
-    { Subject: test.failingMessageSubject },
-    { Body: test.failingMessageBody }
+    { formEmail: test.formEmail },
+    { passingMessageSubject: test.passingMessageSubject },
+    { passingMessageBody: test.passingMessageBody },
+    { failingMessageSubject: test.failingMessageSubject },
+    { failingMessageBody: test.failingMessageBody }
   ];
 }
 
 function createTest(data, callback) {
   const { details: test, questions } = data;
+  let inputs = createTestInputs(test);
   if (test.sendCompletionMessage) {
-    baseRepository.executeMultipleSp(
-      [
-        {
-          name: 'sp_CreateEmailTemplate',
-          inputs: passingEmailTemplateInputs(test),
-          returnValue: {
-            valueName: 'successEmailTemplateId',
-            spNumber: 2,
-            returnValueName: 'id'
-          }
-        },
-        {
-          name: 'sp_CreateEmailTemplate',
-          inputs: failingEmailTemplateInputs(test),
-          returnValue: {
-            valueName: 'failureEmailTemplateId',
-            spNumber: 2,
-            returnValueName: 'id'
-          }
-        },
-        {
-          name: 'sp_CreateTest',
-          inputs: createTestInputs(test),
-          returnValue: {
-            valueName: 'testId',
-            spNumber: 3,
-            returnValueName: 'id'
-          }
-        },
-        {
-          name: 'sp_AddQuestionsToTest',
-          inputs: [{ questionsId: baseRepository.createListId(questions) }]
-        }
-      ],
-      callback
-    );
-    // baseRepository.executeInDB(
-    //   'sp_CreateEmailTemplate',
-    //   passingEmailTemplateInputs(test),
-    //   data => {
-    //     const successEmailTemplateId = data[0].id;
-
-    //     baseRepository.executeInDB(
-    //       'sp_CreateEmailTemplate',
-    //       failingEmailTemplateInputs(test),
-    //       data => {
-    //         const failureEmailTemplateId = data[0].id;
-
-    //         baseRepository.executeInDB(
-    //           'sp_CreateTest',
-    //           [
-    //             ...createTestInputs(test),
-    //             { successEmailTemplateId: successEmailTemplateId },
-    //             { failureEmailTemplateId: failureEmailTemplateId }
-    //           ],
-    //           callback
-    //         );
-    //       }
-    //     );
-    //   }
-    // );
-  } else {
-    baseRepository.executeMultipleSp(
-      [
-        {
-          name: 'sp_CreateTest',
-          inputs: createTestInputs(test),
-          returnValue: {
-            valueName: 'testId',
-            spNumber: 1,
-            returnValueName: 'id'
-          }
-        },
-        {
-          name: 'sp_AddQuestionsToTest',
-          inputs: [{ questionsId: baseRepository.createListId(questions) }]
-        }
-      ],
-      callback
-    );
-    // baseRepository.executeInDB(
-    //   'sp_CreateTest',
-    //   createTestInputs(test),
-    //   data => {
-    //     const testId = data[0].id;
-    //     baseRepository.executeInDB(
-    //       'sp_AddQuestionsToTest',
-    //       [
-    //         { testId: testId },
-    //         { questionsId: baseRepository.createListId(questions) }
-    //       ],
-    //       callback
-    //     );
-    //   }
-    // );
+    inputs = [...createTestInputs(test), ...completionMessagesInputs(test)];
   }
+
+  baseRepository.executeMultipleSp(
+    [
+      {
+        name: 'sp_CreateTest',
+        inputs: inputs,
+        returnValue: {
+          valueName: 'testId',
+          spName: 'sp_AddQuestionsToTest',
+          returnValueName: 'id'
+        }
+      },
+      {
+        name: 'sp_AddQuestionsToTest',
+        inputs: [{ questionsId: baseRepository.createListId(questions) }]
+      }
+    ],
+    callback
+  );
 }
 
 function getTest(id, callback) {
@@ -144,8 +65,40 @@ function getTests(subjectId, callback) {
   );
 }
 
+function updateTest(id, data, callback) {
+  const { details: test, questions } = data;
+
+  let inputs = createTestInputs(test);
+  if (test.sendCompletionMessage) {
+    inputs = [...createTestInputs(test), ...completionMessagesInputs(test)];
+  }
+
+  baseRepository.executeMultipleSp(
+    [
+      {
+        name: 'sp_UpdateTest',
+        inputs: [...inputs, { testId: id }]
+      },
+      {
+        name: 'sp_UpdateQuestionsInTest',
+        inputs: [
+          { questionsId: baseRepository.createListId(questions) },
+          { testId: id }
+        ]
+      }
+    ],
+    callback
+  );
+}
+
+function deleteTest(testId, callback) {
+  baseRepository.executeInDB('sp_DeleteTest', [{ testId: testId }], callback);
+}
+
 module.exports = {
   createTest: createTest,
   getTest: getTest,
-  getTests: getTests
+  getTests: getTests,
+  updateTest: updateTest,
+  deleteTest: deleteTest
 };

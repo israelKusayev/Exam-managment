@@ -11,51 +11,49 @@ import { BadInput } from 'src/app/exceptions/bad-input';
   styleUrls: ['./user-signup.component.scss']
 })
 export class UserSignupComponent implements OnInit {
-
   email: string;
   firstName: string;
   lastName: string;
   phone: string;
-  showSpinner = false;
+  showSpinner: boolean;
   success: boolean;
   errorMessage: string;
 
-  constructor(private router: Router, private authService: AuthenticationService,
-    private toast: ToastrService) { }
+  constructor(
+    private router: Router,
+    private authService: AuthenticationService,
+    private toast: ToastrService
+  ) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  signUp(): void {
     this.showSpinner = false;
     this.errorMessage = null;
     this.success = false;
-  }
 
+    this.showSpinner = true;
 
-signUp(): void {
-  this.showSpinner = false;
-  this.errorMessage = null;
-  this.success = false;
+    const user = new User();
+    user.email = this.email;
+    user.firstName = this.firstName;
+    user.lastName = this.lastName;
+    user.phone = this.phone;
 
-
-  this.showSpinner = true;
-
-  const user = new User();
-  user.email = this.email;
-  user.firstName = this.firstName;
-  user.lastName = this.lastName;
-  user.phone = this.phone ;
-
-
-  this.authService.studentSignUp(user).subscribe((data) => {
-    this.showSpinner = false;
-    this.success = true;
-    }, err => {
-      if (err instanceof BadInput) {
+    this.authService.studentSignUp(user).subscribe(
+      data => {
         this.showSpinner = false;
-        this.errorMessage = err.error;
+        this.success = true;
+      },
+      err => {
+        if (err instanceof BadInput) {
+          this.showSpinner = false;
+          this.errorMessage = err.error;
+        }
+      },
+      () => {
+        this.showSpinner = false;
       }
-
-    }, () => {
-      this.showSpinner = false;
-    });
+    );
   }
 }

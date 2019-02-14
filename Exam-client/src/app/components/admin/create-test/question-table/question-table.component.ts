@@ -66,6 +66,7 @@ export class QuestionTableComponent implements OnInit {
       return this.includes(data.Id);
     }, this.selected);
     this.selection.select(...selectedQuestions);
+    this.updateSelected();
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -93,6 +94,10 @@ export class QuestionTableComponent implements OnInit {
 
   onSelect(row: Questions) {
     this.selection.toggle(row);
+    this.updateSelected();
+  }
+
+  private updateSelected() {
     this.select.emit(
       this.selection.selected.map(q => {
         return q.Id;

@@ -57,7 +57,7 @@ sp =  [
 
 /**
  *
- * @param {[{name:string,inputs:{inputName:string}[],returnValue:{valueName:string,spNumber:number,returnValueName:string}}]} sp
+ * @param {[{name:string,inputs:{inputName:string}[],returnValue:{valueName:string,spName:string,returnValueName:string}}]} sp
  * @param {Function} callback
  */
 function executeMultipleSp(sp, callback) {
@@ -73,7 +73,7 @@ function executeMultipleSp(sp, callback) {
 /**
  *
  * @param {sql.Transaction} transaction Transaction instance
- * @param {[{name:string,inputs:{inputName:string}[],returnValue:{valueName:string,spNumber:number,returnValueName:string}}]} sp
+ * @param {[{name:string,inputs:{inputName:string}[],returnValue:{valueName:string,spName:string,returnValueName:string}}]} sp
  * @param {number} index Current sp
  * @param {Function} callback
  */
@@ -93,7 +93,7 @@ function executeInTransaction(transaction, sp, index, callback) {
   for (let i = 0; i < index; i++) {
     const returnValue = sp[i].returnValue;
 
-    if (returnValue && returnValue.spNumber === index) {
+    if (returnValue && returnValue.spName === currentSp.name) {
       req.input(returnValue.valueName, returnValue['value']);
     }
   }

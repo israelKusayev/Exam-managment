@@ -65,18 +65,33 @@
 
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td style="width:20%" mat-cell *matCellDef="let element">
-        <button
-          [disabled]="element.isActive"
-          mat-stroked-button
-          color="primary"
-          (click)="edit(element.id)"
-        >
-          edit
-        </button>
-        <span style="margin-left: 50px" class="text-success">{{
-          element.isActive ? 'Active' : 'delete'
-        }}</span>
+      <td style="width:15%" mat-cell *matCellDef="let element">
+        <div class="status">
+          <button
+            [disabled]="element.isActive"
+            mat-stroked-button
+            color="accent"
+            (click)="edit(element.id)"
+          >
+            edit
+          </button>
+          <span
+            *ngIf="element.isActive"
+            style="margin-left: 50px"
+            class="text-success"
+            >Active</span
+          >
+
+          <button
+            *ngIf="!element.isActive"
+            [disabled]="element.isActive"
+            mat-stroked-button
+            color="warn"
+            (click)="delete(element.id)"
+          >
+            Delete
+          </button>
+        </div>
       </td>
     </ng-container>
 

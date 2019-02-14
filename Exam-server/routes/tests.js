@@ -49,6 +49,31 @@ router.post('/', async (req, res) => {
   });
 });
 
-router.put('/:id', (req, res) => {});
+router.put('/:id', async (req, res) => {
+  try {
+    await validator.validateCreateTest(req.body.details);
+  } catch (error) {
+    res.status(400).send({ message: error.details[0].message });
+    return;
+  }
+  testsManager.updateTest(req.params.id, req.body, data => {
+    if (data && data.error) {
+      res.status(500).end();
+      return;
+    }
+    res.status(200).end();
+  });
+});
+
+router.delete('/:id', (req, res) => {
+  testsManager.deleteTest(req.params.id, data => {
+    console.log(data);
+    if (data && data.error) {
+      res.status(500).end();
+      return;
+    }
+    res.status(200).end();
+  });
+});
 
 module.exports = router;
