@@ -25,7 +25,6 @@ import { AdminLoginComponent } from './components/admin/admin-login/admin-login.
 import { AdminRegisterComponent } from './components/admin/admin-register/admin-register.component';
 import { AdminResetPasswordComponent } from './components/admin/admin-reset-password/admin-reset-password.component';
 import { UserSignupComponent } from './components/user/user-signup/user-signup.component';
-import { UserLoginComponent } from './components/user/user-login/user-login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CreateTestComponent } from './components/admin/create-test/create-test.component';
 import { QuestionTableComponent } from './components/admin/create-test/question-table/question-table.component';
@@ -39,6 +38,7 @@ import { OrganizationComponent } from './components/admin/organization/organizat
 import { AppErrorHandler } from './helpers/app-error-handler';
 import { TagsPipe } from './helpers/tags.pipe';
 import { DateFormatPipe } from './helpers/date-format.pipe';
+import { TestInstructionsComponent } from './components/user/test-instructions/test-instructions.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +47,6 @@ import { DateFormatPipe } from './helpers/date-format.pipe';
     ManageTestsComponent,
     ReportsComponent,
     AdminLoginComponent,
-    UserLoginComponent,
     NavbarComponent,
     CreateTestComponent,
     AdminRegisterComponent,
@@ -61,7 +60,8 @@ import { DateFormatPipe } from './helpers/date-format.pipe';
     NotFoundComponent,
     EditTestComponent,
     OrganizationComponent,
-    DateFormatPipe
+    DateFormatPipe,
+    TestInstructionsComponent
   ],
   entryComponents: [ShowQuestionComponent],
   imports: [

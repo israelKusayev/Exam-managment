@@ -1,5 +1,9 @@
 <nav
-  *ngIf="authenticationService.loggedInUser() && subjectService.subjectId"
+  *ngIf="
+    authenticationService.loggedInUser() &&
+    authenticationService.loggedInUser().isAdmin &&
+    subjectService.subjectId
+  "
   mat-tab-nav-bar
   backgroundColor="primary"
 >

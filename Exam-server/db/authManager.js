@@ -1,5 +1,4 @@
 const baseRepository = require('./managerBase');
-const sql = require('mssql');
 
 exports.getAdminByEmail = function(email, callback) {
   baseRepository.executeInDB(
@@ -33,27 +32,15 @@ exports.adminResetPassword = function(email, passwordHash, callback) {
   );
 };
 
-exports.studentSignup = function(email, firstName, lastName, phone, callback) {
+exports.studentLogin = function(user, callback) {
   baseRepository.executeInDB(
-    'sp_StudentSignup',
+    'sp_StudentLogin',
     [
-      { Email: email },
-      { FirstName: firstName },
-      { LastName: lastName },
-      { Phone: phone }
+      { Email: user.email },
+      { FirstName: user.firstName },
+      { LastName: user.lastName },
+      { Phone: user.phone }
     ],
-    callback
-  );
-};
-
-exports.studentExists = function(email, callback) {
-  baseRepository.executeInDB('sp_StudentExists', [{ Email: email }], callback);
-};
-
-exports.getStudentByEmail = function(email, callback) {
-  baseRepository.executeInDB(
-    'sp_getStudentByEmail',
-    [{ Email: email }],
     callback
   );
 };
