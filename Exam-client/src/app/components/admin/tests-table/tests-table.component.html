@@ -10,7 +10,15 @@
     </mat-form-field>
     <b class="test-count">Showing {{ dataSource.data.length }} tests</b>
   </div>
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  <table
+    class="mat-elevation-z8"
+    [dataSource]="dataSource"
+    mat-table
+    matSort
+    matSortActive="lastUpdate"
+    matSortDirection="desc"
+    matSortDisableClear
+  >
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
       <td style="width:5%;" mat-cell *matCellDef="let element">

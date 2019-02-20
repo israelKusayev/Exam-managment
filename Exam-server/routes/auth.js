@@ -1,7 +1,7 @@
 //TODO move to a new service with a different port
 
 const express = require('express');
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const config = require('../config/config');
 const bcrypt = require('bcryptjs');
 const authManager = require('../db/authManager');

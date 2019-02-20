@@ -1,3 +1,14 @@
-<p>
-  test-instructions works!
-</p>
+<h1 class="test-name">{{ testsService.getTest().name }}</h1>
+<div class="content">
+  <h1>
+    <b>Welcome</b>
+  </h1>
+  <p>
+    answer the following questions and click "Submit" when done.
+  </p>
+  <button mat-stroked-button color="accent">
+    <a mat-button routerLink="/test/{{ id }}">Start</a>
+  </button>
+</div>
+
+<footer></footer>

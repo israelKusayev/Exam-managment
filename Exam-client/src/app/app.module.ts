@@ -39,6 +39,8 @@ import { AppErrorHandler } from './helpers/app-error-handler';
 import { TagsPipe } from './helpers/tags.pipe';
 import { DateFormatPipe } from './helpers/date-format.pipe';
 import { TestInstructionsComponent } from './components/user/test-instructions/test-instructions.component';
+import { TestQuestionComponent } from './components/user/test-question/test-question.component';
+import { TestComponent } from './components/user/test/test.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +63,9 @@ import { TestInstructionsComponent } from './components/user/test-instructions/t
     EditTestComponent,
     OrganizationComponent,
     DateFormatPipe,
-    TestInstructionsComponent
+    TestInstructionsComponent,
+    TestQuestionComponent,
+    TestComponent
   ],
   entryComponents: [ShowQuestionComponent],
   imports: [

@@ -24,9 +24,11 @@ export class TestsTableComponent implements OnInit {
   sort;
   @ViewChild(MatSort) set content(content: ElementRef) {
     this.sort = content;
-    if (this.sort) {this.dataSource.sort = this.sort;    }
+    if (this.sort) {
+      this.dataSource.sort = this.sort;
+    }
   }
-  // @ViewChild(MatSort) sort: MatSort;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
@@ -46,6 +48,7 @@ export class TestsTableComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
 
     this.dataSource.sort = this.sort;
+
     this.dataSource.filterPredicate = (data, filter) => {
       const words = filter.split(',');
       for (let i = 0; i < words.length; i++) {

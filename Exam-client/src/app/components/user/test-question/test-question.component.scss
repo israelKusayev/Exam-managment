@@ -1,0 +1,26 @@
+.display-flex {
+  display: inline-flex;
+  flex-wrap: wrap;
+}
+
+.vertical {
+  flex-direction: column;
+}
+
+.answer {
+  margin: 5px;
+}
+.btn-navigation-container {
+  margin: 20px 0 0 0;
+
+  button {
+    margin: 0 10px;
+  }
+}
+
+mat-icon {
+  margin-bottom: 1px;
+}
+.submit-icon:hover mat-icon {
+  transform: rotate(40deg);
+}

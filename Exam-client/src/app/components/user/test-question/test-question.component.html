@@ -1,0 +1,67 @@
+<h1>Question #4</h1>
+<h3>{{ question.title }}</h3>
+<div *ngIf="question">
+  <mat-checkbox class="answer" *ngFor="let answer of question.answers">
+    {{ answer.title }}
+  </mat-checkbox>
+</div>
+<!--
+<div *ngIf="answers.length > 0">
+  <div *ngIf="!question.multipleChoice; else multipleSelect">
+    <input
+      type="radio"
+      *ngFor="let answer of question.answers"
+      [value]="answer.title"
+      name="group2"
+    />
+    <mat-radio-group
+      [class.vertical]="!question.horizontalDisplay"
+      class="display-flex"
+    >
+      <mat-radio-button
+        class="answer"
+        *ngFor="let answer of question.answers"
+        [value]="answer"
+      >
+        {{ answer.title }}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <ng-template #multipleSelect>
+    <div class="display-flex" [class.vertical]="!question.horizontalDisplay">
+      <mat-checkbox class="answer" *ngFor="let answer of answers">
+        {{ answer.title }}
+      </mat-checkbox>
+    </div>
+  </ng-template>
+  <div class="btn-navigation-container">
+    <button
+      mat-raised-button
+      color="accent"
+      *ngIf="!firstQuestion"
+      (click)="onPrevious()"
+    >
+      <mat-icon>skip_previous</mat-icon>
+      Previous Question
+    </button>
+    <button
+      mat-raised-button
+      color="accent"
+      *ngIf="!lastQuestion"
+      (click)="onNext()"
+    >
+      Next Question
+      <mat-icon>skip_next</mat-icon>
+    </button>
+    <button
+      class="submit-icon"
+      mat-raised-button
+      *ngIf="lastQuestion"
+      color="primary"
+    >
+      Submit
+      <mat-icon>flag</mat-icon>
+    </button>
+  </div>
+</div>
+</mat-checkbox> -->

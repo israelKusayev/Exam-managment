@@ -1,3 +1,4 @@
+import { TestComponent } from './../components/user/test/test.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TestInstructionsComponent } from './../components/user/test-instructions/test-instructions.component';
@@ -19,6 +20,7 @@ import { AdminAuthGuardService as AdminAuthGuard } from '../services/auth-guard.
 const routes: Routes = [
   { path: 'test/:id/signup', component: UserSignupComponent },
   { path: 'test/:id/instructions', component: TestInstructionsComponent },
+  { path: 'test/:id', component: TestComponent },
   { path: 'login', component: AdminLoginComponent },
   { path: 'admin-register', component: AdminRegisterComponent },
   {

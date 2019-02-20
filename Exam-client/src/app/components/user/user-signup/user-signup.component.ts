@@ -3,6 +3,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/models/User';
 import { BadInput } from 'src/app/exceptions/bad-input';
+import { TestsService } from 'src/app/services/tests.service';
 
 @Component({
   selector: 'app-user-signup',
@@ -17,23 +18,22 @@ export class UserSignupComponent implements OnInit {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private testsService: TestsService
   ) {}
 
   ngOnInit() {}
 
   signUp(): void {
+    const id = this.activatedRoute.snapshot.params.id;
     this.errorMessage = null;
 
     this.showSpinner = true;
 
     this.authService.studentSignUp(this.user).subscribe(
       () => {
-        this.router.navigate([
-          'test',
-          this.activatedRoute.snapshot.params.id,
-          'instructions'
-        ]);
+        this.testsService.getStudentTest(id);
+        this.router.navigate(['test', id, 'instructions']);
       },
       err => {
         if (err instanceof BadInput) {

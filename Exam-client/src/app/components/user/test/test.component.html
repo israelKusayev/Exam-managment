@@ -1,0 +1,9 @@
+<h1 class="test-name">{{ testsService.getTest().name }}</h1>
+<app-test-question
+  [question]="testsService.getTest().questions[currentQuestion]"
+  [firstQuestion]="firstQuestion"
+  [lastQuestion]="lastQuestion"
+  (next)="next()"
+  (previous)="previous()"
+  (submit)="submit()"
+></app-test-question>
