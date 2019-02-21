@@ -1,6 +1,6 @@
 import { CreateTest } from './../../../models/create-test';
 import { Component, OnInit } from '@angular/core';
-import { TestsService } from 'src/app/services/tests.service';
+import { TestsAdminService } from 'src/app/services/tests-admin.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SubjectService } from 'src/app/services/subject.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -14,7 +14,7 @@ import { BadInput } from 'src/app/exceptions/bad-input';
 })
 export class EditTestComponent implements OnInit {
   constructor(
-    private testsService: TestsService,
+    private testsService: TestsAdminService,
     private route: ActivatedRoute,
     private subjectService: SubjectService,
     private authService: AuthenticationService,

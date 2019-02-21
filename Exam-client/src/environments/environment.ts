@@ -2,17 +2,18 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+const baseApi = 'http://localhost:3000';
 export const environment = {
   production: false,
-  baseApi: 'http://localhost:3000',
-  authUrl: 'http://localhost:3000/api/auth',
-  testsUrl: 'http://localhost:3000/api/tests',
-  questionsUrl: 'http://localhost:3000/api/questions',
-  answersUrl: 'http://localhost:3000/api/answers',
-  languageUrl: 'http://localhost:3000/api/language',
-  certificateUrl: 'http://localhost:3000/api/certificates',
-  organizationUrl: 'http://localhost:3000/api/organization',
-  subjectUrl: 'http://localhost:3000/api/subject',
+  authUrl: baseApi + '/api/auth',
+  testsAdminUrl: baseApi + '/api/test-admin',
+  testsUserUrl: baseApi + '/api/test-user',
+  questionsUrl: baseApi + '/api/questions',
+  answersUrl: baseApi + '/api/answers',
+  languageUrl: baseApi + '/api/language',
+  certificateUrl: baseApi + '/api/certificates',
+  organizationUrl: baseApi + '/api/organization',
+  subjectUrl: baseApi + '/api/subject',
   currentUserStorageKey: 'currentUser',
   tokenStorageKey: 'token',
 

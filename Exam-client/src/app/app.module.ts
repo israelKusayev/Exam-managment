@@ -11,7 +11,8 @@ import { MatComponentsModule } from './modules/mat-components.module';
 
 import { CertificatesService } from './services/certificates.service';
 import { AnswerService } from './services/answer.service';
-import { TestsService } from './services/tests.service';
+import { TestsAdminService } from './services/tests-admin.service';
+import { TestUserService } from './services/test-user.service';
 import { AuthenticationService } from './services/authentication.service';
 import { LanguageService } from './services/language.service';
 import { QuestionsService } from './services/questions.service';
@@ -81,7 +82,8 @@ import { TestComponent } from './components/user/test/test.component';
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },
     LanguageService,
-    TestsService,
+    TestsAdminService,
+    TestUserService,
     AuthenticationService,
     QuestionsService,
     AnswerService,

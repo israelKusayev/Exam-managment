@@ -1,9 +1,10 @@
-<h1 class="test-name">{{ testsService.getTest().name }}</h1>
+<h1 class="test-name">{{ testsService.test.name }}</h1>
 <app-test-question
-  [question]="testsService.getTest().questions[currentQuestion]"
+  [question]="test.questions[currentQuestion]"
+  [questionIndex]="currentQuestion + 1"
   [firstQuestion]="firstQuestion"
   [lastQuestion]="lastQuestion"
-  (next)="next()"
-  (previous)="previous()"
+  (next)="next($event)"
+  (previous)="previous($event)"
   (submit)="submit()"
 ></app-test-question>

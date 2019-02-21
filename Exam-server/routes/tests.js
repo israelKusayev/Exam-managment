@@ -3,17 +3,6 @@ const validator = require('../validators/test.Validator');
 const testsManager = require('../db/testsManager');
 const router = express.Router();
 
-router.get('/:testId/:userId', (req, res) => {
-  testsManager.getStudentTest(+req.params.testId, req.params.userId, data => {
-    console.log(data);
-    if (data && data.error) {
-      res.status(500).end();
-      return;
-    }
-    res.status(200).send(data);
-  });
-});
-
 router.get('/:id', (req, res) => {
   if (!Number.isInteger(parseInt(req.params.id))) {
     res.status(400).send({ message: 'invalid id' });

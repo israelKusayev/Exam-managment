@@ -1,50 +1,79 @@
-import { TestsService } from 'src/app/services/tests.service';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  SimpleChanges,
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges
+} from '@angular/core';
+import { Answer } from 'src/app/models/user/answer';
+import { Question } from 'src/app/models/user/question';
+import { TestUserService } from 'src/app/services/test-user.service';
 
 @Component({
   selector: 'app-test-question',
   templateUrl: './test-question.component.html',
   styleUrls: ['./test-question.component.scss']
 })
-export class TestQuestionComponent implements OnInit {
-  constructor(public testsService: TestsService) {}
-  @Input() question: any;
+export class TestQuestionComponent implements OnInit, OnChanges {
+  constructor(public testsService: TestUserService) {}
+  @Input() question: Question;
+  @Input() questionIndex: number;
   @Input() firstQuestion: boolean;
   @Input() lastQuestion: boolean;
   @Output() next = new EventEmitter();
   @Output() previous = new EventEmitter();
   @Output() submit = new EventEmitter();
-  // answers: any[];
-  // questionId: number;
-  // isCorrect: boolean;
-  public get answers1(): {
-    id: number;
-    title: string;
-  }[] {
-    return [
-      { id: 1, title: 'rere' },
-      { id: 1, title: 'ewe' },
-      { id: 1, title: 'rerewre' }
-    ];
-  }
 
-  // answers: { title: string; id: number; isCorrect: boolean }[];
-  answers;
-  a: any;
+  answers: Answer[];
 
   ngOnInit() {
-    this.answers = this.question.answers;
-    console.log(this.answers);
+    console.log(this.question);
+  }
 
-    console.log('the question', this.question);
-    // this.answers = this.question.answers;
+  ngOnChanges(changes: SimpleChanges) {
+    if (
+      changes.question.firstChange ||
+      changes.question.previousValue.id !== changes.question.currentValue.id
+    ) {
+      this.answers = this.question.answers;
+    }
   }
 
   onNext() {
-    this.next.emit();
+    if (this.isAnswerd()) {
+      this.question.isAnswered = true;
+      this.question.answers = this.answers;
+    }
+    this.next.emit(this.question);
   }
   onPrevious() {
-    this.previous.emit();
+    this.previous.emit(this.answers);
+  }
+
+  onAnswer(id: number) {
+    this.answers.forEach(answer => {
+      if (answer.id === id) {
+        answer.selected = true;
+      } else {
+        answer.selected = false;
+      }
+    });
+  }
+
+  isAnswerd(): boolean {
+    for (let i = 0; i < this.answers.length; i++) {
+      if (this.answers[i].selected) {
+        return true;
+      }
+    }
+    // this.answers.forEach(answer => {
+    //   if (answer.selected) {
+    //     return true;
+    //   }
+    // });
+    return false;
   }
 
   // public get test(): any {

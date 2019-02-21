@@ -1,9 +1,9 @@
+import { TestUserService } from './../../../services/test-user.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/models/User';
 import { BadInput } from 'src/app/exceptions/bad-input';
-import { TestsService } from 'src/app/services/tests.service';
 
 @Component({
   selector: 'app-user-signup',
@@ -19,7 +19,7 @@ export class UserSignupComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private authService: AuthenticationService,
-    private testsService: TestsService
+    private testsService: TestUserService
   ) {}
 
   ngOnInit() {}
@@ -33,6 +33,7 @@ export class UserSignupComponent implements OnInit {
     this.authService.studentSignUp(this.user).subscribe(
       () => {
         this.testsService.getStudentTest(id);
+
         this.router.navigate(['test', id, 'instructions']);
       },
       err => {

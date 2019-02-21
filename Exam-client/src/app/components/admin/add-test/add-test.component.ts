@@ -1,6 +1,6 @@
 import { AuthenticationService } from './../../../services/authentication.service';
 import { ToastrService } from 'ngx-toastr';
-import { TestsService } from 'src/app/services/tests.service';
+import { TestsAdminService } from 'src/app/services/tests-admin.service';
 import { CreateTest } from './../../../models/create-test';
 import { Component, OnInit } from '@angular/core';
 import { BadInput } from 'src/app/exceptions/bad-input';
@@ -14,7 +14,7 @@ import { SubjectService } from 'src/app/services/subject.service';
 })
 export class AddTestComponent implements OnInit {
   constructor(
-    private testsService: TestsService,
+    private testsService: TestsAdminService,
     private toast: ToastrService,
     private router: Router,
     private subjectService: SubjectService,

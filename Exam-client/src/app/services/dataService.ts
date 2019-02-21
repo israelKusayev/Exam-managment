@@ -27,12 +27,13 @@ export class DataService {
         localStorage.getItem(environment.tokenStorageKey)
       );
     }
+
     return headers;
   }
 
   getOne(urlParameterName: string, jwt = true) {
     return this.http
-      .get<any[]>(this.url + '/' + urlParameterName, {
+      .get<any>(this.url + '/' + urlParameterName, {
         headers: this.getHeaders(jwt)
       })
       .pipe(
@@ -54,9 +55,9 @@ export class DataService {
       );
   }
 
-  create(resource, jwt = true) {
+  create(resource: any, jwt = true, queryParams = '') {
     return this.http
-      .post(this.url, JSON.stringify(resource), {
+      .post(this.url + queryParams, JSON.stringify(resource), {
         headers: this.getHeaders(jwt)
       })
       .pipe(

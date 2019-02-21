@@ -1,6 +1,6 @@
+import { TestUserService } from 'src/app/services/test-user.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { TestsService } from 'src/app/services/tests.service';
 
 @Component({
   selector: 'app-test-instructions',
@@ -10,13 +10,11 @@ import { TestsService } from 'src/app/services/tests.service';
 export class TestInstructionsComponent implements OnInit {
   id: string;
   constructor(
-    public testsService: TestsService,
+    public testsService: TestUserService,
     private route: ActivatedRoute
   ) {
     this.id = this.route.snapshot.paramMap.get('id');
   }
 
-  ngOnInit() {
-    console.log(this.testsService.getTest());
-  }
+  ngOnInit() {}
 }
