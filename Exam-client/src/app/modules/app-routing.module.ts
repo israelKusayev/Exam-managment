@@ -14,6 +14,7 @@ import { UserSignupComponent } from '../components/user/user-signup/user-signup.
 
 import { AdminAuthGuardService as AdminAuthGuard } from '../services/auth-guard.service';
 import { NotFoundComponent } from '../components/not-found/not-found.component';
+import { AddQuestionComponent } from '../components/admin/add-question/add-question.component';
 
 const routes: Routes = [
   { path: 'user-signup', component: UserSignupComponent },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'admin-register', component: AdminRegisterComponent },
   { path: 'admin-reset-password/:token', component: AdminResetPasswordComponent },
   { path: 'manage-questions', component: ManageQuestionsComponent, canActivate: [AdminAuthGuard] },
+  { path: 'manage-questions/add', component: AddQuestionComponent, canActivate: [AdminAuthGuard] },
   { path: 'manage-tests/create', component: CreateTestComponent, canActivate: [AdminAuthGuard] },
   { path: 'manage-tests', component: ManageTestsComponent, canActivate: [AdminAuthGuard] },
   { path: 'reports', component: ReportsComponent, canActivate: [AdminAuthGuard] },

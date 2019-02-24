@@ -7,8 +7,8 @@ exports.admin = function(req, res, next) {
 
   try {
     const decoded = jwt.verify(token, config.jwt_secret);
-    req.userId = decoded.sub;
-    next();
+
+    req.next();
   } catch (ex) {
     res.status(401).send('Access denied. Invalid token.');
   }

@@ -35,6 +35,8 @@ import { EditTestComponent } from './components/admin/edit-test/edit-test.compon
 
 import { AppErrorHandler } from './helpers/app-error-handler';
 import { TagsPipe } from './helpers/tags.pipe';
+import { AddQuestionComponent } from './components/admin/add-question/add-question.component';
+import { PossibleAnswerComponent } from './components/admin/add-question/possible-answer/possible-answer.component';
 
 @NgModule({
   declarations: [
@@ -48,14 +50,16 @@ import { TagsPipe } from './helpers/tags.pipe';
     CreateTestComponent,
     AdminRegisterComponent,
     AdminResetPasswordComponent,
-    UserSignupComponent
+    UserSignupComponent,
     QuestionTableComponent,
     TagsPipe,
     AddTestComponent,
     ShowQuestionComponent,
     TestsTableComponent,
     NotFoundComponent,
-    EditTestComponent
+    EditTestComponent,
+    AddQuestionComponent,
+    PossibleAnswerComponent
   ],
   entryComponents: [ShowQuestionComponent],
   imports: [

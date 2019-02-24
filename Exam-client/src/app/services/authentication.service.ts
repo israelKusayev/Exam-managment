@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './dataService';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpErrorResponse
+} from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { User } from '../models/User';
 import { Observable } from 'rxjs';
@@ -11,62 +15,89 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   providedIn: 'root'
 })
 export class AuthenticationService extends DataService {
-
   adminResetPassword(token: string, password: string): any {
-    return this.http.post<any>(`${environment.authUrl}/admin-reset-password`,
-    {token, password}, {headers: this.getHeaders(false)});
+    return this.http.post<any>(
+      `${environment.authUrl}/admin-reset-password`,
+      { token, password },
+      { headers: this.getHeaders(false) }
+    );
   }
 
   adminSendResetPasswordLink(email: string): Observable<any> {
-    return this.http.post<any>(`${environment.authUrl}/admin-send-resetpassword-link`,
-    {email}, {headers: this.getHeaders(false)});
+    return this.http.post<any>(
+      `${environment.authUrl}/admin-send-resetpassword-link`,
+      { email },
+      { headers: this.getHeaders(false) }
+    );
   }
 
   getEmailByResetPasswordToken(token: string): Observable<any> {
-    return this.http.post<any>(`${environment.authUrl}/admin-getemail-by-resetpassword-token`, {token},
-    {headers: this.getHeaders(false)});
+    return this.http.post<any>(
+      `${environment.authUrl}/admin-getemail-by-resetpassword-token`,
+      { token },
+      { headers: this.getHeaders(false) }
+    );
   }
 
-
-
-  constructor( httpAuth: HttpClient) {
-    super(environment.authUrl, httpAuth );
-   }
-
+  constructor(httpAuth: HttpClient) {
+    super(environment.authUrl, httpAuth);
+  }
 
   studentLogin(email: string): any {
-    return this.http.post<any>(`${environment.authUrl}/student-login`,
-    {email}, {headers: this.getHeaders(false)}).pipe(
-      catchError((error: HttpErrorResponse, caught) => {console.log('error: '); console.log(error); return this.handleError(error); }
+    return this.http
+      .post<any>(
+        `${environment.authUrl}/student-login`,
+        { email },
+        { headers: this.getHeaders(false) }
       )
-    ).pipe(map(data => {
-      console.log('student:');
-      console.log(data.user);
-      localStorage.setItem(environment.currentUserStorageKey, data.user);
-    }));
+      .pipe(
+        catchError((error: HttpErrorResponse, caught) => {
+          console.log('error: ');
+          console.log(error);
+          return this.handleError(error);
+        })
+      )
+      .pipe(
+        map(data => {
+          console.log('student:');
+          console.log(data.user);
+          localStorage.setItem(environment.currentUserStorageKey, data.user);
+        })
+      );
   }
 
-   studentSignUp(student: User): Observable<any> {
-
-    return this.http.post<any>(`${environment.authUrl}/student-signup`, {user: student},
-    {headers: this.getHeaders(false)}).pipe(
-      catchError((error: HttpErrorResponse, caught) => {console.log('error: '); console.log(error); return this.handleError(error); }
+  studentSignUp(student: User): Observable<any> {
+    return this.http
+      .post<any>(
+        `${environment.authUrl}/student-signup`,
+        { user: student },
+        { headers: this.getHeaders(false) }
       )
-    )
-    .pipe(map(data => {
-
-        // login successful if there's a jwt token in the response
-        if (data.user) {
+      .pipe(
+        catchError((error: HttpErrorResponse, caught) => {
+          console.log('error: ');
+          console.log(error);
+          return this.handleError(error);
+        })
+      )
+      .pipe(
+        map(data => {
+          // login successful if there's a jwt token in the response
+          if (data.user) {
             data.user.isAdmin = false;
             data.user.isActive = true;
             console.log(data.user);
             // store user details in local storage to keep user logged in between page refreshes
-            localStorage.setItem(environment.currentUserStorageKey, JSON.stringify(data.user));
-        }
-        return data.user;
-    }));
-   }
-/*
+            localStorage.setItem(
+              environment.currentUserStorageKey,
+              JSON.stringify(data.user)
+            );
+          }
+          return data.user;
+        })
+      );
+  }
+  /*
    adminAction(): Observable<boolean> {
 
     const token = localStorage.getItem(environment.tokenStorageKey);
@@ -94,7 +125,7 @@ export class AuthenticationService extends DataService {
    }
 */
 
-   /*
+  /*
     const jwtHelper = new JwtHelperService();
     const decodedToken = jwtHelper.decodeToken(data.token);
     // const expirationDate = helper.getTokenExpirationDate(data.token);
@@ -108,61 +139,88 @@ export class AuthenticationService extends DataService {
     }
     */
 
-   adminRegister(email: string, password: string, name: string) {
-    return this.http.post(`${environment.authUrl}/admin-register`, { email, password, name },
-    {headers: this.getHeaders(false)}).pipe(
-      catchError((error: HttpErrorResponse, caught) =>
-        this.handleError(error)
+  adminRegister(email: string, password: string, name: string) {
+    return this.http
+      .post(
+        `${environment.authUrl}/admin-register`,
+        { email, password, name },
+        { headers: this.getHeaders(false) }
       )
-    );
-   }
+      .pipe(
+        catchError((error: HttpErrorResponse, caught) =>
+          this.handleError(error)
+        )
+      );
+  }
 
-   adminLogin(email: string, password: string): Observable<any> {
-    return this.http.post<any>(`${environment.authUrl}/admin-login`, { email, password },
-    {headers: this.getHeaders(false)}).pipe(
-      catchError((error: HttpErrorResponse, caught) =>
-        this.handleError(error)
+  adminLogin(email: string, password: string): Observable<any> {
+    return this.http
+      .post<any>(
+        `${environment.authUrl}/admin-login`,
+        { email, password },
+        { headers: this.getHeaders(false) }
       )
-    ).pipe(map(data => {
-      console.log(data);
-      localStorage.setItem(environment.tokenStorageKey, data.token);
-      localStorage.setItem(environment.currentUserStorageKey, JSON.stringify(data.user));
-    }));
-   }
+      .pipe(
+        catchError((error: HttpErrorResponse, caught) =>
+          this.handleError(error)
+        )
+      )
+      .pipe(
+        map(data => {
+          console.log(data);
+          localStorage.setItem(environment.tokenStorageKey, data.token);
+          localStorage.setItem(
+            environment.currentUserStorageKey,
+            JSON.stringify(data.user)
+          );
+        })
+      );
+  }
 
-   adminRefreshToken(): Observable<any> {
+  adminRefreshToken(): Observable<any> {
     const token = localStorage.getItem(environment.tokenStorageKey);
-    return this.http.post<any>(`${environment.authUrl}/admin-refresh-token`, { token },
-    {headers: this.getHeaders(false)}).pipe(
-      catchError((error: HttpErrorResponse, caught) =>
-        this.handleError(error)
+    return this.http
+      .post<any>(
+        `${environment.authUrl}/admin-refresh-token`,
+        { token },
+        { headers: this.getHeaders(false) }
       )
-    ).pipe(map(newToken => {
-      localStorage.setItem(environment.tokenStorageKey, newToken);
-    }));
-   }
+      .pipe(
+        catchError((error: HttpErrorResponse, caught) =>
+          this.handleError(error)
+        )
+      )
+      .pipe(
+        map(data => {
+          localStorage.setItem(environment.tokenStorageKey, data.newToken);
+        })
+      );
+  }
 
-
-   adminIsTokenValid(): Observable < boolean > {
+  adminIsTokenValid(): Observable<boolean> {
     const token = localStorage.getItem(environment.tokenStorageKey);
-    return this.http.post<boolean>(`${environment.authUrl}/admin-is-token-valid`, { token },
-    {headers: this.getHeaders(false)}).pipe(
-      catchError((error: HttpErrorResponse, caught) =>
-        this.handleError(error)
+    return this.http
+      .post<boolean>(
+        `${environment.authUrl}/admin-is-token-valid`,
+        { token },
+        { headers: this.getHeaders(false) }
       )
-    );
-   }
+      .pipe(
+        catchError((error: HttpErrorResponse, caught) =>
+          this.handleError(error)
+        )
+      );
+  }
 
-   loggedInUser(): User {
-     const userJSON = localStorage.getItem(environment.currentUserStorageKey);
-      return JSON.parse(userJSON);
-   }
+  loggedInUser(): User {
+    const userJSON = localStorage.getItem(environment.currentUserStorageKey);
+    return JSON.parse(userJSON);
+  }
 
-   logout() {
-     console.log('logged out');
+  logout() {
+    console.log('logged out');
     // remove user from local storage to log user out
     localStorage.removeItem(environment.currentUserStorageKey);
     localStorage.removeItem(environment.tokenStorageKey);
-
-}
+  }
 }
