@@ -4,7 +4,8 @@ import {
   OnInit,
   ViewChild,
   Output,
-  EventEmitter
+  EventEmitter,
+  Input
 } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -18,6 +19,7 @@ import { ShowQuestionComponent } from '../../show-question/show-question.compone
 })
 export class QuestionTableComponent implements OnInit {
   @Output() select = new EventEmitter();
+  @Input() selected: number[];
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   displayedColumns: string[] = ['select', 'title', 'show'];
@@ -33,13 +35,17 @@ export class QuestionTableComponent implements OnInit {
   ngOnInit() {
     this.questionsService.getAll().subscribe(questions => {
       this.dataSource.data = questions;
-    });
-    this.dataSource.paginator = this.paginator;
 
-    // exclude 'id' in filter
+      this.selectQuestions();
+    });
+
+    this.dataSource.paginator = this.paginator;
+    this.applyCustomFilter();
+  }
+
+  private applyCustomFilter() {
     this.dataSource.filterPredicate = (data, filter) => {
       const filterTags = filter.split(',');
-
       for (let i = 0; i < filterTags.length; i++) {
         if (!data.Tags.toLowerCase().includes(filterTags[i].toLowerCase())) {
           continue;
@@ -50,6 +56,17 @@ export class QuestionTableComponent implements OnInit {
       }
       return data.Title.toLowerCase().includes(filter.toLowerCase());
     };
+  }
+
+  private selectQuestions() {
+    if (!this.selected) {
+      return;
+    }
+    const selectedQuestions = this.dataSource.data.filter(function(data) {
+      return this.includes(data.Id);
+    }, this.selected);
+    this.selection.select(...selectedQuestions);
+    this.updateSelected();
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -75,8 +92,12 @@ export class QuestionTableComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  onSelect(row) {
+  onSelect(row: Questions) {
     this.selection.toggle(row);
+    this.updateSelected();
+  }
+
+  private updateSelected() {
     this.select.emit(
       this.selection.selected.map(q => {
         return q.Id;

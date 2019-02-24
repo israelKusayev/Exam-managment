@@ -1,57 +1,85 @@
-
 <div class="main-div">
-    <mat-card class="z-depth center" flex="50">
-      <mat-card-header>
-        <mat-card-title>Student Sign Up</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <form #f="ngForm" (ngSubmit)="signUp();">
-          <table style="width:400px" cellspacing="0">
-            <mat-error *ngIf="errorMessage" >{{errorMessage}}</mat-error>
-            <div *ngIf="success">
-                Registered Successfully<br/>
-            </div>
-            <tr>
-              <td>
-                <mat-form-field>
-                <input #emailRef="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" matInput placeholder="Email" [(ngModel)]="email" name="email" required>
-                <mat-error *ngIf="emailRef?.errors?.pattern">This is not a valid Email.</mat-error>
+  <mat-card class="z-depth center" flex="50">
+    <mat-card-header>
+      <mat-card-title>Student Sign Up</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form #f="ngForm" (ngSubmit)="signUp()">
+        <table style="width:400px" cellspacing="0">
+          <mat-error *ngIf="errorMessage">{{ errorMessage }}</mat-error>
+          <tr>
+            <td>
+              <mat-form-field>
+                <input
+                  #emailRef="ngModel"
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                  matInput
+                  placeholder="Email"
+                  [(ngModel)]="user.email"
+                  name="email"
+                  required
+                />
+                <mat-error *ngIf="emailRef?.errors?.pattern"
+                  >This is not a valid Email.</mat-error
+                >
               </mat-form-field>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <mat-form-field>
-                  <input matInput placeholder="First Name" [(ngModel)]="firstName" name="firstName" required>
-                </mat-form-field>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <mat-form-field>
-                  <input matInput placeholder="Last Name" [(ngModel)]="lastName" name="lastName" required>
-                </mat-form-field>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <mat-form-field>
-                  <input #phoneRef="ngModel" pattern="([+][0-9]{1,15}|[0-9]{0,16})$" matInput placeholder="Phone" [(ngModel)]="phone" name="phone">
-                  <mat-error *ngIf="phoneRef?.errors?.pattern">This is not a valid phone number.</mat-error>
-                </mat-form-field>
-              </td>
-            </tr>
-          
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <mat-form-field>
+                <input
+                  matInput
+                  placeholder="First Name"
+                  [(ngModel)]="user.firstName"
+                  name="firstName"
+                  required
+                />
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <mat-form-field>
+                <input
+                  matInput
+                  placeholder="Last Name"
+                  [(ngModel)]="user.lastName"
+                  name="lastName"
+                  required
+                />
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <mat-form-field>
+                <input
+                  #phoneRef="ngModel"
+                  pattern="([+][0-9]{1,15}|[0-9]{0,16})$"
+                  matInput
+                  placeholder="Phone"
+                  [(ngModel)]="user.phone"
+                  name="phone"
+                />
+                <mat-error *ngIf="phoneRef?.errors?.pattern"
+                  >This is not a valid phone number.</mat-error
+                >
+              </mat-form-field>
+            </td>
+          </tr>
         </table>
-        
-        <mat-spinner diameter="30" [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
-          <mat-card-actions>
-        <button [disabled] ="!f.valid" mat-raised-button color="primary">Sign Up</button>
-      </mat-card-actions>
-    </form></mat-card-content>
-   
-   
+
+        <mat-spinner
+          diameter="30"
+          [style.display]="showSpinner ? 'block' : 'none'"
+        ></mat-spinner>
+        <mat-card-actions>
+          <button [disabled]="!f.valid" mat-raised-button color="primary">
+            Sign Up
+          </button>
+        </mat-card-actions>
+      </form>
+    </mat-card-content>
   </mat-card>
-  
-  </div>
-  
+</div>

@@ -1,6 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { SubjectService } from './../../../services/subject.service';
+import { TestsAdminService } from 'src/app/services/tests-admin.service';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatSort, MatTableDataSource, MatPaginator } from '@angular/material';
-import * as moment from 'moment';
+
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-tests-table',
@@ -17,19 +20,37 @@ export class TestsTableComponent implements OnInit {
     'status'
   ];
 
-  dataSource = new MatTableDataSource<Test>(ELEMENT_DATA);
+  dataSource = new MatTableDataSource<Test>([]);
+  sort;
+  @ViewChild(MatSort) set content(content: ElementRef) {
+    this.sort = content;
+    if (this.sort) {
+      this.dataSource.sort = this.sort;
+    }
+  }
 
-  @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private testsService: TestsAdminService,
+    private subjectService: SubjectService,
+    private toast: ToastrService
+  ) {}
 
   ngOnInit() {
+    this.testsService
+      .getAll(true, `?subjectId=${this.subjectService.subjectId}`)
+      .subscribe(data => {
+        this.dataSource.data = data;
+      });
+
     this.dataSource.paginator = this.paginator;
+
     this.dataSource.sort = this.sort;
+
     this.dataSource.filterPredicate = (data, filter) => {
       const words = filter.split(',');
-      debugger;
       for (let i = 0; i < words.length; i++) {
         if (!data.name.toLowerCase().includes(words[i].toLowerCase())) {
           return false;
@@ -44,7 +65,14 @@ export class TestsTableComponent implements OnInit {
 
   edit(id: number) {
     console.log(id);
-    this.router.navigate(['manage-tests/edit/', 27]);
+    this.router.navigate(['manage-tests/edit/', id]);
+  }
+
+  delete(id: number) {
+    this.testsService.delete(id.toString()).subscribe(data => {
+      this.dataSource.data = this.dataSource.data.filter(d => d.id === id);
+      this.toast.info('test deleted successfully');
+    });
   }
 
   applyFilter(filterValue: string) {
@@ -57,37 +85,5 @@ export interface Test {
   name: string;
   questionsCount: number;
   lastUpdate: string;
+  isActive: boolean;
 }
-
-const ELEMENT_DATA: Test[] = [
-  {
-    id: 1,
-    name: 'Hydrogen',
-    questionsCount: 1,
-    lastUpdate: moment().format('DD/MM/YYYY')
-  },
-  {
-    id: 2,
-    name: 'Helium abc def israel kusayev',
-    questionsCount: 4,
-    lastUpdate: 'He'
-  },
-  {
-    id: 3,
-    name: 'Lithium abc def israel kusayev',
-    questionsCount: 6,
-    lastUpdate: 'Li'
-  },
-  {
-    id: 4,
-    name: 'Beryllium abc def israel',
-    questionsCount: 9,
-    lastUpdate: 'Be'
-  },
-  { id: 5, name: 'Boron', questionsCount: 10, lastUpdate: 'B' },
-  { id: 6, name: 'Carbon', questionsCount: 12, lastUpdate: 'C' },
-  { id: 7, name: 'Nitrogen', questionsCount: 14, lastUpdate: 'N' },
-  { id: 8, name: 'Oxygen', questionsCount: 15, lastUpdate: 'O' },
-  { id: 9, name: 'Fluorine', questionsCount: 18, lastUpdate: 'F' },
-  { id: 10, name: 'Neon', questionsCount: 20, lastUpdate: 'Ne' }
-];

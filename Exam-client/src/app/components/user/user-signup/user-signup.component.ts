@@ -1,7 +1,7 @@
+import { TestUserService } from './../../../services/test-user.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/models/User';
 import { BadInput } from 'src/app/exceptions/bad-input';
 
@@ -11,51 +11,39 @@ import { BadInput } from 'src/app/exceptions/bad-input';
   styleUrls: ['./user-signup.component.scss']
 })
 export class UserSignupComponent implements OnInit {
-
-  email: string;
-  firstName: string;
-  lastName: string;
-  phone: string;
-  showSpinner = false;
-  success: boolean;
+  showSpinner: boolean;
   errorMessage: string;
+  user = new User();
 
-  constructor(private router: Router, private authService: AuthenticationService,
-    private toast: ToastrService) { }
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private authService: AuthenticationService,
+    private testsService: TestUserService
+  ) {}
 
-  ngOnInit() {
-    this.showSpinner = false;
+  ngOnInit() {}
+
+  signUp(): void {
+    const id = this.activatedRoute.snapshot.params.id;
     this.errorMessage = null;
-    this.success = false;
-  }
 
+    this.showSpinner = true;
 
-signUp(): void {
-  this.showSpinner = false;
-  this.errorMessage = null;
-  this.success = false;
+    this.authService.studentSignUp(this.user).subscribe(
+      () => {
+        this.testsService.getStudentTest(id);
 
-
-  this.showSpinner = true;
-
-  const user = new User();
-  user.email = this.email;
-  user.firstName = this.firstName;
-  user.lastName = this.lastName;
-  user.phone = this.phone ;
-
-
-  this.authService.studentSignUp(user).subscribe((data) => {
-    this.showSpinner = false;
-    this.success = true;
-    }, err => {
-      if (err instanceof BadInput) {
+        this.router.navigate(['test', id, 'instructions']);
+      },
+      err => {
+        if (err instanceof BadInput) {
+          this.errorMessage = err.error;
+        }
+      },
+      () => {
         this.showSpinner = false;
-        this.errorMessage = err.error;
       }
-
-    }, () => {
-      this.showSpinner = false;
-    });
+    );
   }
 }

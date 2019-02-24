@@ -1,9 +1,11 @@
+import { AuthenticationService } from './../../../services/authentication.service';
 import { ToastrService } from 'ngx-toastr';
-import { TestsService } from 'src/app/services/tests.service';
+import { TestsAdminService } from 'src/app/services/tests-admin.service';
 import { CreateTest } from './../../../models/create-test';
 import { Component, OnInit } from '@angular/core';
 import { BadInput } from 'src/app/exceptions/bad-input';
 import { Router } from '@angular/router';
+import { SubjectService } from 'src/app/services/subject.service';
 
 @Component({
   selector: 'app-add-test',
@@ -12,16 +14,21 @@ import { Router } from '@angular/router';
 })
 export class AddTestComponent implements OnInit {
   constructor(
-    private testsSerivce: TestsService,
+    private testsService: TestsAdminService,
     private toast: ToastrService,
-    private router: Router
+    private router: Router,
+    private subjectService: SubjectService,
+    private authService: AuthenticationService
   ) {}
-  test = new CreateTest();
+  test = new CreateTest(
+    this.subjectService.subjectId,
+    this.authService.loggedInUser().email
+  );
 
   ngOnInit() {}
-  addTest(test) {
-    this.testsSerivce.create(test).subscribe(
-      data => {
+  addTest(test: any) {
+    this.testsService.create(test).subscribe(
+      () => {
         this.toast.success('test saved successfully 👌');
         this.router.navigate(['/manage-tests']);
       },

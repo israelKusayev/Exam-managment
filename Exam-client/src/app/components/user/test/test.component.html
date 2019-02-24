@@ -1,0 +1,21 @@
+<h1 class="test-name">{{ testsService.test.name }}</h1>
+<div class="question-container">
+  <app-test-question
+    [question]="test.questions[currentQuestion]"
+    [questionIndex]="currentQuestion + 1"
+    [firstQuestion]="firstQuestion"
+    [lastQuestion]="lastQuestion"
+    (next)="next($event)"
+    (previous)="previous($event)"
+    (submit)="submit()"
+  ></app-test-question>
+  <br />
+  <br />
+  <hr />
+  <b class="answered-amount">
+    You answered {{ answeredCount }} out of
+    {{ test.questions.length }} questions
+  </b>
+
+  <app-quick-navigation [count]="test.questions.length"></app-quick-navigation>
+</div>

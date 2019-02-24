@@ -16,6 +16,11 @@ $custom-typography: mat-typography-config(
 @include angular-material-typography($custom-typography);
 @include mat-core($custom-typography);
 
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 1.1em;
+}
 .container {
   width: 95%;
   margin: 0 auto;
@@ -50,10 +55,19 @@ mat-form-field .mat-form-field {
 .mat-row:nth-child(odd) {
   background-color: whitesmoke;
 }
+
 .mat-header-cell {
   color: black;
 }
 
-body {
-  font-size: 1.1em;
+.test-name {
+  background-color: #2e7d32;
+  font-size: 2.3em;
+  color: white;
+  line-height: 70px;
+  margin: 0 -2.6%;
+  text-align: center;
+}
+.bold {
+  font-weight: bold;
 }

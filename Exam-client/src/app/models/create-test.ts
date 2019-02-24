@@ -13,6 +13,10 @@ export class CreateTest {
   passingMessageBody: string;
   failingMessageSubject: string;
   failingMessageBody: string;
-  subjectId = 2;
-  creatorEmail = 'moshe@gmail.com';
+  subjectId: number;
+  creatorEmail: string;
+  constructor(subjectId: number, creatorEmail: string) {
+    this.subjectId = subjectId;
+    this.creatorEmail = creatorEmail;
+  }
 }

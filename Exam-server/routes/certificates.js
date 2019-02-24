@@ -4,7 +4,13 @@ const fs = require('fs');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  fs.readdir('certificate-templates/', (err, files) => {
+  const argv = process.execArgv.join();
+  const isDebug = argv.includes('inspect') || argv.includes('debug');
+
+  const path = isDebug
+    ? 'Exam-server/certificate-templates/'
+    : 'certificate-templates/';
+  fs.readdir(path, (err, files) => {
     if (err) {
       res.status(500).end();
       return;

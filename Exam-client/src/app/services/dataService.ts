@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { NotFoundError } from '../exceptions/not-found-error';
 import { AppError } from '../exceptions/app-error';
 import { BadInput } from '../exceptions/bad-input';
@@ -18,18 +18,22 @@ import { UnauthorizedError } from '../exceptions/unauthroized-error';
 export class DataService {
   constructor(private url: string, protected http: HttpClient) {}
 
-  private getHeaders(jwt: boolean): HttpHeaders {
+  getHeaders(jwt: boolean): HttpHeaders {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json');
     if (jwt) {
-       headers.append(environment.auth_headerKey, localStorage.getItem(environment.tokenStorageKey));
+      headers = headers.append(
+        environment.auth_headerKey,
+        localStorage.getItem(environment.tokenStorageKey)
+      );
     }
+
     return headers;
   }
 
   getOne(urlParameterName: string, jwt = true) {
     return this.http
-      .get<any[]>(this.url + '/' + urlParameterName, {
+      .get<any>(this.url + '/' + urlParameterName, {
         headers: this.getHeaders(jwt)
       })
       .pipe(
@@ -39,9 +43,9 @@ export class DataService {
       );
   }
 
-  getAll(jwt = true) {
+  getAll(jwt = true, queryParams = '') {
     return this.http
-      .get<any[]>(this.url, {
+      .get<any[]>(this.url + queryParams, {
         headers: this.getHeaders(jwt)
       })
       .pipe(
@@ -51,9 +55,9 @@ export class DataService {
       );
   }
 
-  create(resource, jwt = true) {
+  create(resource: any, jwt = true, queryParams = '') {
     return this.http
-      .post(this.url, JSON.stringify(resource), {
+      .post(this.url + queryParams, JSON.stringify(resource), {
         headers: this.getHeaders(jwt)
       })
       .pipe(
@@ -63,9 +67,9 @@ export class DataService {
       );
   }
 
-  update(resource, jwt = true) {
+  update(id: string, resource: any, jwt = true) {
     return this.http
-      .patch(this.url + '/' + resource.id, JSON.stringify(resource), {
+      .put(this.url + '/' + id, JSON.stringify(resource), {
         headers: this.getHeaders(jwt)
       })
       .pipe(

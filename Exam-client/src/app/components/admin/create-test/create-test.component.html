@@ -4,7 +4,9 @@
     <div class="test-details-container">
       <h2 class="test-details-header">General Test Details</h2>
       <hr />
-      <div>Field of study: <b>dev</b></div>
+      <div>
+        Field of study: <b>{{ subjectService.subjectName }}</b>
+      </div>
 
       <mat-form-field>
         <mat-select
@@ -261,6 +263,7 @@
 
     <app-question-table
       (select)="onQuestionSelect($event)"
+      [selected]="selected"
     ></app-question-table>
   </div>
   <button
