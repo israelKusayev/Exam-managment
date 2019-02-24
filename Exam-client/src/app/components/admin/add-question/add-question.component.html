@@ -1,0 +1,82 @@
+<div class="main-div">
+  <form #f="ngForm" (ngSubmit)="save()">
+    <mat-error *ngIf="errorMessage != null">{{ errorMessage }}</mat-error>
+    <div>Field of study: <b>dev</b></div>
+    <mat-form-field>
+      <mat-select
+        required
+        [(ngModel)]="languageId"
+        name="Language"
+        placeholder="Language"
+      >
+        <mat-option *ngFor="let language of languages" [value]="language.Id">
+          {{ language.Name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Question text"
+        [(ngModel)]="questionText"
+        name="questionText"
+        required
+      />
+    </mat-form-field>
+
+    <mat-form-field>
+      <textarea
+        rows="5"
+        [(ngModel)]="textBelowQuestion"
+        name="textBelowQuestion"
+        matInput
+        placeholder="Text below question"
+      ></textarea>
+    </mat-form-field>
+    <div>
+      <mat-form-field style="width:400px;">
+        <mat-select
+          (selectionChange)="changeMultipleChoice()"
+          [(ngModel)]="multipleChoice"
+          placeholder="Question Type"
+        >
+          <mat-option [value]="false">Single Choice Answer</mat-option>
+          <mat-option [value]="true">Multiple Choice Answer</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <button mat-stroked-button (click)="addPossibleAnswer()">
+        Add Possible Answer
+      </button>
+    </div>
+    <mat-radio-group [(ngModel)]="answer">
+      <div *ngFor="let item of possibleAnswers; let i = index">
+        <app-possible-answer
+          (remove)="removeItem($event)"
+          [index]="i"
+          [model]="item"
+        ></app-possible-answer>
+      </div>
+    </mat-radio-group>
+
+    <mat-form-field style="width:400px;">
+      <mat-select
+        (selectionChange)="changeMultipleChoice()"
+        [(ngModel)]="verticalAnswersLayout"
+        placeholder="Answers Layout"
+        required
+      >
+        <mat-option [value]="false">Horizontal</mat-option>
+        <mat-option [value]="true">Vertical</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-radio-group [(ngModel)]="answer"> </mat-radio-group>
+    <div>
+      <button [disabled]="!f.valid" mat-stroked-button color="primary">
+        Save
+      </button>
+    </div>
+  </form>
+</div>

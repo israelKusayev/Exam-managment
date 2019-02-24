@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './dataService';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpErrorResponse
+} from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { User } from '../models/User';
 import { Observable } from 'rxjs';
@@ -44,15 +48,18 @@ export class AuthenticationService extends DataService {
     );
   }
 
+
   studentSignUp(student: User): Observable<any> {
     return this.http
       .post<any>(
         `${environment.authUrl}/student-signup`,
         { user: student },
+
         { headers: this.getHeaders(false) }
       )
       .pipe(
         catchError((error: HttpErrorResponse, caught) => {
+
           return this.handleError(error);
         })
       )
@@ -164,8 +171,8 @@ export class AuthenticationService extends DataService {
         )
       )
       .pipe(
-        map(newToken => {
-          localStorage.setItem(environment.tokenStorageKey, newToken);
+        map(data => {
+          localStorage.setItem(environment.tokenStorageKey, data.newToken);
         })
       );
   }
