@@ -65,8 +65,7 @@ function executeMultipleSp(sp, callback) {
   transaction.begin(err => {
     // transaction start
     if (err) console.log(err);
-
-    executeInTransaction(transaction, sp, 0, callback);
+    else executeInTransaction(transaction, sp, 0, callback);
   });
 }
 

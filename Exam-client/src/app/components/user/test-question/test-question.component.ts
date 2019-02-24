@@ -42,14 +42,28 @@ export class TestQuestionComponent implements OnInit, OnChanges {
   }
 
   onNext() {
-    if (this.isAnswerd()) {
-      this.question.isAnswered = true;
+    const isAnswerd = this.isAnswerd();
+    if (isAnswerd || this.question.isSaved) {
+      if (isAnswerd) {
+        this.question.isAnswered = true;
+      } else {
+        this.question.isAnswered = false;
+      }
       this.question.answers = this.answers;
     }
     this.next.emit(this.question);
   }
   onPrevious() {
-    this.previous.emit(this.answers);
+    const isAnswerd = this.isAnswerd();
+    if (isAnswerd || this.question.isSaved) {
+      if (isAnswerd) {
+        this.question.isAnswered = true;
+      } else {
+        this.question.isAnswered = false;
+      }
+      this.question.answers = this.answers;
+    }
+    this.previous.emit(this.question);
   }
 
   onAnswer(id: number) {
@@ -79,4 +93,8 @@ export class TestQuestionComponent implements OnInit, OnChanges {
   // public get test(): any {
   //   return this.testsService.test;
   // }
+
+  onSubmit() {
+    this.submit.emit();
+  }
 }

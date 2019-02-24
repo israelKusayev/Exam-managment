@@ -1,9 +1,9 @@
 const express = require('express');
 const languagesRepository = require('../db/languagesManager');
-const authrize=require('../middlewares/authorize');
+const authrize = require('../middlewares/authorize');
 const router = express.Router();
 
-router.get('/',authrize.admin, (req, res) => {
+router.get('/', authrize.admin, (req, res) => {
   languagesRepository.getLanguages(data => {
     if (data.error) {
       res.status(500).end();

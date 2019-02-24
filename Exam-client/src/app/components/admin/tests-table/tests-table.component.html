@@ -74,7 +74,7 @@
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef></th>
       <td style="width:15%" mat-cell *matCellDef="let element">
-        <div class="status">
+        <div class="status" *ngIf="!element.isActive; else active">
           <button
             [disabled]="element.isActive"
             mat-stroked-button
@@ -83,15 +83,8 @@
           >
             edit
           </button>
-          <span
-            *ngIf="element.isActive"
-            style="margin-left: 50px"
-            class="text-success"
-            >Active</span
-          >
 
           <button
-            *ngIf="!element.isActive"
             [disabled]="element.isActive"
             mat-stroked-button
             color="warn"
@@ -100,6 +93,14 @@
             Delete
           </button>
         </div>
+        <ng-template #active>
+          <b
+            *ngIf="element.isActive"
+            style="margin-left: 20px"
+            class="text-success "
+            >Active</b
+          >
+        </ng-template>
       </td>
     </ng-container>
 

@@ -42,6 +42,9 @@ import { DateFormatPipe } from './helpers/date-format.pipe';
 import { TestInstructionsComponent } from './components/user/test-instructions/test-instructions.component';
 import { TestQuestionComponent } from './components/user/test-question/test-question.component';
 import { TestComponent } from './components/user/test/test.component';
+import { QuickNavigationComponent } from './components/user/quick-navigation/quick-navigation.component';
+import { SubmitDialogComponent } from './components/user/submit-dialog/submit-dialog.component';
+import { TestResultComponent } from './components/user/test-result/test-result.component';
 
 @NgModule({
   declarations: [
@@ -66,9 +69,12 @@ import { TestComponent } from './components/user/test/test.component';
     DateFormatPipe,
     TestInstructionsComponent,
     TestQuestionComponent,
-    TestComponent
+    TestComponent,
+    QuickNavigationComponent,
+    SubmitDialogComponent,
+    TestResultComponent
   ],
-  entryComponents: [ShowQuestionComponent],
+  entryComponents: [ShowQuestionComponent,SubmitDialogComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

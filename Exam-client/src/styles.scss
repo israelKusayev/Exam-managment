@@ -55,6 +55,7 @@ mat-form-field .mat-form-field {
 .mat-row:nth-child(odd) {
   background-color: whitesmoke;
 }
+
 .mat-header-cell {
   color: black;
 }
@@ -66,4 +67,7 @@ mat-form-field .mat-form-field {
   line-height: 70px;
   margin: 0 -2.6%;
   text-align: center;
+}
+.bold {
+  font-weight: bold;
 }

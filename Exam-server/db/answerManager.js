@@ -8,7 +8,7 @@ function saveAnswers(testExecId, questionId, answerIds, callback) {
   console.log([testExecId, questionId, answerIds]);
 
   baseRepository.executeInDB(
-    'sp_CreateUserAnswer',
+    'sp_UpdateAnswersInTestExec',
     [
       { testExecutionId: testExecId },
       { questionId: questionId },

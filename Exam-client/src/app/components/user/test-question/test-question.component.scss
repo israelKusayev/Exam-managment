@@ -1,3 +1,6 @@
+h1 {
+  text-shadow: 1px 1px #2e7d32;
+}
 .display-flex {
   display: inline-flex;
   flex-wrap: wrap;
@@ -10,8 +13,9 @@
 .answer {
   margin: 5px;
 }
+
 .btn-navigation-container {
-  margin: 20px 0 0 0;
+  margin: 50px 0 0 0;
 
   button {
     margin: 0 10px;

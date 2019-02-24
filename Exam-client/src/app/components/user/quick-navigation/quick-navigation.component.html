@@ -1,0 +1,10 @@
+<div class="navigation">
+  <p>
+    Quick Navigation:
+  </p>
+  &nbsp;
+  <span *ngFor="let item of arr; index as i">
+    <span class="number" (click)="naviagte(i)">{{ i + 1 }}</span>
+    <span class="vertical-line" *ngIf="arr.length - 1 !== i">|</span>
+  </span>
+</div>
