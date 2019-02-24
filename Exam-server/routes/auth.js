@@ -1,7 +1,7 @@
 //TODO move to a new service with a different port
 
 const express = require('express');
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const config = require('../config/config');
 const bcrypt = require('bcryptjs');
 const authManager = require('../db/authManager');
@@ -9,66 +9,22 @@ const mailer = require('../helpers/mailer');
 
 const router = express.Router();
 
-router.post('/student-login', (req, res) => {
-  const email = req.body.email;
-  if (email) {
-    authManager.getStudentByEmail(email, data => {
-      console.log(email);
-      console.log(data);
-      if (!data || data.error) {
-        res.status(500).end();
-      } else if (data && data[0]) {
-        const dbUser = data[0];
-        const user = {
-          email: dbUser.Email,
-          name: null,
-          firstName: dbUser.FirstName,
-          lastName: dbUser.LastName,
-          isActive: true,
-          isAdmin: false,
-          phone: dbUser.Phone
-        };
-        console.log(user);
-        res.status(200).send({ user });
-      } else {
-        res.status(400).send({ message: 'Incorrect email' });
-      }
-    });
-  } else res.status(400).send({ message: 'Email or password is not provided' });
-});
 
 router.post('/student-signup', (req, res) => {
   const user = req.body.user;
-  if (user) {
-    authManager.studentExists(user.email, data => {
-      if (data && data[0].Result == 0) {
-        authManager.studentSignup(
-          user.email,
-          user.firstName,
-          user.lastName,
-          user.phone,
-          data => {
-            if (data && data[0].Success) {
-              const ret = {
-                email: user.Email,
-                name: null,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                isActive: true,
-                isAdmin: false,
-                phone: user.phone
-              };
-              res.status(200).send({ user: ret });
-            } else {
-              res.status(500).end();
-            }
-          }
-        );
-      } else {
-        res.status(400).send({ message: 'User already exists' });
-      }
-    });
-  } else res.status(400).send({ message: 'No input provided' });
+
+  if (!user) {
+    res.status(400).send({ message: 'No input provided' });
+    return;
+  }
+  authManager.studentLogin(user, data => {
+    if (data.error) {
+      res.status(500).end();
+      return;
+    }
+
+    res.status(200).send(user);
+  });
 });
 
 router.post('/admin-login', (req, res) => {
@@ -131,7 +87,7 @@ router.get('/activate-admin-account', (req, res) => {
     const email = decodedToken.sub;
     authManager.activateAdminByEmail(email, data => {
       if (data && data[0].Success) {
-        if (data[0].RowsCount != 0) {
+        if (data[0].RowsCount !== 0) {
           res
             .status(200)
             .send(
@@ -283,6 +239,7 @@ router.post('/admin-refresh-token', (req, res) => {
   else {
     try {
       const oldDecodedToken = jwt.verify(oldRawToken, config.jwt_secret);
+
       const email = oldDecodedToken.sub;
 
       const newToken = jwt.sign({}, config.jwt_secret, {

@@ -9,12 +9,21 @@ import {
 import { map, catchError } from 'rxjs/operators';
 import { User } from '../models/User';
 import { Observable } from 'rxjs';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { Router } from '@angular/router';
+import { SubjectService } from './subject.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService extends DataService {
+  constructor(
+    httpAuth: HttpClient,
+    private router: Router,
+    private subjectService: SubjectService
+  ) {
+    super(environment.authUrl, httpAuth);
+  }
+
   adminResetPassword(token: string, password: string): any {
     return this.http.post<any>(
       `${environment.authUrl}/admin-reset-password`,
@@ -39,61 +48,32 @@ export class AuthenticationService extends DataService {
     );
   }
 
-  constructor(httpAuth: HttpClient) {
-    super(environment.authUrl, httpAuth);
-  }
-
-  studentLogin(email: string): any {
-    return this.http
-      .post<any>(
-        `${environment.authUrl}/student-login`,
-        { email },
-        { headers: this.getHeaders(false) }
-      )
-      .pipe(
-        catchError((error: HttpErrorResponse, caught) => {
-          console.log('error: ');
-          console.log(error);
-          return this.handleError(error);
-        })
-      )
-      .pipe(
-        map(data => {
-          console.log('student:');
-          console.log(data.user);
-          localStorage.setItem(environment.currentUserStorageKey, data.user);
-        })
-      );
-  }
 
   studentSignUp(student: User): Observable<any> {
     return this.http
       .post<any>(
         `${environment.authUrl}/student-signup`,
         { user: student },
+
         { headers: this.getHeaders(false) }
       )
       .pipe(
         catchError((error: HttpErrorResponse, caught) => {
-          console.log('error: ');
-          console.log(error);
+
           return this.handleError(error);
         })
       )
       .pipe(
-        map(data => {
+        map(user => {
           // login successful if there's a jwt token in the response
-          if (data.user) {
-            data.user.isAdmin = false;
-            data.user.isActive = true;
-            console.log(data.user);
+          if (user) {
             // store user details in local storage to keep user logged in between page refreshes
             localStorage.setItem(
               environment.currentUserStorageKey,
-              JSON.stringify(data.user)
+              JSON.stringify(user)
             );
           }
-          return data.user;
+          return user.user;
         })
       );
   }
@@ -218,9 +198,10 @@ export class AuthenticationService extends DataService {
   }
 
   logout() {
-    console.log('logged out');
     // remove user from local storage to log user out
     localStorage.removeItem(environment.currentUserStorageKey);
     localStorage.removeItem(environment.tokenStorageKey);
+    this.subjectService.currentSubject = null;
+    this.router.navigate(['/login']);
   }
 }

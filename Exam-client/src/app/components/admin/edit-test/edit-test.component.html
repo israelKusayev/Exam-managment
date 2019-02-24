@@ -1,1 +1,6 @@
-<app-create-test (onSave)="editTest($event)" [model]="test"></app-create-test>
+<app-create-test
+  *ngIf="test"
+  [selected]="questions"
+  (onSave)="editTest($event)"
+  [model]="test"
+></app-create-test>
