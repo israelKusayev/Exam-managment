@@ -7,6 +7,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class QuickNavigationComponent implements OnInit {
   @Input() count: number;
+  @Input() current: number;
   @Output() onNavigate = new EventEmitter();
   arr: any[];
   constructor() {}

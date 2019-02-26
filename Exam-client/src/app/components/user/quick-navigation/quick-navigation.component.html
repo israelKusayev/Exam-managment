@@ -4,7 +4,12 @@
   </p>
   &nbsp;
   <span *ngFor="let item of arr; index as i">
-    <span class="number" (click)="naviagte(i)">{{ i + 1 }}</span>
+    <span
+      class="number"
+      [class.current]="i === current"
+      (click)="naviagte(i)"
+      >{{ i + 1 }}</span
+    >
     <span class="vertical-line" *ngIf="arr.length - 1 !== i">|</span>
   </span>
 </div>

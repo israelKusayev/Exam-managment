@@ -1,61 +1,65 @@
-<h1>Question #{{ questionIndex }}</h1>
-<h2>{{ question.title }}</h2>
+<div>
+  <!-- (keyup.arrowright)="$event.preventDefault(); onNext()"
+(keyup.arrowleft)="$event.preventDefault(); onPrevious()" -->
+  <h1>Question #{{ questionIndex }}</h1>
+  <h2>{{ question.title }}</h2>
 
-<div *ngIf="answers.length > 0">
-  <div *ngIf="!question.multipleChoice; else multipleSelect">
-    <!-- single choice -->
-    <mat-radio-group
-      [class.vertical]="!question.horizontalDisplay"
-      class="display-flex"
-    >
-      <mat-radio-button
-        class="answer"
-        *ngFor="let answer of answers"
-        [value]="answer.id"
-        [checked]="answer.selected"
-        (change)="onAnswer(answer.id)"
+  <div *ngIf="answers.length > 0">
+    <div *ngIf="!question.multipleChoice; else multipleSelect">
+      <!-- single choice -->
+      <mat-radio-group
+        [class.vertical]="!question.horizontalDisplay"
+        class="display-flex"
       >
-        {{ answer.title }}
-      </mat-radio-button>
-    </mat-radio-group>
-  </div>
-  <ng-template #multipleSelect>
-    <!-- mulitiple choice -->
-    <div class="display-flex" [class.vertical]="!question.horizontalDisplay">
-      <mat-checkbox
-        [(ngModel)]="answer.selected"
-        name="selected"
-        class="answer"
-        *ngFor="let answer of answers"
-      >
-        {{ answer.title }}
-      </mat-checkbox>
+        <mat-radio-button
+          class="answer"
+          *ngFor="let answer of answers"
+          [value]="answer.id"
+          [checked]="answer.selected"
+          (change)="onAnswer(answer.id)"
+        >
+          {{ answer.title }}
+        </mat-radio-button>
+      </mat-radio-group>
     </div>
-  </ng-template>
-  <!-- navigation buttons  -->
-  <div class="btn-navigation-container">
-    <button mat-raised-button color="accent" (click)="onPrevious()">
-      <mat-icon>skip_previous</mat-icon>
-      {{ !firstQuestion ? 'Previous Question' : 'Welcome Page' }}
-    </button>
-    <button
-      mat-raised-button
-      color="accent"
-      *ngIf="!lastQuestion"
-      (click)="onNext()"
-    >
-      Next Question
-      <mat-icon>skip_next</mat-icon>
-    </button>
-    <button
-      class="submit-icon"
-      mat-raised-button
-      *ngIf="lastQuestion"
-      color="primary"
-      (click)="onSubmit()"
-    >
-      Submit the Test
-      <mat-icon>flag</mat-icon>
-    </button>
+    <ng-template #multipleSelect>
+      <!-- mulitiple choice -->
+      <div class="display-flex" [class.vertical]="!question.horizontalDisplay">
+        <mat-checkbox
+          [(ngModel)]="answer.selected"
+          name="selected"
+          class="answer"
+          *ngFor="let answer of answers"
+        >
+          {{ answer.title }}
+        </mat-checkbox>
+      </div>
+    </ng-template>
+    <!-- navigation buttons  -->
+    <div class="btn-navigation-container">
+      <button mat-raised-button color="accent" (click)="onPrevious()">
+        <mat-icon>skip_previous</mat-icon>
+        {{ !firstQuestion ? 'Previous Question' : 'Welcome Page' }}
+      </button>
+      <button
+        mat-raised-button
+        color="accent"
+        *ngIf="!lastQuestion"
+        (click)="onNext()"
+      >
+        Next Question
+        <mat-icon>skip_next</mat-icon>
+      </button>
+      <button
+        class="submit-icon"
+        mat-raised-button
+        *ngIf="lastQuestion"
+        color="primary"
+        (click)="onSubmit()"
+      >
+        Submit the Test
+        <mat-icon>flag</mat-icon>
+      </button>
+    </div>
   </div>
 </div>

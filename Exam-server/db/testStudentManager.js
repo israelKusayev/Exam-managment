@@ -1,3 +1,4 @@
+//@ts-check
 const baseRepository = require('./managerBase');
 
 function craeteTestExecution(testId, userId, callback) {
@@ -41,7 +42,7 @@ function getStudentTest(testId, userId, callback) {
  * @param {[]} questions
  */
 function questionRandom(testId, userId, questions) {
-  userIdAscii = 0;
+  let userIdAscii = 0;
   for (var i = 0; i < userId.length; i++) {
     userIdAscii += userId.charCodeAt(i);
   }
@@ -60,7 +61,50 @@ function questionRandom(testId, userId, questions) {
   });
 }
 
+function calcGrade(testId, testExecId, callback) {
+  baseRepository.executeInDB(
+    'sp_CalcGrade',
+    [{ testId: testId }, { testExecId: testExecId }],
+    data => {
+      let answeredSuccessfully = 0;
+      const userAnswers = data[0];
+      const correctAnswers = data[1];
+      const questionCount = data[2].questionCount;
+      console.log(data);
+
+      for (let i = 0; i < userAnswers.length; i++) {
+        const userAnswer = userAnswers[i];
+      }
+
+      let index = 0;
+      for (let i = 0; i < correctAnswers.length; i++) {
+        const correctAnswer = correctAnswers[i];
+        if (correctAnswer.questionId === userAnswers[index].questionId) {
+          // same question
+          if (correctAnswer.answerId === userAnswers[index].questionId) {
+            // same answer
+          }
+        }
+        index++;
+      }
+
+      for (let i = 0; i < correctAnswers.length; i++) {
+        const correctAnswer = correctAnswers[i];
+        for (let j = 0; j < userAnswers.length; j++) {
+          const userAnswer = userAnswers[j];
+          if (userAnswer.questionId === correctAnswer.questionId) {
+            if (!correctAnswer.multipleChoice) {
+              answeredSuccessfully++;
+            }
+          }
+        }
+      }
+    }
+  );
+}
+
 module.exports = {
   craeteTestExecution: craeteTestExecution,
-  getStudentTest: getStudentTest
+  getStudentTest: getStudentTest,
+  calcGrade: calcGrade
 };

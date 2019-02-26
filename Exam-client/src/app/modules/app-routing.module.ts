@@ -16,10 +16,12 @@ import { OrganizationComponent } from '../components/admin/organization/organiza
 import { NotFoundComponent } from '../components/not-found/not-found.component';
 
 import { AdminAuthGuardService as AdminAuthGuard } from '../services/auth-guard.service';
+import { TestResultComponent } from '../components/user/test-result/test-result.component';
 
 const routes: Routes = [
   { path: 'test/:id/signup', component: UserSignupComponent },
   { path: 'test/:id/instructions', component: TestInstructionsComponent },
+  { path: 'test/:i  d/result', component: TestResultComponent },
   { path: 'test/:id', component: TestComponent },
   { path: 'login', component: AdminLoginComponent },
   { path: 'admin-register', component: AdminRegisterComponent },

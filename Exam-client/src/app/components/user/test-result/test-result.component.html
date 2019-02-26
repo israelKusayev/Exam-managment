@@ -1,3 +1,25 @@
-<p>
-  test-result works!
-</p>
+<h1 class="test-name">{{ testService.test.name }}</h1>
+<h1>{{ testService.test.name }} - results</h1>
+<div>
+  <div><b>Your Grade</b> <span class="text-success"> 100</span></div>
+  <hr />
+  <div><b>Status</b> <span class="text-success"> Success</span></div>
+  <hr />
+
+  <div>
+    <b>Summery</b>
+    <span> you answerd 9 question correctly, out of 9 question in total</span>
+  </div>
+  <hr />
+
+  <div>
+    <b>Passing Grade</b> <span> The minimum grade to pass this test is 70</span>
+  </div>
+  <hr />
+
+  <div class="button-container">
+    <button mat-raised-button color="primary">Review your answers</button>
+    <button mat-raised-button color="primary">Download certificate</button>
+  </div>
+</div>
+<footer></footer>
