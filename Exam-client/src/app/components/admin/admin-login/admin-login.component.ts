@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import {Router, ActivatedRoute} from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { environment } from 'src/environments/environment';
 import { BadInput } from 'src/app/exceptions/bad-input';
 import { ToastrService } from 'ngx-toastr';
 
@@ -21,8 +20,12 @@ export class AdminLoginComponent implements OnInit {
   passwordResetLinkSent = false;
   errorMessage: string;
 
-  constructor(private router: Router, private route: ActivatedRoute, private authService: AuthenticationService,
-    private toast: ToastrService) { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private authService: AuthenticationService,
+    private toast: ToastrService
+  ) {}
 
   ngOnInit() {
     this.showSpinner = false;
@@ -36,41 +39,47 @@ export class AdminLoginComponent implements OnInit {
     this.emailActivationNeeded = false;
     this.passwordResetLinkSent = false;
 
-    this.authService.adminLogin(this.email, this.password).subscribe(() => {
-      this.showSpinner = false;
-      const user = this.authService.loggedInUser();
-      console.log('user:');
-      console.log(user);
+    this.authService.adminLogin(this.email, this.password).subscribe(
+      () => {
+        this.showSpinner = false;
+        const user = this.authService.loggedInUser();
+        console.log('user:');
+        console.log(user);
         if (user.isActive) {
           this.router.navigate([this.returnUrl]);
-      } else {
+        } else {
           this.emailActivationNeeded = true;
-      }
-    }, err => {
-      console.log(err);
-      if (err instanceof BadInput) {
+        }
+      },
+      err => {
+        console.log(err);
+        if (err instanceof BadInput) {
+          this.showSpinner = false;
+          this.errorMessage = err.error;
+        }
+      },
+      () => {
         this.showSpinner = false;
-        this.errorMessage = err.error;
       }
-    }, () => {
-      this.showSpinner = false;
-    });
-
+    );
   }
 
   sendResetPasswordLink(): void {
     this.showSpinner = true;
     this.errorMessage = null;
     this.passwordResetLinkSent = false;
-    this.authService.adminSendResetPasswordLink(this.email).subscribe(data => {
-      this.showSpinner = false;
-      this.passwordResetLinkSent = true;
-    }, (err) => {
-      this.showSpinner = false;
-      this.errorMessage = 'Un error occured';
-    }, () => {
-      this.showSpinner = false;
-    });
+    this.authService.adminSendResetPasswordLink(this.email).subscribe(
+      data => {
+        this.showSpinner = false;
+        this.passwordResetLinkSent = true;
+      },
+      err => {
+        this.showSpinner = false;
+        this.errorMessage = 'Un error occured';
+      },
+      () => {
+        this.showSpinner = false;
+      }
+    );
   }
-
 }

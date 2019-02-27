@@ -11,6 +11,7 @@ import { MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { QuestionsService } from 'src/app/services/questions.service';
 import { ShowQuestionComponent } from '../../show-question/show-question.component';
+import { SubjectService } from 'src/app/services/subject.service';
 
 @Component({
   selector: 'app-question-table',
@@ -29,15 +30,18 @@ export class QuestionTableComponent implements OnInit {
   constructor(
     private questionsService: QuestionsService,
     private answerService: AnswerService,
+    private subjectService: SubjectService,
     public dialog: MatDialog
   ) {}
 
   ngOnInit() {
-    this.questionsService.getAll().subscribe(questions => {
-      this.dataSource.data = questions;
+    this.questionsService
+      .getAllBySubjectId(this.subjectService.subjectId)
+      .subscribe(questions => {
+        this.dataSource.data = questions;
 
-      this.selectQuestions();
-    });
+        this.selectQuestions();
+      });
 
     this.dataSource.paginator = this.paginator;
     this.applyCustomFilter();

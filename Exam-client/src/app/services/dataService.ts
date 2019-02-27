@@ -18,7 +18,6 @@ import { UnauthorizedError } from '../exceptions/unauthroized-error';
 export class DataService {
   constructor(private url: string, protected http: HttpClient) {}
 
-
   getHeaders(jwt: boolean): HttpHeaders {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json');
@@ -57,6 +56,8 @@ export class DataService {
   }
 
   create(resource: any, jwt = true, queryParams = '') {
+    console.log('add:');
+    console.log(resource);
     return this.http
       .post(this.url + queryParams, JSON.stringify(resource), {
         headers: this.getHeaders(jwt)

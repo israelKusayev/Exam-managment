@@ -38,6 +38,18 @@ function createListId(arr) {
   return listId;
 }
 
+function createPossibleAnswerTable(possibleAnswers) {
+  const table = new sql.Table();
+  table.columns.add('Title', sql.NVarChar(300), { nullable: false });
+  table.columns.add('IsCorrect', sql.Bit, { nullable: false });
+  for (let i = 0; i < possibleAnswers.length; i++) {
+    table.rows.add(possibleAnswers[i].title, possibleAnswers[i].correct);
+  }
+  console.log('possible answers TABLE:');
+  console.log(table);
+  return table;
+}
+
 /*
 
 sp =  [
@@ -123,5 +135,6 @@ function executeInTransaction(transaction, sp, index, callback) {
 module.exports = {
   executeInDB: executeInDB,
   createListId: createListId,
+  createPossibleAnswerTable: createPossibleAnswerTable,
   executeMultipleSp: executeMultipleSp
 };
