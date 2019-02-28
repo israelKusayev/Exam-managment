@@ -9,6 +9,7 @@ import { PossibleAnswer } from 'src/app/models/possible-answer';
 export class PossibleAnswerComponent implements OnInit {
   @Input() index: number;
   @Input() model: PossibleAnswer;
+  @Input() checked: boolean;
   @Output() remove: EventEmitter<number> = new EventEmitter<number>();
   constructor() {}
   ngOnInit() {}

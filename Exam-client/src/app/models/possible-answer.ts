@@ -1,5 +1,5 @@
 export class PossibleAnswer {
   correct = false;
-  content: string;
+  title = '';
   constructor(public multipleChoice: boolean = false) {}
 }

@@ -36,7 +36,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { EditTestComponent } from './components/admin/edit-test/edit-test.component';
 import { OrganizationComponent } from './components/admin/organization/organization.component';
 import { AddQuestionComponent } from './components/admin/add-question/add-question.component';
-import { PossibleAnswerComponent } from './components/admin/add-question/possible-answer/possible-answer.component';
+import { QuestionsTableComponent } from './components/admin/questions-table/questions-table.component';
+import { PossibleAnswerComponent } from './components/admin/possible-answer/possible-answer.component';
 import { TestInstructionsComponent } from './components/user/test-instructions/test-instructions.component';
 import { TestQuestionComponent } from './components/user/test-question/test-question.component';
 import { TestComponent } from './components/user/test/test.component';
@@ -47,7 +48,7 @@ import { TestResultComponent } from './components/user/test-result/test-result.c
 import { AppErrorHandler } from './helpers/app-error-handler';
 import { TagsPipe } from './helpers/tags.pipe';
 import { DateFormatPipe } from './helpers/date-format.pipe';
-
+import { EditQuestionComponent } from './components/admin/edit-question/edit-question.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { DateFormatPipe } from './helpers/date-format.pipe';
     NotFoundComponent,
     EditTestComponent,
     AddQuestionComponent,
+    QuestionsTableComponent,
     PossibleAnswerComponent,
     OrganizationComponent,
     DateFormatPipe,
@@ -77,9 +79,10 @@ import { DateFormatPipe } from './helpers/date-format.pipe';
     TestComponent,
     QuickNavigationComponent,
     SubmitDialogComponent,
-    TestResultComponent
+    TestResultComponent,
+    EditQuestionComponent
   ],
-  entryComponents: [ShowQuestionComponent,SubmitDialogComponent],
+  entryComponents: [ShowQuestionComponent, SubmitDialogComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

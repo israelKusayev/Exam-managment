@@ -1,3 +1,15 @@
-<button routerLink="add" mat-raised-button color="accent">
-  Add a Question
-</button>
+<div class="container">
+  <div class="header">
+    <h1>
+      Questions for
+      <span color="accent">{{ subjectService.subjectName }}</span>
+    </h1>
+    <button routerLink="add" mat-raised-button color="accent">
+      Add a Question
+    </button>
+    <button routerLink="edit/23" mat-raised-button color="accent">
+      Edit Question
+    </button>
+  </div>
+  <app-questions-table></app-questions-table>
+</div>
