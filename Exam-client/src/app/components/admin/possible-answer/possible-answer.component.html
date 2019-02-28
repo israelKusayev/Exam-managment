@@ -1,0 +1,29 @@
+<div class="main-div">
+  <button mat-stroked-button (click)="sendRemove()" color="warn">
+    &times;
+  </button>
+
+  <mat-form-field style="width: 600px;">
+    <textarea
+      [(ngModel)]="model.title"
+      name="model.title"
+      matInput
+      [placeholder]="'Answer #' + (index + 1)"
+      required
+    ></textarea>
+  </mat-form-field>
+  <mat-radio-button
+    *ngIf="!model.multipleChoice"
+    [value]="index"
+    [checked]="checked"
+  >
+    Correct
+  </mat-radio-button>
+  <mat-checkbox
+    *ngIf="model.multipleChoice"
+    [(ngModel)]="model.correct"
+    name="model.correct"
+  >
+    Correct
+  </mat-checkbox>
+</div>

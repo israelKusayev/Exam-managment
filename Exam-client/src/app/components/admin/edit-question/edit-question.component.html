@@ -1,0 +1,94 @@
+<div class="main-div">
+  <form #f="ngForm" (ngSubmit)="save()">
+    <mat-error *ngIf="errorMessage != null">{{ errorMessage }}</mat-error>
+    <div>
+      Field of study: <b>{{ fieldOfStudy }}</b>
+    </div>
+    <div>
+      <mat-form-field class="input-field">
+        <input
+          matInput
+          placeholder="Question text"
+          [(ngModel)]="question.title"
+          name="question.title"
+          required
+        />
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="input-field">
+        <textarea
+          rows="5"
+          [(ngModel)]="question.textBelow"
+          name="question.textBelow"
+          matInput
+          placeholder="Text below question"
+        ></textarea>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="input-field">
+        <mat-select
+          (selectionChange)="changeMultipleChoice()"
+          [(ngModel)]="question.multipleChoice"
+          name="question.multipleChoice"
+          placeholder="Question Type"
+        >
+          <mat-option [value]="false">Single Choice Answer</mat-option>
+          <mat-option [value]="true">Multiple Choice Answer</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <button mat-stroked-button (click)="addPossibleAnswer()">
+        Add Possible Answer
+      </button>
+    </div>
+    <div>
+      <mat-radio-group [(ngModel)]="answer" name="answer">
+        <div *ngFor="let item of possibleAnswers; let i = index">
+          <app-possible-answer
+            (remove)="removeItem($event)"
+            [index]="i"
+            [model]="item"
+            [checked]="answer == i"
+            required
+          ></app-possible-answer>
+        </div>
+      </mat-radio-group>
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-select
+          (selectionChange)="changeMultipleChoice()"
+          [(ngModel)]="question.horizontalDisplay"
+          placeholder="Answers Layout"
+          name="question.horizontalDisplay"
+          required
+        >
+          <mat-option [value]="true">Horizontal</mat-option>
+          <mat-option [value]="false">Vertical</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="input-field">
+        <input
+          [(ngModel)]="question.tags"
+          name="question.tags"
+          matInput
+          placeholder="Tags"
+        />
+      </mat-form-field>
+    </div>
+    <div>
+      <button
+        [disabled]="!f.valid || possibleAnswers.length == 0"
+        mat-stroked-button
+        color="primary"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</div>

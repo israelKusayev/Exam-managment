@@ -1,0 +1,12 @@
+.container {
+  padding: 10px;
+  box-sizing: border-box;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+.header button {
+  height: 50%;
+  align-self: center;
+}

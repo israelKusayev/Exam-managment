@@ -14,9 +14,16 @@ import { CreateTestComponent } from '../components/admin/create-test/create-test
 import { UserSignupComponent } from '../components/user/user-signup/user-signup.component';
 import { OrganizationComponent } from '../components/admin/organization/organization.component';
 import { NotFoundComponent } from '../components/not-found/not-found.component';
+import { AddQuestionComponent } from '../components/admin/add-question/add-question.component';
+import { EditQuestionComponent } from '../components/admin/edit-question/edit-question.component';
+import { TestResultComponent } from '../components/user/test-result/test-result.component';
 
 import { AdminAuthGuardService as AdminAuthGuard } from '../services/auth-guard.service';
-import { TestResultComponent } from '../components/user/test-result/test-result.component';
+
+
+
+
+
 
 const routes: Routes = [
   { path: 'test/:id/signup', component: UserSignupComponent },
@@ -28,6 +35,16 @@ const routes: Routes = [
   {
     path: 'admin-reset-password/:token',
     component: AdminResetPasswordComponent
+  },
+  {
+    path: 'manage-questions/add',
+    component: AddQuestionComponent,
+    canActivate: [AdminAuthGuard]
+  },
+  {
+    path: 'manage-questions/edit/:id',
+    component: EditQuestionComponent,
+    canActivate: [AdminAuthGuard]
   },
   {
     path: 'manage-questions',

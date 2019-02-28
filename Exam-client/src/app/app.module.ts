@@ -35,16 +35,20 @@ import { TestsTableComponent } from './components/admin/tests-table/tests-table.
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { EditTestComponent } from './components/admin/edit-test/edit-test.component';
 import { OrganizationComponent } from './components/admin/organization/organization.component';
-
-import { AppErrorHandler } from './helpers/app-error-handler';
-import { TagsPipe } from './helpers/tags.pipe';
-import { DateFormatPipe } from './helpers/date-format.pipe';
+import { AddQuestionComponent } from './components/admin/add-question/add-question.component';
+import { QuestionsTableComponent } from './components/admin/questions-table/questions-table.component';
+import { PossibleAnswerComponent } from './components/admin/possible-answer/possible-answer.component';
 import { TestInstructionsComponent } from './components/user/test-instructions/test-instructions.component';
 import { TestQuestionComponent } from './components/user/test-question/test-question.component';
 import { TestComponent } from './components/user/test/test.component';
 import { QuickNavigationComponent } from './components/user/quick-navigation/quick-navigation.component';
 import { SubmitDialogComponent } from './components/user/submit-dialog/submit-dialog.component';
 import { TestResultComponent } from './components/user/test-result/test-result.component';
+
+import { AppErrorHandler } from './helpers/app-error-handler';
+import { TagsPipe } from './helpers/tags.pipe';
+import { DateFormatPipe } from './helpers/date-format.pipe';
+import { EditQuestionComponent } from './components/admin/edit-question/edit-question.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +69,9 @@ import { TestResultComponent } from './components/user/test-result/test-result.c
     TestsTableComponent,
     NotFoundComponent,
     EditTestComponent,
+    AddQuestionComponent,
+    QuestionsTableComponent,
+    PossibleAnswerComponent,
     OrganizationComponent,
     DateFormatPipe,
     TestInstructionsComponent,
@@ -72,9 +79,10 @@ import { TestResultComponent } from './components/user/test-result/test-result.c
     TestComponent,
     QuickNavigationComponent,
     SubmitDialogComponent,
-    TestResultComponent
+    TestResultComponent,
+    EditQuestionComponent
   ],
-  entryComponents: [ShowQuestionComponent,SubmitDialogComponent],
+  entryComponents: [ShowQuestionComponent, SubmitDialogComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

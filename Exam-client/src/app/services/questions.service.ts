@@ -12,7 +12,34 @@ export class QuestionsService extends DataService {
     super(environment.questionsUrl, httpClient);
   }
 
-  getAllBySubjectId(subjectId: string, jwt = true) {
+  getQuestionById(questionId) {
+    return this.http
+      .get<any>(environment.questionsUrl + '/question/' + questionId, {
+        headers: this.getHeaders(true)
+      })
+      .pipe(
+        catchError((error: HttpErrorResponse, caught) =>
+          this.handleError(error)
+        )
+      );
+  }
+
+  getQuestionPossibleAnswers(questionId) {
+    return this.http
+      .get<any[]>(
+        environment.questionsUrl + '/getQuestionPossibleAnswers/' + questionId,
+        {
+          headers: this.getHeaders(true)
+        }
+      )
+      .pipe(
+        catchError((error: HttpErrorResponse, caught) =>
+          this.handleError(error)
+        )
+      );
+  }
+
+   getAllBySubjectId(subjectId: string, jwt = true) {
     return this.http
       .get<any[]>(environment.questionsUrl + '/' + subjectId, {
         headers: this.getHeaders(jwt)

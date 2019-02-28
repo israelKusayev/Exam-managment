@@ -9,6 +9,7 @@ const mailer = require('../helpers/mailer');
 
 const router = express.Router();
 
+
 router.post('/student-signup', (req, res) => {
   const user = req.body.user;
 
@@ -16,7 +17,6 @@ router.post('/student-signup', (req, res) => {
     res.status(400).send({ message: 'No input provided' });
     return;
   }
-
   authManager.studentLogin(user, data => {
     if (data.error) {
       res.status(500).end();
@@ -238,10 +238,8 @@ router.post('/admin-refresh-token', (req, res) => {
   if (!oldRawToken) res.status(400).send({ message: 'No token provided' });
   else {
     try {
-      const oldDecodedToken = jwt.verify(
-        oldRawToken,
-        config.adminUserResetPasswordSecret
-      );
+      const oldDecodedToken = jwt.verify(oldRawToken, config.jwt_secret);
+
       const email = oldDecodedToken.sub;
 
       const newToken = jwt.sign({}, config.jwt_secret, {

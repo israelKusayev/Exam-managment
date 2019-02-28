@@ -20,8 +20,11 @@ export class AdminAuthGuardService implements CanActivate {
   ): Observable<boolean> {
     return this.auth.adminIsTokenValid().pipe(
       map(result => {
+        this.auth.adminRefreshToken().subscribe();
         if (!result) {
-          this.router.navigate(['login'], { queryParams: { returnUrl: '' } });
+          this.router.navigate(['login'], {
+            queryParams: { returnUrl: state.url }
+          });
           return false;
         } else {
           return true;
