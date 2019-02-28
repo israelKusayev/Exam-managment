@@ -4,7 +4,6 @@ export interface TestStudent {
   name: string;
   passingGrade: number;
   instructions: string;
-  successMessage: string;
-  failureMessage: string;
+  showAnswers: boolean;
   questions: Question[];
 }

@@ -17,6 +17,7 @@
           [value]="answer.id"
           [checked]="answer.selected"
           (change)="onAnswer(answer.id)"
+          [disabled]="testsService.testEnd"
         >
           {{ answer.title }}
         </mat-radio-button>
@@ -30,6 +31,7 @@
           name="selected"
           class="answer"
           *ngFor="let answer of answers"
+          [disabled]="testsService.testEnd"
         >
           {{ answer.title }}
         </mat-checkbox>
@@ -53,12 +55,21 @@
       <button
         class="submit-icon"
         mat-raised-button
-        *ngIf="lastQuestion"
+        *ngIf="lastQuestion && !testsService.testEnd"
         color="primary"
         (click)="onSubmit()"
       >
         Submit the Test
         <mat-icon>flag</mat-icon>
+      </button>
+
+      <button
+        mat-raised-button
+        *ngIf="lastQuestion && testsService.testEnd"
+        color="primary"
+        [routerLink]="['/test/result']"
+      >
+        Return to result
       </button>
     </div>
   </div>

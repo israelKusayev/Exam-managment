@@ -1,8 +1,12 @@
 // @ts-check
 const baseRepository = require('./managerBase');
 
-function getQuestions(callback) {
-  baseRepository.executeInDB('sp_GetQuestions', [], callback);
+function getQuestions(subjectId, callback) {
+  baseRepository.executeInDB(
+    'sp_GetQuestions',
+    [{ subjectId: subjectId }],
+    callback
+  );
 }
 
 exports.getQuestions = getQuestions;

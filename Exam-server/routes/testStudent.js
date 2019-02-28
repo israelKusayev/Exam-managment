@@ -24,6 +24,8 @@ router.get('/get-grade/:testId/:testExecId', (req, res) => {
     if (data && data.error) {
       res.status(500).end();
     } else {
+      console.log('data', data);
+
       res.status(200).send(data);
     }
   });

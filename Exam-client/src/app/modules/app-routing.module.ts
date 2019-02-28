@@ -21,7 +21,7 @@ import { TestResultComponent } from '../components/user/test-result/test-result.
 const routes: Routes = [
   { path: 'test/:id/signup', component: UserSignupComponent },
   { path: 'test/:id/instructions', component: TestInstructionsComponent },
-  { path: 'test/:i  d/result', component: TestResultComponent },
+  { path: 'test/result', component: TestResultComponent },
   { path: 'test/:id', component: TestComponent },
   { path: 'login', component: AdminLoginComponent },
   { path: 'admin-register', component: AdminRegisterComponent },

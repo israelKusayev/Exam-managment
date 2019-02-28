@@ -91,8 +91,8 @@ export class TestComponent implements OnInit {
   }
 
   getGrade() {
-    this.testsService.getGrade().subscribe(data => {
-      console.log(data);
+    this.testsService.getGrade().subscribe(() => {
+      this.router.navigate(['test/result']);
     });
   }
 
