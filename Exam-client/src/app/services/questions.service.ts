@@ -39,10 +39,10 @@ export class QuestionsService extends DataService {
       );
   }
 
-  getAllBySubjectId(subjectId) {
+   getAllBySubjectId(subjectId: string, jwt = true) {
     return this.http
       .get<any[]>(environment.questionsUrl + '/' + subjectId, {
-        headers: this.getHeaders(true)
+        headers: this.getHeaders(jwt)
       })
       .pipe(
         catchError((error: HttpErrorResponse, caught) =>

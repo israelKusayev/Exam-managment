@@ -1,9 +1,20 @@
+* {
+  font-size: 1.1em;
+}
+
 .navigation {
   display: flex;
   align-items: center;
 }
 .number {
   cursor: pointer;
+}
+
+.current {
+  font-weight: 900;
+}
+.number:hover {
+  opacity: 0.7;
 }
 
 .vertical-line {

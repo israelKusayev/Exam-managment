@@ -7,7 +7,7 @@
     [lastQuestion]="lastQuestion"
     (next)="next($event)"
     (previous)="previous($event)"
-    (submit)="submit()"
+    (submit)="submit($event)"
   ></app-test-question>
   <br />
   <br />
@@ -17,5 +17,9 @@
     {{ test.questions.length }} questions
   </b>
 
-  <app-quick-navigation [count]="test.questions.length"></app-quick-navigation>
+  <app-quick-navigation
+    (onNavigate)="navigate($event)"
+    [count]="test.questions.length"
+    [current]="currentQuestion"
+  ></app-quick-navigation>
 </div>

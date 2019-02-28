@@ -1,3 +1,47 @@
-<p>
-  test-result works!
-</p>
+<h1 class="test-name">{{ testService.test.name }}</h1>
+<h1>{{ testService.test.name }} - results</h1>
+<div>
+  <div>
+    <b>Your Grade:</b>
+    <b [ngClass]="success ? 'text-success' : 'text-danger'">
+      {{ testService.grade }}</b
+    >
+  </div>
+  <hr />
+  <div>
+    <b>Status:</b>
+    <b *ngIf="success" class="text-success"> Success</b>
+    <b *ngIf="!success" class="text-danger"> Faild</b>
+  </div>
+  <hr />
+
+  <div>
+    <b>Summery:</b>
+    <span>
+      you answerd {{ testService.corectCount }} question correctly, out of
+      {{ testService.test.questions.length }} question in total</span
+    >
+  </div>
+  <hr />
+
+  <div>
+    <b>Passing Grade:</b>
+    <span>
+      The minimum grade to pass this test is
+      {{ testService.test.passingGrade }}</span
+    >
+  </div>
+  <hr />
+  <br />
+  <div class="button-container">
+    <button mat-raised-button color="primary">Review your answers</button>
+    <button
+      *ngIf="testService.test.showAnswers"
+      mat-raised-button
+      color="primary"
+    >
+      Download certificate
+    </button>
+  </div>
+</div>
+<footer></footer>

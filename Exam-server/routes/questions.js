@@ -4,9 +4,8 @@ const authorize = require('../middlewares/authorize');
 
 const router = express.Router();
 
-router.get('/:subjectId', authorize.admin, (req, res) => {
-  console.log('get');
 
+router.get('/:subjectId', authorize.admin, (req, res) => {
   questionManager.getQuestions(req.params.subjectId, data => {
     if (data.error) res.status(500).end();
     else res.status(200).send(data[0]);

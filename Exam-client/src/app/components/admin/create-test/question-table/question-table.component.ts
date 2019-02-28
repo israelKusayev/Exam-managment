@@ -36,6 +36,7 @@ export class QuestionTableComponent implements OnInit {
 
   ngOnInit() {
     this.questionsService
+      .getAllBySubjectId(this.subjectService.subjectId.toString())
       .getAllBySubjectId(this.subjectService.subjectId)
       .subscribe(questions => {
         this.dataSource.data = questions;

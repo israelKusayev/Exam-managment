@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TestUserService } from 'src/app/services/test-user.service';
 
 @Component({
   selector: 'app-test-result',
@@ -6,10 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./test-result.component.scss']
 })
 export class TestResultComponent implements OnInit {
-
-  constructor() { }
+  success: boolean;
+  constructor(public testService: TestUserService) {}
 
   ngOnInit() {
+    this.success =
+      this.testService.test.passingGrade > this.testService.grade
+        ? false
+        : true;
   }
-
 }

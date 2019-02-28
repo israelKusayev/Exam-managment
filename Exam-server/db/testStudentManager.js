@@ -41,7 +41,7 @@ function getStudentTest(testId, userId, callback) {
  * @param {[]} questions
  */
 function questionRandom(testId, userId, questions) {
-  userIdAscii = 0;
+  let userIdAscii = 0;
   for (var i = 0; i < userId.length; i++) {
     userIdAscii += userId.charCodeAt(i);
   }
@@ -60,7 +60,16 @@ function questionRandom(testId, userId, questions) {
   });
 }
 
+function calcGrade(testId, testExecId, callback) {
+  baseRepository.executeInDB(
+    'sp_CalcGrade',
+    [{ testId: testId }, { testExecId: testExecId }],
+    callback
+  );
+}
+
 module.exports = {
   craeteTestExecution: craeteTestExecution,
-  getStudentTest: getStudentTest
+  getStudentTest: getStudentTest,
+  calcGrade: calcGrade
 };

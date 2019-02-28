@@ -42,18 +42,21 @@ export class TestQuestionComponent implements OnInit, OnChanges {
   }
 
   onNext() {
-    const isAnswerd = this.isAnswerd();
-    if (isAnswerd || this.question.isSaved) {
-      if (isAnswerd) {
-        this.question.isAnswered = true;
-      } else {
-        this.question.isAnswered = false;
-      }
-      this.question.answers = this.answers;
-    }
+    this.updateAnswersToQuestion();
     this.next.emit(this.question);
   }
+
   onPrevious() {
+    this.updateAnswersToQuestion();
+    this.previous.emit(this.question);
+  }
+
+  onSubmit() {
+    this.updateAnswersToQuestion();
+    this.submit.emit(this.question);
+  }
+
+  private updateAnswersToQuestion() {
     const isAnswerd = this.isAnswerd();
     if (isAnswerd || this.question.isSaved) {
       if (isAnswerd) {
@@ -63,7 +66,6 @@ export class TestQuestionComponent implements OnInit, OnChanges {
       }
       this.question.answers = this.answers;
     }
-    this.previous.emit(this.question);
   }
 
   onAnswer(id: number) {
@@ -82,19 +84,10 @@ export class TestQuestionComponent implements OnInit, OnChanges {
         return true;
       }
     }
-    // this.answers.forEach(answer => {
-    //   if (answer.selected) {
-    //     return true;
-    //   }
-    // });
     return false;
   }
 
   // public get test(): any {
   //   return this.testsService.test;
   // }
-
-  onSubmit() {
-    this.submit.emit();
-  }
 }

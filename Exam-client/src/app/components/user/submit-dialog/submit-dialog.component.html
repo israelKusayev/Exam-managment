@@ -1,13 +1,19 @@
 <div class="dialog-border">
-  <p>You are about tosubmit the test</p>
-  <br />
-  <p>
-    Once the test is submitted, you won't be able to change the any of yuor
-    answres.
-  </p>
-  <p>Are you sure you want to finish?</p>
-  <br />
-  <p>Click <b>Yes</b> tosubmit or <b>No</b> to continue with the test.</p>
-  <button mat-raised-button color="accent">Yes</button>
-  <button mat-raised-button color="accent">No</button>
+  <mat-dialog-content>
+    <p>You are about tosubmit the test</p>
+    <br />
+    <p>
+      Once the test is submitted, you won't be able to change the any of yuor
+      answres.
+    </p>
+    <p>Are you sure you want to finish?</p>
+    <br />
+    <p>Click <b>Yes</b> tosubmit or <b>No</b> to continue with the test.</p>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button color="accent" mat-dialog-close="yes" mat-primary>
+      Yes
+    </button>
+    <button mat-raised-button color="accent" mat-dialog-close>No</button>
+  </mat-dialog-actions>
 </div>
