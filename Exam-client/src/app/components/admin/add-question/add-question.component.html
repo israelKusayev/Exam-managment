@@ -1,6 +1,5 @@
 <div class="main-div">
   <form #f="ngForm" (ngSubmit)="save()">
-    <mat-error *ngIf="errorMessage != null">{{ errorMessage }}</mat-error>
     <div>
       Field of study: <b>{{ fieldOfStudy }}</b>
     </div>
@@ -40,7 +39,7 @@
       </mat-form-field>
     </div>
     <div>
-      <button mat-stroked-button (click)="addPossibleAnswer()">
+      <button type="button" mat-stroked-button (click)="addPossibleAnswer()">
         Add Possible Answer
       </button>
     </div>
@@ -77,6 +76,15 @@
     </div>
     <div>
       <button
+        type="button"
+        [disabled]="!f.valid || possibleAnswers.length == 0"
+        mat-stroked-button
+        (click)="show()"
+      >
+        Show
+      </button>
+      <button
+        type="submit"
         [disabled]="!f.valid || possibleAnswers.length == 0"
         mat-stroked-button
         color="primary"

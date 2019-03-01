@@ -1,4 +1,3 @@
-import { AnswerService } from './../../../../services/answer.service';
 import {
   Component,
   OnInit,
@@ -12,6 +11,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { QuestionsService } from 'src/app/services/questions.service';
 import { ShowQuestionComponent } from '../../show-question/show-question.component';
 import { SubjectService } from 'src/app/services/subject.service';
+import { Question } from 'src/app/models/question';
 
 @Component({
   selector: 'app-question-table',
@@ -24,12 +24,11 @@ export class QuestionTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   displayedColumns: string[] = ['select', 'title', 'show'];
-  dataSource = new MatTableDataSource<Questions>();
-  selection = new SelectionModel<Questions>(true, []);
+  dataSource = new MatTableDataSource<Question>();
+  selection = new SelectionModel<Question>(true, []);
 
   constructor(
     private questionsService: QuestionsService,
-    private answerService: AnswerService,
     private subjectService: SubjectService,
     public dialog: MatDialog
   ) {}
@@ -51,14 +50,14 @@ export class QuestionTableComponent implements OnInit {
     this.dataSource.filterPredicate = (data, filter) => {
       const filterTags = filter.split(',');
       for (let i = 0; i < filterTags.length; i++) {
-        if (!data.Tags.toLowerCase().includes(filterTags[i].toLowerCase())) {
+        if (!data.tags.toLowerCase().includes(filterTags[i].toLowerCase())) {
           continue;
         }
         if (i === filterTags.length - 1) {
           return true;
         }
       }
-      return data.Title.toLowerCase().includes(filter.toLowerCase());
+      return data.title.toLowerCase().includes(filter.toLowerCase());
     };
   }
 
@@ -67,7 +66,7 @@ export class QuestionTableComponent implements OnInit {
       return;
     }
     const selectedQuestions = this.dataSource.data.filter(function(data) {
-      return this.includes(data.Id);
+      return this.includes(data.id);
     }, this.selected);
     this.selection.select(...selectedQuestions);
     this.updateSelected();
@@ -87,7 +86,7 @@ export class QuestionTableComponent implements OnInit {
       : this.dataSource.filteredData.forEach(row => this.selection.select(row));
     this.select.emit(
       this.selection.selected.map(q => {
-        return q.Id;
+        return q.id;
       })
     );
   }
@@ -96,7 +95,7 @@ export class QuestionTableComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  onSelect(row: Questions) {
+  onSelect(row: Question) {
     this.selection.toggle(row);
     this.updateSelected();
   }
@@ -104,29 +103,17 @@ export class QuestionTableComponent implements OnInit {
   private updateSelected() {
     this.select.emit(
       this.selection.selected.map(q => {
-        return q.Id;
+        return q.id;
       })
     );
   }
 
   showQuestion(id: number) {
-    this.answerService.getOne(id.toString()).subscribe(answers => {
+    this.questionsService.getOne(id.toString()).subscribe(data => {
       this.dialog.open(ShowQuestionComponent, {
-        data: {
-          question: this.dataSource.data.find(q => q.Id === id),
-          answers: answers
-        },
+        data: data,
         autoFocus: false
       });
     });
   }
-}
-
-export interface Questions {
-  Id: number;
-  Title: string;
-  Tags: string;
-  TextBelow: string;
-  HorizontalDisplay: boolean;
-  MultipleChoice: boolean;
 }

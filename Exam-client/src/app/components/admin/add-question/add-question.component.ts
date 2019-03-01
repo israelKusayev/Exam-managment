@@ -5,6 +5,8 @@ import { QuestionsService } from 'src/app/services/questions.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { BadInput } from 'src/app/exceptions/bad-input';
+import { ShowQuestionComponent } from '../show-question/show-question.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-add-question',
@@ -17,8 +19,7 @@ export class AddQuestionComponent implements OnInit {
   possibleAnswers: PossibleAnswer[] = [];
   multipleChoice = false;
   answer: number;
-  errorMessage: string = null;
-  invalid: boolean;
+  valid: boolean;
   title: string;
   textBelowQuestion: string;
   tags: string;
@@ -27,14 +28,15 @@ export class AddQuestionComponent implements OnInit {
     private subjectService: SubjectService,
     private questionsService: QuestionsService,
     private toast: ToastrService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
     this.fieldOfStudy = this.subjectService.subjectName;
     this.fieldOfStudyId = this.subjectService.subjectId;
     this.possibleAnswers.push(new PossibleAnswer());
-    this.invalid = true;
+    this.valid = false;
     this.answer = -1;
   }
 
@@ -62,22 +64,50 @@ export class AddQuestionComponent implements OnInit {
     }
   }
 
-  save() {
-    this.errorMessage = null;
-    this.invalid = false;
-    console.log(this);
+  validateForm() {
+    this.valid = true;
+
     if (!this.answerSelected()) {
-      this.invalid = true;
-      this.errorMessage = 'No answer chosen';
+      this.valid = false;
+      this.toast.error('No answer chosen');
     }
     for (const possibleAnswer of this.possibleAnswers) {
       if (!possibleAnswer.title || possibleAnswer.title === '') {
-        this.invalid = true;
-        this.errorMessage = 'One of the possible answers is empty';
+        this.valid = false;
+        this.toast.error('One of the possible answers is empty');
+        break;
       }
     }
+  }
 
-    if (!this.invalid) {
+  show() {
+    this.validateForm();
+
+    if (this.valid) {
+      const question = {
+        subjectId: this.fieldOfStudyId,
+        possibleAnswers: this.possibleAnswers,
+        title: this.title,
+        multipleChoice: this.multipleChoice,
+        answer: this.answer,
+        textBelowQuestion: this.textBelowQuestion,
+        tags: this.tags,
+        horizontalDisplay: this.horizontalDisplay
+      };
+      this.dialog
+        .open(ShowQuestionComponent, {
+          data: question,
+          autoFocus: false
+        })
+        .afterClosed()
+        .subscribe(() => console.log('dsfsdfsf'));
+    }
+  }
+
+  save() {
+    this.validateForm();
+
+    if (this.valid) {
       const question = {
         subjectId: this.fieldOfStudyId,
         possibleAnswers: this.possibleAnswers,

@@ -4,20 +4,43 @@ const authorize = require('../middlewares/authorize');
 
 const router = express.Router();
 
-router.get('/:subjectId', authorize.admin, (req, res) => {
+router.get('/', authorize.admin, (req, res) => {
   console.log('get');
-
-  questionManager.getQuestions(req.params.subjectId, data => {
-    if (data.error) res.status(500).end();
-    else res.status(200).send(data[0]);
-  });
+  if (req.query.subjectId) {
+    questionManager.getQuestions(req.query.subjectId, data => {
+      if (data.error) res.status(500).end();
+      else {
+        let questions = [];
+        for (let i = 0; i < data.length; i++) {
+          questions.push({
+            id: data[i].Id,
+            title: data[i].Title,
+            textBelow: data[i].TextBelow,
+            multipleChoice: data[i].MultipleChoice,
+            tags: data[i].Tags,
+            horizontalDisplay: data[i].HorizontalDisplay,
+            isActive: data[i].IsActive,
+            lastUpdate: data[i].LastUpdate,
+            testCount: data[i].TestCount
+          });
+        }
+        res.status(200).send(questions);
+      }
+    });
+  } else {
+    res.status(400).send({ message: 'No subject id was supplied' });
+  }
 });
 
-router.get('/question/:questionId', authorize.admin, (req, res) => {
-  questionManager.getQuestionById(req.params.questionId, data => {
+router.get('/:id', authorize.admin, (req, res) => {
+  if (!Number.isInteger(parseInt(req.params.id))) {
+    res.status(400).send({ message: 'invalid id' });
+    return;
+  }
+  questionManager.getQuestionById(req.params.id, data => {
     if (data && data[0]) {
       questionManager.getQuestionPossibleAnswers(
-        req.params.questionId,
+        req.params.id,
         possibleAnswers => {
           if (possibleAnswers) {
             res.status(200).send({
@@ -87,6 +110,16 @@ router.post('/', authorize.admin, (req, res) => {
       }
     }
   );
+});
+
+router.delete('/:id', (req, res) => {
+  questionManager.deleteQuestion(req.params.id, data => {
+    if (data && data.error) {
+      res.status(500).end();
+      return;
+    }
+    res.status(200).end();
+  });
 });
 
 module.exports = router;

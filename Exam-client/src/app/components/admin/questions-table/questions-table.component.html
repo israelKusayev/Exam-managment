@@ -1,3 +1,128 @@
-<p>
-  questions-table works!
-</p>
+<div *ngIf="dataSource.data.length !== 0; else noQuestions">
+  <div class="filter-container">
+    <b>Filter by tags or content:</b>
+    <mat-form-field floatLabel="never" class="filter">
+      <input
+        matInput
+        (keyup)="applyFilter($event.target.value)"
+        placeholder="Enter a list of keywords"
+      />
+    </mat-form-field>
+    <b class="result-count"
+      >Showing {{ this.dataSource.filteredData.length }} questions</b
+    >
+  </div>
+  <table
+    class="mat-elevation-z8"
+    [dataSource]="dataSource"
+    mat-table
+    matSort
+    matSortActive="lastUpdate"
+    matSortDirection="desc"
+    matSortDisableClear
+  >
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+      <td style="width:5%;" mat-cell *matCellDef="let element">
+        {{ element.id }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="questionTextAndTags">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Question Text and Tags
+      </th>
+      <td
+        [matTooltip]="element.name"
+        [matTooltipShowDelay]="400"
+        matTooltipPosition="below"
+        style="width:40%;"
+        style="text-align: left"
+        mat-cell
+        *matCellDef="let element"
+      >
+        <span
+          [matTooltip]="element.title"
+          matTooltipPosition="right"
+          class="question-header"
+        >
+          {{ element.title | ellipsis: 100 }} </span
+        ><br />
+        <br />
+        <small style="color:navy">{{ element.tags | tags }}</small>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lastUpdate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Last Update
+      </th>
+      <td style="width:10%" mat-cell *matCellDef="let element">
+        {{ element.lastUpdate | dateFormat }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="questionType">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Question Type
+      </th>
+      <td style="width:10%" mat-cell *matCellDef="let element">
+        {{ element.multipleChoice ? 'Multiple' : 'Single' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="testsCount">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        # of Tests
+      </th>
+      <td style="width:10%" mat-cell *matCellDef="let element">
+        {{ element.testCount }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td style="width:15%" mat-cell *matCellDef="let element">
+        <div class="actions">
+          <button mat-stroked-button color="accent" (click)="show(element.id)">
+            Show
+          </button>
+          <b
+            *ngIf="element.isActive"
+            style="align-self: center; margin:0 auto; color:darkgreen"
+          >
+            Active
+          </b>
+          <button
+            *ngIf="!element.isActive"
+            mat-stroked-button
+            color="accent"
+            (click)="edit(element.id)"
+          >
+            Edit
+          </button>
+          <button
+            *ngIf="!element.isActive"
+            mat-stroked-button
+            color="warn"
+            (click)="delete(element.id)"
+          >
+            Delete
+          </button>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+  ></mat-paginator>
+
+  <ng-template #noQuestions>
+    <h2>no questions...</h2>
+  </ng-template>
+</div>

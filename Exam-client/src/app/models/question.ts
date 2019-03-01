@@ -10,4 +10,6 @@ export class Question {
   isActive: boolean;
   lastUpdate: Date;
   possibleAnswers: PossibleAnswer[];
+  id: number;
+  testCount: number;
 }

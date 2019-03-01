@@ -47,6 +47,7 @@ import { TestResultComponent } from './components/user/test-result/test-result.c
 
 import { AppErrorHandler } from './helpers/app-error-handler';
 import { TagsPipe } from './helpers/tags.pipe';
+import { EllipsisPipe } from './helpers/ellipsis.pipe';
 import { DateFormatPipe } from './helpers/date-format.pipe';
 import { EditQuestionComponent } from './components/admin/edit-question/edit-question.component';
 
@@ -64,6 +65,7 @@ import { EditQuestionComponent } from './components/admin/edit-question/edit-que
     UserSignupComponent,
     QuestionTableComponent,
     TagsPipe,
+    EllipsisPipe,
     AddTestComponent,
     ShowQuestionComponent,
     TestsTableComponent,

@@ -3,37 +3,36 @@
 </button>
 <div class="dialog-container">
   <h2>
-    {{ data.question.Title }}
+    {{ data.title }}
   </h2>
 
-  <h4>{{ data.question.TextBelow }}</h4>
+  <h4>{{ data.textBelow }}</h4>
 
-  <div *ngIf="!data.question.MultipleChoice; else multipleSelect">
+  <div *ngIf="!data.multipleChoice; else multipleSelect">
     <mat-radio-group
-      [class.vertical]="!data.question.HorizontalDisplay"
+      [class.vertical]="!data.horizontalDisplay"
       class="display-flex"
     >
       <mat-radio-button
         class="answer"
-        *ngFor="let answer of data.answers"
-        [checked]="answer.IsCorrect"
+        *ngFor="let answer of data.possibleAnswers"
+        [checked]="answer.correct"
+        [disabled]="true"
         [value]="answer"
       >
-        {{ answer.Title }}
+        {{ answer.title }}
       </mat-radio-button>
     </mat-radio-group>
   </div>
   <ng-template #multipleSelect>
-    <div
-      class="display-flex"
-      [class.vertical]="!data.question.HorizontalDisplay"
-    >
+    <div class="display-flex" [class.vertical]="!data.horizontalDisplay">
       <mat-checkbox
-        [checked]="answer.IsCorrect"
+        [checked]="answer.correct"
+        [disabled]="true"
         class="answer"
-        *ngFor="let answer of data.answers"
+        *ngFor="let answer of data.possibleAnswers"
       >
-        {{ answer.Title }}
+        {{ answer.title }}
       </mat-checkbox>
     </div>
   </ng-template>

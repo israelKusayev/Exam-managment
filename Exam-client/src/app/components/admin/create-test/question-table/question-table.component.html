@@ -52,17 +52,13 @@
       </th>
       <td style="width:90%;" mat-cell *matCellDef="let element">
         <span
-          [matTooltip]="element.Title"
+          [matTooltip]="element.title"
           matTooltipPosition="right"
           class="question-header"
         >
-          {{
-            element.Title.length > 100
-              ? (element.Title | slice: 0:100) + '...'
-              : element.Title
-          }} </span
+          {{ element.title | ellipsis: 100 }} </span
         ><br />
-        <span class="text-tell"> {{ element.Tags | tags }}</span>
+        <span class="text-tell"> {{ element.tags | tags }}</span>
       </td>
     </ng-container>
 
@@ -70,7 +66,7 @@
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element">
         <button
-          (click)="showQuestion(element.Id)"
+          (click)="showQuestion(element.id)"
           mat-stroked-button
           color="accent"
           type="button"

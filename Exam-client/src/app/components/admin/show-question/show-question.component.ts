@@ -1,15 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
-
-export interface ShowQuestionData {
-  question: {
-    Title: string;
-    TextBelow: string;
-    MultipleChoice: boolean;
-    HorizontalDisplay: boolean;
-  };
-  answers: { Title: number; IsCorrect: boolean }[];
-}
+import { Question } from 'src/app/models/question';
 
 @Component({
   selector: 'app-show-question',
@@ -17,7 +8,7 @@ export interface ShowQuestionData {
   styleUrls: ['./show-question.component.scss']
 })
 export class ShowQuestionComponent implements OnInit {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: ShowQuestionData) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Question) {
     console.log(data);
   }
 

@@ -39,8 +39,9 @@ export class EditQuestionComponent implements OnInit {
     this.fieldOfStudy = this.subjectService.subjectName;
     this.fieldOfStudyId = this.subjectService.subjectId;
 
-    this.questionsService.getQuestionById(this.id).subscribe(
+    this.questionsService.getOne(this.id).subscribe(
       data => {
+        console.log(data);
         this.question = data;
         this.possibleAnswers = this.question.possibleAnswers;
         this.answer = this.getQuestionAnswer();

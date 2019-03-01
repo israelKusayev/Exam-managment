@@ -1,0 +1,35 @@
+table {
+  width: 100%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+th {
+  text-align: center;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.filter-container b {
+  font-size: 1.1em;
+}
+
+.filter {
+  width: 500px;
+  margin: 0 20px;
+}
+
+.result-count {
+  margin-left: auto;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+}
