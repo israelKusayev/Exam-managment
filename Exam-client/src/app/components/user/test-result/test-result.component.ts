@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { TestUserService } from 'src/app/services/test-user.service';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-test-result',
   templateUrl: './test-result.component.html',
@@ -23,6 +22,12 @@ export class TestResultComponent implements OnInit {
     this.testsService
       .finishTestExecution(this.testsService.testExecId)
       .subscribe(data => {
+        console.log('finishTestExecution');
+        console.log('finishTestExecution');
+        console.log('finishTestExecution');
+        console.log('finishTestExecution');
+
+        console.log(data);
         this.grade = data.grade;
         this.nCorrectAnswers = data.numOfCorrectAnswers;
         this.nQuestions = data.numOfTestQuestions;

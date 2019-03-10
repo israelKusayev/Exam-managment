@@ -35,19 +35,15 @@ export class TestComponent implements OnInit {
     this.saveAnswers(question, this.incrementQuestion);
   }
 
-  submit(question: Question) {
-    this.saveAnswers(question, this.openDialog);
-  }
-
   incrementQuestion = () => {
-    this.navigate(this.currentQuestion + 1);
+    this.navigateToQuestion(this.currentQuestion + 1);
   }
 
   decrementQuestion = () => {
     if (this.currentQuestion === 0) {
       this.router.navigate(['test', this.testsService.test.id, 'instructions']);
     }
-    this.navigate(this.currentQuestion - 1);
+    this.navigateToQuestion(this.currentQuestion - 1);
   }
 
   saveAnswers(question: Question, navigationFunc) {
@@ -104,6 +100,8 @@ export class TestComponent implements OnInit {
     }
   }
   public get test(): TestStudent {
+    console.log('TEST:::::');
+    console.log(this.testsService.test);
     return this.testsService.test;
   }
 }
