@@ -1,4 +1,3 @@
-
 <h1>Question #{{ questionIndex }}</h1>
 <h2>{{ question.title }}</h2>
 <h3>{{ question.textBelow }}</h3>
@@ -43,59 +42,24 @@
         {{ !firstQuestion ? 'Previous Question' : 'Welcome Page' }}
       </button>
       <button
+        *ngIf="!lastQuestion"
         mat-raised-button
         color="accent"
-        *ngIf="!lastQuestion"
         (click)="onNext()"
       >
         Next Question
         <mat-icon>skip_next</mat-icon>
       </button>
       <button
+        *ngIf="lastQuestion"
         class="submit-icon"
         mat-raised-button
-        *ngIf="lastQuestion && !testsService.testEnd"
         color="primary"
         (click)="onSubmit()"
       >
         Submit the Test
         <mat-icon>flag</mat-icon>
       </button>
-
-      <button
-        mat-raised-button
-        *ngIf="lastQuestion && testsService.testEnd"
-        color="primary"
-        [routerLink]="['/test/result']"
-      >
-        Return to result
-      </button>
     </div>
-  </ng-template>
-  <!-- navigation buttons  -->
-  <div class="btn-navigation-container">
-    <button mat-raised-button color="accent" (click)="onPrevious()">
-      <mat-icon>skip_previous</mat-icon>
-      {{ !firstQuestion ? 'Previous Question' : 'Welcome Page' }}
-    </button>
-    <button
-      *ngIf="!lastQuestion"
-      mat-raised-button
-      color="accent"
-      (click)="onNext()"
-    >
-      Next Question
-      <mat-icon>skip_next</mat-icon>
-    </button>
-    <button
-      *ngIf="lastQuestion"
-      class="submit-icon"
-      mat-raised-button
-      color="primary"
-      (click)="onNext()"
-    >
-      Submit the Test
-      <mat-icon>flag</mat-icon>
-    </button>
   </div>
 </div>

@@ -23,7 +23,6 @@ import { TestReviewComponent } from '../components/user/test-review/test-review.
 const routes: Routes = [
   { path: 'test/:id/signup', component: UserSignupComponent },
   { path: 'test/:id/instructions', component: TestInstructionsComponent },
-  { path: 'test/result', component: TestResultComponent },
   { path: 'test/:id', component: TestComponent },
   { path: 'test-result', component: TestResultComponent },
   { path: 'login', component: AdminLoginComponent },

@@ -69,7 +69,6 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', (req, res) => {
   testsManager.deleteTest(req.params.id, data => {
-    console.log(data);
     if (data && data.error) {
       res.status(500).end();
       return;
