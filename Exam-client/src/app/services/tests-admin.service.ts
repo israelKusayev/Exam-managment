@@ -12,4 +12,8 @@ export class TestsAdminService extends DataService {
   constructor(httpClient: HttpClient) {
     super(environment.testsAdminUrl, httpClient);
   }
+
+  getTests(subjectId) {
+    return this.getAll(true, `?subjectId=${subjectId}`);
+  }
 }

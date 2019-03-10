@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Question } from 'src/app/models/user/question';
 
 @Component({
   selector: 'app-quick-navigation',
@@ -6,13 +7,13 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./quick-navigation.component.scss']
 })
 export class QuickNavigationComponent implements OnInit {
-  @Input() count: number;
+  @Input() questions: Question[];
   @Output() onNavigate = new EventEmitter();
   arr: any[];
   constructor() {}
 
   ngOnInit() {
-    this.arr = new Array(this.count);
+    this.arr = new Array(this.questions.length);
   }
 
   naviagte(index: number) {

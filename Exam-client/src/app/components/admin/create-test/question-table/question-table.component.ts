@@ -49,12 +49,14 @@ export class QuestionTableComponent implements OnInit {
   private applyCustomFilter() {
     this.dataSource.filterPredicate = (data, filter) => {
       const filterTags = filter.split(',');
-      for (let i = 0; i < filterTags.length; i++) {
-        if (!data.tags.toLowerCase().includes(filterTags[i].toLowerCase())) {
-          continue;
-        }
-        if (i === filterTags.length - 1) {
-          return true;
+      if (data.tags) {
+        for (let i = 0; i < filterTags.length; i++) {
+          if (!data.tags.toLowerCase().includes(filterTags[i].toLowerCase())) {
+            continue;
+          }
+          if (i === filterTags.length - 1) {
+            return true;
+          }
         }
       }
       return data.title.toLowerCase().includes(filter.toLowerCase());

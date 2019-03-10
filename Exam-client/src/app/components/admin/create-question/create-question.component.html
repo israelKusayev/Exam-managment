@@ -1,14 +1,14 @@
 <div class="main-div">
   <form #f="ngForm" (ngSubmit)="save()">
     <div>
-      Field of study: <b>{{ fieldOfStudy }}</b>
+      Field of study: <b>{{ subjectService.subjectName }}</b>
     </div>
     <div>
       <mat-form-field class="input-field">
         <input
           matInput
           placeholder="Question text"
-          [(ngModel)]="title"
+          [(ngModel)]="question.title"
           name="title"
           required
         />
@@ -18,8 +18,8 @@
       <mat-form-field class="input-field">
         <textarea
           rows="5"
-          [(ngModel)]="textBelowQuestion"
-          name="textBelowQuestion"
+          [(ngModel)]="question.textBelow"
+          name="textBelow"
           matInput
           placeholder="Text below question"
         ></textarea>
@@ -29,7 +29,7 @@
       <mat-form-field class="input-field">
         <mat-select
           (selectionChange)="changeMultipleChoice()"
-          [(ngModel)]="multipleChoice"
+          [(ngModel)]="question.multipleChoice"
           name="multipleChoice"
           placeholder="Question Type"
         >
@@ -44,8 +44,8 @@
       </button>
     </div>
     <div>
-      <mat-radio-group [(ngModel)]="answer" name="answer">
-        <div *ngFor="let item of possibleAnswers; let i = index">
+      <mat-radio-group (change)="singleChoiceAnswerChange($event)">
+        <div *ngFor="let item of question.possibleAnswers; let i = index">
           <app-possible-answer
             (remove)="removeItem($event)"
             [index]="i"
@@ -59,7 +59,7 @@
       <mat-form-field>
         <mat-select
           (selectionChange)="changeMultipleChoice()"
-          [(ngModel)]="horizontalDisplay"
+          [(ngModel)]="question.horizontalDisplay"
           placeholder="Answers Layout"
           name="horizontalDisplay"
           required
@@ -71,13 +71,18 @@
     </div>
     <div>
       <mat-form-field class="input-field">
-        <input [(ngModel)]="tags" name="tags" matInput placeholder="Tags" />
+        <input
+          [(ngModel)]="question.tags"
+          name="tags"
+          matInput
+          placeholder="Tags"
+        />
       </mat-form-field>
     </div>
     <div>
       <button
         type="button"
-        [disabled]="!f.valid || possibleAnswers.length == 0"
+        [disabled]="!f.valid || question.possibleAnswers.length == 0"
         mat-stroked-button
         (click)="show()"
       >
@@ -85,7 +90,7 @@
       </button>
       <button
         type="submit"
-        [disabled]="!f.valid || possibleAnswers.length == 0"
+        [disabled]="!f.valid || question.possibleAnswers.length == 0"
         mat-stroked-button
         color="primary"
       >

@@ -4,15 +4,16 @@ function getAnswers(id, callback) {
   baseRepository.executeInDB('sp_GetAnswers', [{ questionId: id }], callback);
 }
 
-function saveAnswers(testExecId, questionId, answerIds, callback) {
-  console.log([testExecId, questionId, answerIds]);
-
+function saveAnswers(testExecId, questionId, answers, callback) {
+  console.log('SAVE ANSWERS:');
+  console.log([testExecId, questionId]);
+  console.log(answers);
   baseRepository.executeInDB(
     'sp_UpdateAnswersInTestExec',
     [
-      { testExecutionId: testExecId },
-      { questionId: questionId },
-      { answerIds: baseRepository.createListId(answerIds) }
+      { TestExecutionId: testExecId },
+      { QuestionId: questionId },
+      { Answers: baseRepository.createUserAnswerTable(answers) }
     ],
     callback
   );

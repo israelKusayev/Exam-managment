@@ -22,7 +22,7 @@ export class TestComponent implements OnInit {
   currentQuestion = 0;
   firstQuestion = true;
   lastQuestion = false;
-  answeredCount: number;
+  answeredCount = 0;
   ngOnInit() {}
 
   previous(question: Question) {
@@ -56,13 +56,18 @@ export class TestComponent implements OnInit {
   }
 
   saveAnswers(question: Question, navigationFunc) {
+    console.log('QUESTION: ' + question.title);
+    console.log(question);
     if (question.isAnswered || question.isSaved) {
       this.answerService
         .create(
           {
             testExecutionId: this.testsService.testExecId,
             questionId: question.id,
-            answerIds: question.answers.filter(a => a.selected).map(a => a.id)
+            answers: question.answers.map(a => ({
+              answerId: a.id,
+              answer: a.selected ? true : false
+            }))
           },
           false
         )
@@ -72,7 +77,7 @@ export class TestComponent implements OnInit {
           test.questions[this.currentQuestion] = question;
           this.testsService.test = test;
           this.answeredCount = this.test.questions.filter(
-            a => a.isAnswered
+            q => q.isAnswered
           ).length;
           //
           navigationFunc();
@@ -83,9 +88,26 @@ export class TestComponent implements OnInit {
   }
 
   submit() {
-    this.dialog.open(SubmitDialogComponent, { position: { top: '0%' } });
+    this.dialog
+      .open(SubmitDialogComponent, { position: { top: '0%' } })
+      .afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.router.navigate(['/test-result']);
+        }
+      });
   }
 
+  navigateToQuestion(index) {
+    this.currentQuestion = index;
+    this.firstQuestion = false;
+    this.lastQuestion = false;
+    if (index === 0) {
+      this.firstQuestion = true;
+    } else if (index === this.test.questions.length - 1) {
+      this.lastQuestion = true;
+    }
+  }
   public get test(): TestStudent {
     return this.testsService.test;
   }

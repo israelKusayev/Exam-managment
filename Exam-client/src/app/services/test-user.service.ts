@@ -48,6 +48,14 @@ export class TestUserService extends DataService {
     );
   }
 
+  finishTestExecution(testExecutionId) {
+    return this.get(`/finish-test-execution/${testExecutionId}`);
+  }
+
+  getTestExecutionResults(testExecutionId) {
+    return this.get(`/test-execution-results/${testExecutionId}`);
+  }
+
   public get test(): any {
     if (localStorage.getItem(this.key)) {
       return JSON.parse(localStorage.getItem(this.key));

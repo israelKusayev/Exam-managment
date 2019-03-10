@@ -1,5 +1,6 @@
-<h1>Question #{{ questionIndex }}</h1>
+<b>Question #{{ questionIndex }}</b>
 <h2>{{ question.title }}</h2>
+<h3>{{ question.textBelow }}</h3>
 
 <div *ngIf="answers.length > 0">
   <div *ngIf="!question.multipleChoice; else multipleSelect">
@@ -39,20 +40,20 @@
       {{ !firstQuestion ? 'Previous Question' : 'Welcome Page' }}
     </button>
     <button
+      *ngIf="!lastQuestion"
       mat-raised-button
       color="accent"
-      *ngIf="!lastQuestion"
       (click)="onNext()"
     >
       Next Question
       <mat-icon>skip_next</mat-icon>
     </button>
     <button
+      *ngIf="lastQuestion"
       class="submit-icon"
       mat-raised-button
-      *ngIf="lastQuestion"
       color="primary"
-      (click)="onSubmit()"
+      (click)="onNext()"
     >
       Submit the Test
       <mat-icon>flag</mat-icon>

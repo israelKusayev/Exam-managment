@@ -17,7 +17,7 @@ exports.getQuestionById = function(questionId, callback) {
   );
 };
 
-exports.addQuestion = function(
+exports.CreateQuestion = function(
   subjectId,
   possibleAnswers,
   title,
@@ -28,7 +28,7 @@ exports.addQuestion = function(
   callback
 ) {
   baseRepository.executeInDB(
-    'sp_AddQuestion',
+    'sp_CreateQuestion',
     [
       { SubjectId: subjectId },
       {

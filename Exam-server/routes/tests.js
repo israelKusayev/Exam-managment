@@ -35,6 +35,8 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+  console.log('CREATE TEST:');
+  console.log(req.body);
   try {
     await validator.validateCreateTest(req.body.details);
   } catch (error) {

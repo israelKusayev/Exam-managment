@@ -1,6 +1,5 @@
 import { ToastrService } from 'ngx-toastr';
 import { SubjectService } from './../../../services/subject.service';
-import { TestsAdminService } from 'src/app/services/tests-admin.service';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {
   MatSort,
@@ -19,6 +18,7 @@ import { ShowQuestionComponent } from '../show-question/show-question.component'
   styleUrls: ['./questions-table.component.scss']
 })
 export class QuestionsTableComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   displayedColumns: string[] = [
     'id',
     'questionTextAndTags',
@@ -28,7 +28,7 @@ export class QuestionsTableComponent implements OnInit {
     'actions'
   ];
 
-  dataSource = new MatTableDataSource<Question>([]);
+  dataSource = new MatTableDataSource<Question>();
   sort;
   @ViewChild(MatSort) set content(content: ElementRef) {
     this.sort = content;
@@ -37,7 +37,6 @@ export class QuestionsTableComponent implements OnInit {
     }
   }
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(
     private router: Router,
     private questionsService: QuestionsService,
@@ -51,21 +50,23 @@ export class QuestionsTableComponent implements OnInit {
       .getAllBySubjectId(this.subjectService.subjectId)
       .subscribe(data => {
         this.dataSource.data = data;
+        setTimeout(() => (this.dataSource.paginator = this.paginator));
       });
-
-    this.dataSource.paginator = this.paginator;
 
     this.dataSource.sort = this.sort;
 
     this.dataSource.filterPredicate = (question, filter) => {
-      return (
-        this.textFilter(question.title.toLowerCase(), filter) ||
-        this.textFilter(question.tags.toLowerCase(), filter)
-      );
+      return this.textFilter(question.title + ' ' + question.tags, filter);
     };
   }
 
   textFilter(text: string, filter: string): boolean {
+    if (filter == null) {
+      return true;
+    }
+    if (text == null) {
+      return false;
+    }
     const words = filter.split(' ');
     for (let i = 0; i < words.length; i++) {
       const word = words[i].trim().toLowerCase();

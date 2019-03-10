@@ -6,8 +6,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class TagsPipe implements PipeTransform {
   transform(value: string): any {
     return value
-      .split(',')
-      .join(' | ')
-      .trim();
+      ? value
+          .split(',')
+          .join(' | ')
+          .trim()
+      : null;
   }
 }

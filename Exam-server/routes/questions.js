@@ -44,6 +44,7 @@ router.get('/:id', authorize.admin, (req, res) => {
         possibleAnswers => {
           if (possibleAnswers) {
             res.status(200).send({
+              id: data[0].Id,
               subjectId: data[0].SubjectId,
               title: data[0].Title,
               possibleAnswers: possibleAnswers.map(possibleAnswer => ({
@@ -87,18 +88,11 @@ router.put('/:questionId', authorize.admin, (req, res) => {
 });
 
 router.post('/', authorize.admin, (req, res) => {
-  const possibleAnswers = req.body.possibleAnswers;
-
-  for (let i = 0; i < possibleAnswers.length; i++) {
-    if (!req.body.multipleChoice) {
-      possibleAnswers[i].correct = req.body.answer === i;
-    }
-  }
-  questionManager.addQuestion(
+  questionManager.CreateQuestion(
     req.body.subjectId,
-    possibleAnswers,
+    req.body.possibleAnswers,
     req.body.title,
-    req.body.textBelowQuestion,
+    req.body.textBelow,
     req.body.multipleChoice,
     req.body.tags,
     req.body.horizontalDisplay,

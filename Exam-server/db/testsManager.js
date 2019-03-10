@@ -28,29 +28,25 @@ function completionMessagesInputs(test) {
 
 function createTest(data, callback) {
   const { details: test, questions } = data;
+
   let inputs = createTestInputs(test);
+
+  inputs = createTestInputs(test);
   if (test.sendCompletionMessage) {
     inputs = [...createTestInputs(test), ...completionMessagesInputs(test)];
   }
-
-  baseRepository.executeMultipleSp(
-    [
-      {
-        name: 'sp_CreateTest',
-        inputs: inputs,
-        returnValue: {
-          valueName: 'testId',
-          spName: 'sp_AddQuestionsToTest',
-          returnValueName: 'id'
+  baseRepository.executeInDB('sp_CreateTest', inputs, result => {
+    baseRepository.executeInDB(
+      'sp_AddQuestionsToTest',
+      [
+        {
+          testId: result[0].id,
+          questionsId: baseRepository.createListId(questions)
         }
-      },
-      {
-        name: 'sp_AddQuestionsToTest',
-        inputs: [{ questionsId: baseRepository.createListId(questions) }]
-      }
-    ],
-    callback
-  );
+      ],
+      callback
+    );
+  });
 }
 
 function getTest(id, callback) {

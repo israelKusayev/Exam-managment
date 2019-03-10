@@ -14,6 +14,7 @@ export const environment = {
   certificateUrl: baseApi + '/api/certificates',
   organizationUrl: baseApi + '/api/organization',
   subjectUrl: baseApi + '/api/subject',
+  reportsUrl: baseApi + '/api/reports',
   currentUserStorageKey: 'currentUser',
   tokenStorageKey: 'token',
 

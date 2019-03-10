@@ -5,6 +5,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class EllipsisPipe implements PipeTransform {
   transform(value: string, maxLen: number): any {
-    return value.length > maxLen ? value.slice(0, maxLen) + '...' : value;
+    return value
+      ? value.length > maxLen
+        ? value.slice(0, maxLen) + '...'
+        : value
+      : null;
   }
 }

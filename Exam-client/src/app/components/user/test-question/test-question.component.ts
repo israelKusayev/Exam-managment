@@ -52,6 +52,9 @@ export class TestQuestionComponent implements OnInit, OnChanges {
       this.question.answers = this.answers;
     }
     this.next.emit(this.question);
+    if (this.lastQuestion) {
+      this.submit.emit();
+    }
   }
   onPrevious() {
     const isAnswerd = this.isAnswerd();
@@ -93,8 +96,4 @@ export class TestQuestionComponent implements OnInit, OnChanges {
   // public get test(): any {
   //   return this.testsService.test;
   // }
-
-  onSubmit() {
-    this.submit.emit();
-  }
 }

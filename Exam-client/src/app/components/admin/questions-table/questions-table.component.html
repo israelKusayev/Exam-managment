@@ -1,21 +1,23 @@
-<div *ngIf="dataSource.data.length !== 0; else noQuestions">
-  <div class="filter-container">
-    <b>Filter by tags or content:</b>
-    <mat-form-field floatLabel="never" class="filter">
-      <input
-        matInput
-        (keyup)="applyFilter($event.target.value)"
-        placeholder="Enter a list of keywords"
-      />
-    </mat-form-field>
-    <b class="result-count"
-      >Showing {{ this.dataSource.filteredData.length }} questions</b
-    >
-  </div>
+<div class="filter-container">
+  <b>Filter by tags or content:</b>
+  <mat-form-field floatLabel="never" class="filter">
+    <input
+      matInput
+      (keyup)="applyFilter($event.target.value)"
+      placeholder="Enter a list of keywords"
+    />
+  </mat-form-field>
+  <b class="result-count"
+    >Showing {{ this.dataSource.filteredData.length }} questions</b
+  >
+</div>
+<div
+  class="mat-elevation-z8"
+  *ngIf="dataSource.data.length !== 0; else noQuestions"
+>
   <table
-    class="mat-elevation-z8"
-    [dataSource]="dataSource"
     mat-table
+    [dataSource]="dataSource"
     matSort
     matSortActive="lastUpdate"
     matSortDirection="desc"
@@ -23,7 +25,7 @@
   >
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
-      <td style="width:5%;" mat-cell *matCellDef="let element">
+      <td style="width:7%;" mat-cell *matCellDef="let element">
         {{ element.id }}
       </td>
     </ng-container>
@@ -46,8 +48,8 @@
           matTooltipPosition="right"
           class="question-header"
         >
-          {{ element.title | ellipsis: 100 }} </span
-        ><br />
+          <strong>{{ element.title | ellipsis: 100 }}</strong>
+        </span>
         <br />
         <small style="color:navy">{{ element.tags | tags }}</small>
       </td>
@@ -121,8 +123,8 @@
     [pageSizeOptions]="[5, 10, 20]"
     showFirstLastButtons
   ></mat-paginator>
-
-  <ng-template #noQuestions>
-    <h2>no questions...</h2>
-  </ng-template>
 </div>
+
+<ng-template #noQuestions>
+  <h2>no questions...</h2>
+</ng-template>

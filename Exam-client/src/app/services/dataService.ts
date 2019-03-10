@@ -16,7 +16,7 @@ import { UnauthorizedError } from '../exceptions/unauthroized-error';
   providedIn: 'root'
 })
 export class DataService {
-  constructor(private url: string, protected http: HttpClient) {}
+  constructor(protected url: string, protected http: HttpClient) {}
 
   getHeaders(jwt: boolean): HttpHeaders {
     let headers: HttpHeaders = new HttpHeaders();
@@ -46,6 +46,18 @@ export class DataService {
   getAll(jwt = true, queryParams = '') {
     return this.http
       .get<any[]>(this.url + queryParams, {
+        headers: this.getHeaders(jwt)
+      })
+      .pipe(
+        catchError((error: HttpErrorResponse, caught) =>
+          this.handleError(error)
+        )
+      );
+  }
+
+  get(queryParams = '', jwt = true) {
+    return this.http
+      .get<any>(this.url + queryParams, {
         headers: this.getHeaders(jwt)
       })
       .pipe(

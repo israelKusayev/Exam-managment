@@ -1,3 +1,70 @@
-<p>
-  reports works!
-</p>
+<mat-tab-group>
+  <mat-tab label="Report By Test">
+    <form #f1="ngForm" (ngSubmit)="generateReportByTest()">
+      <div class="report-by-test">
+        <h2>
+          Test Report for <b>{{ subjectService.subjectName }}</b>
+        </h2>
+        <div>
+          <mat-form-field style="width:400px;">
+            <mat-select
+              [(ngModel)]="selectedTestId"
+              name="selectedTestId"
+              placeholder="Select Test"
+              required
+            >
+              <mat-option *ngFor="let element of tests" [value]="element.id"
+                >{{ element.id }} - {{ element.name }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div style="display: flex;flex-direction:row ;align-items:center; ">
+        <div>Date Range:</div>
+        <div style="margin-left:10px">
+          <mat-form-field>
+            <input
+              #fromDate
+              matInput
+              [matDatepicker]="picker1"
+              placeholder="From Date"
+              (dateInput)="FromDateChange($event)"/>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker1"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker
+          ></mat-form-field>
+        </div>
+        <div style="margin-left:10px">
+          <mat-form-field
+            ><input
+              #toDate
+              matInput
+              [matDatepicker]="picker2"
+              placeholder="To Date"
+              (dateInput)="ToDateChange($event)"/>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker2"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker
+          ></mat-form-field>
+        </div>
+      </div>
+      <div>
+        <button
+          type="submit"
+          [disabled]="!f1.valid"
+          mat-stroked-button
+          color="primary"
+        >
+          Generate Report
+        </button>
+      </div>
+    </form>
+  </mat-tab>
+
+  <mat-tab label="Report By Student"> Content 2 </mat-tab>
+</mat-tab-group>
