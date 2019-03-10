@@ -14,22 +14,18 @@ import { CreateTestComponent } from '../components/admin/create-test/create-test
 import { UserSignupComponent } from '../components/user/user-signup/user-signup.component';
 import { OrganizationComponent } from '../components/admin/organization/organization.component';
 import { NotFoundComponent } from '../components/not-found/not-found.component';
-import { AddQuestionComponent } from '../components/admin/add-question/add-question.component';
-import { EditQuestionComponent } from '../components/admin/edit-question/edit-question.component';
-import { TestResultComponent } from '../components/user/test-result/test-result.component';
-
+import { CreateQuestionComponent } from '../components/admin/create-question/create-question.component';
+import { TestReportComponent } from '../components/admin/reports/test-report/test-report.component';
 import { AdminAuthGuardService as AdminAuthGuard } from '../services/auth-guard.service';
-
-
-
-
-
+import { TestResultComponent } from '../components/user/test-result/test-result.component';
+import { TestReviewComponent } from '../components/user/test-review/test-review.component';
 
 const routes: Routes = [
   { path: 'test/:id/signup', component: UserSignupComponent },
   { path: 'test/:id/instructions', component: TestInstructionsComponent },
   { path: 'test/result', component: TestResultComponent },
   { path: 'test/:id', component: TestComponent },
+  { path: 'test-result', component: TestResultComponent },
   { path: 'login', component: AdminLoginComponent },
   { path: 'admin-register', component: AdminRegisterComponent },
   {
@@ -38,12 +34,12 @@ const routes: Routes = [
   },
   {
     path: 'manage-questions/add',
-    component: AddQuestionComponent,
+    component: CreateQuestionComponent,
     canActivate: [AdminAuthGuard]
   },
   {
     path: 'manage-questions/edit/:id',
-    component: EditQuestionComponent,
+    component: CreateQuestionComponent,
     canActivate: [AdminAuthGuard]
   },
   {
@@ -90,6 +86,15 @@ const routes: Routes = [
     path: 'reports',
     component: ReportsComponent,
     canActivate: [AdminAuthGuard]
+  },
+  {
+    path: 'test-report',
+    component: TestReportComponent,
+    canActivate: [AdminAuthGuard]
+  },
+  {
+    path: 'user-test-review',
+    component: TestReviewComponent
   },
   {
     path: '',

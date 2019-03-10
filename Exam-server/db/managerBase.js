@@ -38,6 +38,17 @@ function createListId(arr) {
   return listId;
 }
 
+// return sql table "ListId" for sending int list to stored procedure
+function createUserAnswerTable(arr) {
+  const UserAnswerTable = new sql.Table();
+  UserAnswerTable.columns.add('AnswerId', sql.Int, { nullable: false });
+  UserAnswerTable.columns.add('Answer', sql.Bit, { nullable: false });
+  for (let i = 0; i < arr.length; i++) {
+    UserAnswerTable.rows.add(arr[i].answerId, arr[i].answer);
+  }
+  return UserAnswerTable;
+}
+
 function createPossibleAnswerTable(possibleAnswers) {
   const table = new sql.Table();
   table.columns.add('Title', sql.NVarChar(300), { nullable: false });
@@ -135,6 +146,7 @@ function executeInTransaction(transaction, sp, index, callback) {
 module.exports = {
   executeInDB: executeInDB,
   createListId: createListId,
+  createUserAnswerTable: createUserAnswerTable,
   createPossibleAnswerTable: createPossibleAnswerTable,
   executeMultipleSp: executeMultipleSp
 };

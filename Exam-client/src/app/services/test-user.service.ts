@@ -38,20 +38,15 @@ export class TestUserService extends DataService {
     );
   }
 
-  public getGrade() {
-    return this.getOne(
-      'get-grade' + '/' + this.test.id + '/' + this.testExecId,
-      false
-    ).pipe(
-      map(data => {
-        localStorage.setItem('grade', data[0][0].grade);
-        localStorage.setItem('correctCount', data[1][0].correctCount);
-        localStorage.setItem('testEnd', 'true');
-      })
-    );
+  finishTestExecution(testExecutionId) {
+    return this.get(`/finish-test-execution/${testExecutionId}`);
   }
 
-  public get test(): Test | any {
+  getTestExecutionResults(testExecutionId) {
+    return this.get(`/test-execution-results/${testExecutionId}`);
+  }
+
+  public get test(): any {
     if (localStorage.getItem(this.key)) {
       return JSON.parse(localStorage.getItem(this.key));
     } else {

@@ -1,13 +1,13 @@
 // @ts-check
 const baseRepository = require('./managerBase');
 
-function getQuestions(subjectId, callback) {
+exports.getQuestions = function(subjectId, callback) {
   baseRepository.executeInDB(
     'sp_GetQuestions',
-    [{ subjectId: subjectId }],
+    [{ SubjectId: subjectId }],
     callback
   );
-}
+};
 
 exports.getQuestionById = function(questionId, callback) {
   baseRepository.executeInDB(
@@ -17,7 +17,7 @@ exports.getQuestionById = function(questionId, callback) {
   );
 };
 
-exports.addQuestion = function(
+exports.CreateQuestion = function(
   subjectId,
   possibleAnswers,
   title,
@@ -28,7 +28,7 @@ exports.addQuestion = function(
   callback
 ) {
   baseRepository.executeInDB(
-    'sp_AddQuestion',
+    'sp_CreateQuestion',
     [
       { SubjectId: subjectId },
       {
@@ -49,6 +49,14 @@ exports.addQuestion = function(
 exports.getQuestionPossibleAnswers = function(questionId, callback) {
   baseRepository.executeInDB(
     'sp_GetQuestionPossibleAnswers',
+    [{ QuestionId: questionId }],
+    callback
+  );
+};
+
+exports.deleteQuestion = function(questionId, callback) {
+  baseRepository.executeInDB(
+    'sp_DeleteQuestion',
     [{ QuestionId: questionId }],
     callback
   );
@@ -82,4 +90,3 @@ exports.updateQuestion = function(
     callback
   );
 };
-exports.getQuestions = getQuestions;

@@ -35,7 +35,7 @@ import { TestsTableComponent } from './components/admin/tests-table/tests-table.
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { EditTestComponent } from './components/admin/edit-test/edit-test.component';
 import { OrganizationComponent } from './components/admin/organization/organization.component';
-import { AddQuestionComponent } from './components/admin/add-question/add-question.component';
+import { CreateQuestionComponent } from './components/admin/create-question/create-question.component';
 import { QuestionsTableComponent } from './components/admin/questions-table/questions-table.component';
 import { PossibleAnswerComponent } from './components/admin/possible-answer/possible-answer.component';
 import { TestInstructionsComponent } from './components/user/test-instructions/test-instructions.component';
@@ -47,8 +47,11 @@ import { TestResultComponent } from './components/user/test-result/test-result.c
 
 import { AppErrorHandler } from './helpers/app-error-handler';
 import { TagsPipe } from './helpers/tags.pipe';
+import { EllipsisPipe } from './helpers/ellipsis.pipe';
 import { DateFormatPipe } from './helpers/date-format.pipe';
-import { EditQuestionComponent } from './components/admin/edit-question/edit-question.component';
+import { TestReportComponent } from './components/admin/reports/test-report/test-report.component';
+import { RespondentTestResultsComponent } from './components/admin/reports/respondent-test-results/respondent-test-results.component';
+import { TestReviewComponent } from './components/user/test-review/test-review.component';
 
 @NgModule({
   declarations: [
@@ -64,12 +67,13 @@ import { EditQuestionComponent } from './components/admin/edit-question/edit-que
     UserSignupComponent,
     QuestionTableComponent,
     TagsPipe,
+    EllipsisPipe,
     AddTestComponent,
     ShowQuestionComponent,
     TestsTableComponent,
     NotFoundComponent,
     EditTestComponent,
-    AddQuestionComponent,
+    CreateQuestionComponent,
     QuestionsTableComponent,
     PossibleAnswerComponent,
     OrganizationComponent,
@@ -80,7 +84,9 @@ import { EditQuestionComponent } from './components/admin/edit-question/edit-que
     QuickNavigationComponent,
     SubmitDialogComponent,
     TestResultComponent,
-    EditQuestionComponent
+    TestReportComponent,
+    RespondentTestResultsComponent,
+    TestReviewComponent
   ],
   entryComponents: [ShowQuestionComponent, SubmitDialogComponent],
   imports: [

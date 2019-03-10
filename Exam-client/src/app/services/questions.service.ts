@@ -12,6 +12,10 @@ export class QuestionsService extends DataService {
     super(environment.questionsUrl, httpClient);
   }
 
+  getAllBySubjectId(subjectId: number) {
+    return this.getAll(true, `?subjectId=${subjectId}`);
+  }
+  
   getQuestionById(questionId) {
     return this.http
       .get<any>(environment.questionsUrl + '/question/' + questionId, {
@@ -32,18 +36,6 @@ export class QuestionsService extends DataService {
           headers: this.getHeaders(true)
         }
       )
-      .pipe(
-        catchError((error: HttpErrorResponse, caught) =>
-          this.handleError(error)
-        )
-      );
-  }
-
-   getAllBySubjectId(subjectId: string, jwt = true) {
-    return this.http
-      .get<any[]>(environment.questionsUrl + '/' + subjectId, {
-        headers: this.getHeaders(jwt)
-      })
       .pipe(
         catchError((error: HttpErrorResponse, caught) =>
           this.handleError(error)

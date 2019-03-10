@@ -1,42 +1,47 @@
-<h1 class="test-name">{{ testService.test.name }}</h1>
-<h1>{{ testService.test.name }} - results</h1>
-<div>
-  <div>
-    <b>Your Grade:</b>
-    <b [ngClass]="success ? 'text-success' : 'text-danger'">
-      {{ testService.grade }}</b
-    >
-  </div>
-  <hr />
-  <div>
-    <b>Status:</b>
-    <b *ngIf="success" class="text-success"> Success</b>
-    <b *ngIf="!success" class="text-danger"> Faild</b>
-  </div>
-  <hr />
+<h1 class="test-name">{{ testsService.test.name }}</h1>
+<div style="margin-left:30px">
+  <h2>{{ testsService.test.name }} - Results</h2>
+  <table>
+    <tr>
+      <td>Your Grade:</td>
+      <td>{{ grade }}</td>
+    </tr>
+    <tr>
+      <td>Status</td>
+      <td>
+        <b style="color:darkgreen" *ngIf="grade >= passingGrade">Passed</b>
+        <b style="color:darkred" *ngIf="!(grade >= passingGrade)">Failed</b>
+      </td>
+    </tr>
+    <tr>
+      <td>Summary:</td>
+      <td>
+        You answered {{ nQuestionsAnswered }} questions,
+        {{ nCorrectAnswers }} of them are correct, out of
+        {{ nQuestions }}
+        questions in total.
+      </td>
+    </tr>
+    <tr>
+      <td>Passing Grade:</td>
+      <td>The minimum grade to pass in the test is {{ passingGrade }}.</td>
+    </tr>
+  </table>
 
-  <div>
-    <b>Summery:</b>
-    <span>
-      you answerd {{ testService.corectCount }} question correctly, out of
-      {{ testService.test.questions.length }} question in total</span
-    >
-  </div>
-  <hr />
-
-  <div>
-    <b>Passing Grade:</b>
-    <span>
-      The minimum grade to pass this test is
-      {{ testService.test.passingGrade }}</span
-    >
-  </div>
+  <br />
+  
   <hr />
   <br />
   <div class="button-container">
-    <button mat-raised-button color="primary">Review your answers</button>
     <button
-      *ngIf="testService.test.showAnswers"
+    *ngIf="showAnswersOnCompletion"
+    mat-raised-button
+    color="primary"
+    (click)="reviewResults()"
+  >
+    Review your Results
+  </button>
+    <button
       mat-raised-button
       color="primary"
     >

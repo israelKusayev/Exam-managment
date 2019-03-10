@@ -10,6 +10,7 @@ const answers = require('./routes/answers');
 const auth = require('./routes/auth');
 const subject = require('./routes/subjects');
 const organization = require('./routes/organizations');
+const reports = require('./routes/reports');
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use('/api/answers', answers);
 app.use('/api/auth', auth);
 app.use('/api/subject', subject);
 app.use('/api/organization', organization);
+app.use('/api/reports', reports);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port} ⚡`));

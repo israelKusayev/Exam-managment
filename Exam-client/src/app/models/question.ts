@@ -4,10 +4,16 @@ export class Question {
   subjectId: number;
   title: string;
   textBelow: string;
-  multipleChoice: boolean;
+  multipleChoice = false;
   tags: string;
-  horizontalDisplay: boolean;
+  horizontalDisplay = false;
   isActive: boolean;
   lastUpdate: Date;
   possibleAnswers: PossibleAnswer[];
+  id: number;
+  testCount: number;
+
+  constructor() {
+    this.possibleAnswers = [];
+  }
 }

@@ -3,10 +3,11 @@
     Quick Navigation:
   </p>
   &nbsp;
-  <span *ngFor="let item of arr; index as i">
+  <span *ngFor="let item of questions; index as i">
     <span
       class="number"
-      [class.current]="i === current"
+      [ngStyle]="{ 'background-color': item.isAnswered ? 'yellow' : '' }"
+
       (click)="naviagte(i)"
       >{{ i + 1 }}</span
     >

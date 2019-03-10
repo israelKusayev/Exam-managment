@@ -44,6 +44,9 @@ export class TestQuestionComponent implements OnInit, OnChanges {
   onNext() {
     this.updateAnswersToQuestion();
     this.next.emit(this.question);
+    if (this.lastQuestion) {
+      this.submit.emit();
+    }
   }
 
   onPrevious() {

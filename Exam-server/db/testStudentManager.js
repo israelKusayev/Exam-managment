@@ -34,6 +34,22 @@ function getStudentTest(testId, userId, callback) {
   );
 }
 
+function finishTestExecution(testExecutionId, callback) {
+  baseRepository.executeInDB(
+    'sp_FinishTestExecution',
+    [{ TestExecutionId: testExecutionId }],
+    callback
+  );
+}
+
+function getTestExecutionResults(testExecutionId, callback) {
+  baseRepository.executeInDB(
+    'sp_GetTestExecutionResults',
+    [{ TestExecutionId: testExecutionId }],
+    callback
+  );
+}
+
 /**
  *
  * @param {number} testId
@@ -70,6 +86,7 @@ function calcGrade(testId, testExecId, callback) {
 
 module.exports = {
   craeteTestExecution: craeteTestExecution,
-  getStudentTest: getStudentTest,
-  calcGrade: calcGrade
+  finishTestExecution: finishTestExecution,
+  getTestExecutionResults: getTestExecutionResults,
+  getStudentTest: getStudentTest
 };

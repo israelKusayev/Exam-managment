@@ -1,9 +1,8 @@
-<div>
-  <!-- (keyup.arrowright)="$event.preventDefault(); onNext()"
-(keyup.arrowleft)="$event.preventDefault(); onPrevious()" -->
-  <h1>Question #{{ questionIndex }}</h1>
-  <h2>{{ question.title }}</h2>
 
+<h1>Question #{{ questionIndex }}</h1>
+<h2>{{ question.title }}</h2>
+<h3>{{ question.textBelow }}</h3>
+<div>
   <div *ngIf="answers.length > 0">
     <div *ngIf="!question.multipleChoice; else multipleSelect">
       <!-- single choice -->
@@ -72,5 +71,31 @@
         Return to result
       </button>
     </div>
+  </ng-template>
+  <!-- navigation buttons  -->
+  <div class="btn-navigation-container">
+    <button mat-raised-button color="accent" (click)="onPrevious()">
+      <mat-icon>skip_previous</mat-icon>
+      {{ !firstQuestion ? 'Previous Question' : 'Welcome Page' }}
+    </button>
+    <button
+      *ngIf="!lastQuestion"
+      mat-raised-button
+      color="accent"
+      (click)="onNext()"
+    >
+      Next Question
+      <mat-icon>skip_next</mat-icon>
+    </button>
+    <button
+      *ngIf="lastQuestion"
+      class="submit-icon"
+      mat-raised-button
+      color="primary"
+      (click)="onNext()"
+    >
+      Submit the Test
+      <mat-icon>flag</mat-icon>
+    </button>
   </div>
 </div>

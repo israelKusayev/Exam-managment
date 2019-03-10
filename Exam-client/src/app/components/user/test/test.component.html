@@ -18,8 +18,7 @@
   </b>
 
   <app-quick-navigation
-    (onNavigate)="navigate($event)"
-    [count]="test.questions.length"
-    [current]="currentQuestion"
+    (onNavigate)="navigateToQuestion($event)"
+    [questions]="test.questions"
   ></app-quick-navigation>
 </div>

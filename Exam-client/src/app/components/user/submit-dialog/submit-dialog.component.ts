@@ -1,6 +1,7 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
-import { MAT_DIALOG_DATA } from '@angular/material';
+
 
 @Component({
   selector: 'app-submit-dialog',
@@ -8,12 +9,9 @@ import { MAT_DIALOG_DATA } from '@angular/material';
   styleUrls: ['./submit-dialog.component.scss']
 })
 export class SubmitDialogComponent implements OnInit {
-  id: string;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
-    console.log(data);
-
-    this.id = data.id;
-  }
-
+  constructor(
+    public dialogRef: MatDialogRef<SubmitDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: boolean
+  ) {}
   ngOnInit() {}
 }

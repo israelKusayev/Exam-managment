@@ -48,7 +48,6 @@ export class AuthenticationService extends DataService {
     );
   }
 
-
   studentSignUp(student: User): Observable<any> {
     return this.http
       .post<any>(
@@ -59,7 +58,6 @@ export class AuthenticationService extends DataService {
       )
       .pipe(
         catchError((error: HttpErrorResponse, caught) => {
-
           return this.handleError(error);
         })
       )

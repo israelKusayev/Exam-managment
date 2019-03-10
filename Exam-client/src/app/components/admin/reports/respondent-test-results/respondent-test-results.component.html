@@ -1,0 +1,48 @@
+<div class="main-div">
+  <div class="mat-elevation-z2" *ngFor="let element of questions">
+    <div style="display: flex;flex-direction: row">
+      <div *ngIf="showQuestionIds" style="padding-right: 10px">
+        ({{ element[0][0] }})
+      </div>
+      <div>
+        <span style="font-size:12pt">
+          <b>{{ element[0][1] }}</b>
+          <br *ngIf="element[0][2]" />{{ element[0][2] }}<br />
+        </span>
+      </div>
+    </div>
+    <div style="margin-left: 10px">
+      <ul>
+        <li *ngFor="let answer of element[1]">
+          <div
+            [ngClass]="{
+              'correct-answer': answer.IsCorrect === true,
+              'wrong-answer':
+                answer.UserAnswer === true && answer.IsCorrect === false,
+              'selected-answer': answer.UserAnswer === true
+            }"
+          >
+            <span
+              style="display: flex;
+            align-items: center;
+            justify-content:space-between"
+            >
+              {{ answer.AnswerTitle }}
+              <mat-icon
+                *ngIf="answer.UserAnswer === true && answer.IsCorrect === true"
+                >check</mat-icon
+              ><mat-icon
+                *ngIf="answer.UserAnswer === true && answer.IsCorrect === false"
+                >close</mat-icon
+              ><mat-icon
+                *ngIf="!answer.UserAnswer && answer.IsCorrect === true"
+                style="transform: rotate(180deg);"
+                >arrow_right_alt
+              </mat-icon>
+            </span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,250 @@
+<div>
+  <div class="main-div">
+    <h2>Test Report: {{ header.TestName }}</h2>
+    <h3>Summary</h3>
+    <table>
+      <tr>
+        <td>
+          Test name: <b>{{ header.TestName }}</b>
+          <br />
+          Test id: <b>{{ testId }}</b>
+          <br />
+          Number of questions: <b>{{ header.NumOfQuestions }}</b>
+          <br />
+          Passing grade: <b>{{ header.PassingGrade }}</b>
+          <br />
+          Date range:
+          <b>{{
+            fromDate && toDate
+              ? (fromDate | dateFormat) + ' - ' + (toDate | dateFormat)
+              : fromDate
+              ? 'From ' + (fromDate | dateFormat)
+              : toDate
+              ? 'Until ' + (toDate | dateFormat)
+              : '-'
+          }}</b>
+        </td>
+
+        <td>
+          Number of submissions: <b>{{ header.NumberOfSubmissions }}</b>
+          <br />
+          Number of respondents passed:
+          <b>{{ header.NumberOfRespondentsPassed }}</b>
+          <br />
+          Passing percentage: <b>{{ header.PassingPercentage }}%</b>
+          <br />
+          Average grade: <b>{{ header.AverageGrade }}</b>
+          <br />
+          Median grade: <b>{{ header.MedianGrade }}</b>
+        </td>
+      </tr>
+    </table>
+
+    <h3>Respondent Grades And Answers</h3>
+  </div>
+</div>
+<h3>Respondent Grades and Answers</h3>
+Click a name from the test to see the respondent's test<br />
+<div class=" table-container mat-elevation-z8">
+  <mat-table
+    #table
+    class="test-executions"
+    [dataSource]="testExecutionsResultsDataSource"
+  >
+    <ng-container matColumnDef="id">
+      <mat-header-cell style="width:10%;" *matHeaderCellDef>
+        ID
+      </mat-header-cell>
+      <mat-cell style="width:10%;" *matCellDef="let element">
+        {{ element.Id }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="respondent">
+      <mat-header-cell style="width:30%;" *matHeaderCellDef>
+        Respondent
+      </mat-header-cell>
+      <mat-cell style="width:30%;" *matCellDef="let element">
+        {{ element.FirstName }} {{ element.LastName }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="submitted">
+      <mat-header-cell style="width:30%;" *matHeaderCellDef>
+        Submitted
+      </mat-header-cell>
+      <mat-cell style="width:30%;" *matCellDef="let element">
+        {{ element.StartTime | dateFormat }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="numOfQuestionsAnswered">
+      <mat-header-cell style="width:30%;" *matHeaderCellDef>
+        Number of Questions Answered
+      </mat-header-cell>
+      <mat-cell style="width:30%;" *matCellDef="let element">
+        {{ element.NumOfQuestionsAnswered }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="grade">
+      <mat-header-cell style="width:30%;" *matHeaderCellDef>
+        Grade
+      </mat-header-cell>
+      <mat-cell style="width:30%;" *matCellDef="let element">
+        {{ element.Grade }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+      <mat-cell *matCellDef="let detail">
+        <app-respondent-test-results
+          [testExecutionResults]="detail.element.Details"
+        ></app-respondent-test-results>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row
+      *matHeaderRowDef="testExecutionsResultsdisplayedColumns"
+    ></mat-header-row>
+    <mat-row
+      *matRowDef="let row; columns: testExecutionsResultsdisplayedColumns"
+      matRipple
+      class="element-row"
+      [class.expanded]="expandedElement == row"
+      (click)="expandedElement = row"
+    ></mat-row>
+
+    <mat-row
+      *matRowDef="
+        let row;
+        columns: ['expandedDetail'];
+        when: isExpansionDetailRow
+      "
+      [@detailExpand]="
+        row.element == expandedElement ? 'expanded' : 'collapsed'
+      "
+      style="overflow: hidden"
+    >
+    </mat-row>
+  </mat-table>
+
+  <hr />
+</div>
+<br />
+
+<h3>Question Statistics</h3>
+Click a question to see statistics regarding its answers<br />
+<div class=" table-container mat-elevation-z8">
+  <mat-table
+    #table
+    class="test-executions"
+    [dataSource]="questionsStatsDataSource"
+  >
+    <ng-container matColumnDef="id">
+      <mat-header-cell style="width:10%;" *matHeaderCellDef>
+        ID
+      </mat-header-cell>
+      <mat-cell style="width:10%;" *matCellDef="let element">
+        {{ element.QuestionId }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="question">
+      <mat-header-cell style="width:30%;" *matHeaderCellDef>
+        Question
+      </mat-header-cell>
+      <mat-cell style="width:30%;" *matCellDef="let element">
+        <div style="display: flex;flex-direction: column">
+          <span
+            [matTooltip]="element.QuestionTitle"
+            matTooltipPosition="right"
+            class="question-header"
+          >
+            {{ element.QuestionTitle | ellipsis: 100 }}
+          </span>
+          <span class="text-tell"> {{ element.QuestionTags | tags }}</span>
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="numOfSubmissions">
+      <mat-header-cell style="width:30%;" *matHeaderCellDef>
+        Number of Submissions
+      </mat-header-cell>
+      <mat-cell style="width:30%;" *matCellDef="let element">
+        {{ element.NumOfSubmissions }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="correctlyAnsweredPercentage">
+      <mat-header-cell style="width:30%;" *matHeaderCellDef>
+        % Answered Correctly
+      </mat-header-cell>
+      <mat-cell style="width:30%;" *matCellDef="let element">
+        {{ element.CorrectlyAnsweredPercentage }}%
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+      <mat-cell *matCellDef="let detail">
+        <div style="margin-left: 10px">
+          <table>
+            <tr>
+              <th>Answer</th>
+              <th></th>
+              <th>Number of times answered</th>
+            </tr>
+
+            <tr *ngFor="let answer of detail.element.Details">
+              <td>
+                <span
+                  [ngClass]="{
+                    'correct-answer': answer.IsCorrect === true
+                  }"
+                  style="display: flex;
+                            align-items: center;
+                            justify-content:space-between"
+                >
+                  {{ answer.AnswerTitle
+                  }}<mat-icon
+                    *ngIf="answer.IsCorrect === true"
+                    style="transform: rotate(180deg);"
+                    >arrow_right_alt
+                  </mat-icon>
+                </span>
+              </td>
+              <td></td>
+              <td>{{ answer.NumTimesAnswered }}</td>
+            </tr>
+          </table>
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row
+      *matHeaderRowDef="questionsStatsDisplayedColumns"
+    ></mat-header-row>
+    <mat-row
+      *matRowDef="let row; columns: questionsStatsDisplayedColumns"
+      matRipple
+      class="element-row"
+      [class.expanded]="expandedElement == row"
+      (click)="expandedElement = row"
+    ></mat-row>
+
+    <mat-row
+      *matRowDef="
+        let row;
+        columns: ['expandedDetail'];
+        when: isExpansionDetailRow
+      "
+      [@detailExpand]="
+        row.element == expandedElement ? 'expanded' : 'collapsed'
+      "
+      style="overflow: hidden"
+    >
+    </mat-row>
+  </mat-table>
+</div>
+<br />

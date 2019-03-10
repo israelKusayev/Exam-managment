@@ -11,8 +11,9 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const { testExecutionId, questionId, answerIds } = req.body;
-  answerManager.saveAnswers(testExecutionId, questionId, answerIds, data => {
+  const { testExecutionId, questionId, answers } = req.body;
+  console.log({ testExecutionId, questionId, answers });
+  answerManager.saveAnswers(testExecutionId, questionId, answers, data => {
     if (data && data.error) res.status(500).end();
     else res.status(200).send(data);
   });
