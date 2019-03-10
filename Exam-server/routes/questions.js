@@ -30,6 +30,7 @@ router.get('/', authorize.admin, (req, res) => {
   } else {
     res.status(400).send({ message: 'No subject id was supplied' });
   }
+
 });
 
 router.get('/:id', authorize.admin, (req, res) => {

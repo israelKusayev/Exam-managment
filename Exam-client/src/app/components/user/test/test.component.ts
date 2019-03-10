@@ -29,30 +29,25 @@ export class TestComponent implements OnInit {
     this.lastQuestion = false;
     this.saveAnswers(question, this.decrementQuestion);
   }
+
   next(question: Question) {
     this.firstQuestion = false;
     this.saveAnswers(question, this.incrementQuestion);
   }
 
+  submit(question: Question) {
+    this.saveAnswers(question, this.openDialog);
+  }
+
   incrementQuestion = () => {
-    if (this.currentQuestion < this.test.questions.length - 1) {
-      this.currentQuestion++;
-    }
-    if (this.currentQuestion === this.test.questions.length - 1) {
-      this.lastQuestion = true;
-    }
+    this.navigate(this.currentQuestion + 1);
   }
 
   decrementQuestion = () => {
     if (this.currentQuestion === 0) {
       this.router.navigate(['test', this.testsService.test.id, 'instructions']);
     }
-    if (this.currentQuestion > 0) {
-      this.currentQuestion--;
-    }
-    if (this.currentQuestion === 0) {
-      this.firstQuestion = true;
-    }
+    this.navigate(this.currentQuestion - 1);
   }
 
   saveAnswers(question: Question, navigationFunc) {

@@ -7,7 +7,9 @@ import { Question } from 'src/app/models/user/question';
   styleUrls: ['./quick-navigation.component.scss']
 })
 export class QuickNavigationComponent implements OnInit {
+
   @Input() questions: Question[];
+
   @Output() onNavigate = new EventEmitter();
   arr: any[];
   constructor() {}

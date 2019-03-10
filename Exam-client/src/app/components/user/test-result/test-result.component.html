@@ -29,7 +29,11 @@
   </table>
 
   <br />
-  <button
+  
+  <hr />
+  <br />
+  <div class="button-container">
+    <button
     *ngIf="showAnswersOnCompletion"
     mat-raised-button
     color="primary"
@@ -37,4 +41,12 @@
   >
     Review your Results
   </button>
+    <button
+      mat-raised-button
+      color="primary"
+    >
+      Download certificate
+    </button>
+  </div>
 </div>
+<footer></footer>

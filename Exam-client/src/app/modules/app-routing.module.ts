@@ -16,7 +16,6 @@ import { OrganizationComponent } from '../components/admin/organization/organiza
 import { NotFoundComponent } from '../components/not-found/not-found.component';
 import { CreateQuestionComponent } from '../components/admin/create-question/create-question.component';
 import { TestReportComponent } from '../components/admin/reports/test-report/test-report.component';
-
 import { AdminAuthGuardService as AdminAuthGuard } from '../services/auth-guard.service';
 import { TestResultComponent } from '../components/user/test-result/test-result.component';
 import { TestReviewComponent } from '../components/user/test-review/test-review.component';
@@ -24,6 +23,7 @@ import { TestReviewComponent } from '../components/user/test-review/test-review.
 const routes: Routes = [
   { path: 'test/:id/signup', component: UserSignupComponent },
   { path: 'test/:id/instructions', component: TestInstructionsComponent },
+  { path: 'test/result', component: TestResultComponent },
   { path: 'test/:id', component: TestComponent },
   { path: 'test-result', component: TestResultComponent },
   { path: 'login', component: AdminLoginComponent },

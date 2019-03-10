@@ -1,5 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-submit-dialog',
@@ -11,6 +13,5 @@ export class SubmitDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<SubmitDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: boolean
   ) {}
-
   ngOnInit() {}
 }
